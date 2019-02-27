@@ -6,4 +6,4 @@ https://veev23.github.io/2018-swar/DamageCalc.html
 
 Summoners War Damage Calculator and SiegeBattle point, reward Calculator
 
-![alt text](https://github.com/veev23/SummonersWarHtml/blob/master/1.png)
+![alt text](https://github.com/veev23/2018-swar/blob/master/1.png)
