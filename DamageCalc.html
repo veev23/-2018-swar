@@ -10,44 +10,34 @@
       overflow-x: auto;
       margin:0;
     }
-
     ::-webkit-scrollbar {
       width: 20px;
     }
-
     ::-webkit-scrollbar-track {
       box-shadow: inset 0 0 3px grey;
     }
-
     ::-webkit-scrollbar-thumb {
       border: 1px solid #009933;
     }
-
     ::-webkit-scrollbar-button:hover {
       background: #009933;
     }
-
     ::-webkit-scrollbar-button:active {
       background: green;
     }
-
     ::-webkit-scrollbar-thumb:hover {
       background: #009933;
     }
-
     ::-webkit-scrollbar-thumb:active {
       background: green;
     }
-
     * {
       box-sizing: border-box;
     }
-
     scrollbar-track {
       background: white;
       border: 1px solid green;
     }
-
     .row::after {
       content: "";
       clear: both;
@@ -68,16 +58,13 @@
       border-radius: 5px;
       border-collapse: collapse;
     }
-
     tr:hover {
       background: #eee;
     }
-
     input[type="number"] {
       font-size: 15px;
       width: 100px;
     }
-
     .header {
       text-align: center;
     }
@@ -112,44 +99,36 @@
       text-decoration: none;
       transition: 0.2s;
     }
-
     a:hover,[type="reset"]:hover,
     [type="button"]:hover, label:hover {
       color: white;
       background-color: green;
     }
-
     a:active {
       color: white;
       background-color: green;
     }
-
     input[type="number"] {
       border: 2px solid #ccc;
       padding: 4px;
       border-radius: 2px;
       margin: 5px;
     }
-
     input[type="number"]:focus {
       outline: none;
       border: 2px solid #555;
     }
-
     a span.link {
       transition: 0.2s;
     }
-
     span.link:after {
       content: '>>';
       opacity: 0;
       transition: 0.2s;
     }
-
     a:hover span.link:after {
       opacity: 1;
     }
-
     div.result {
       position: fixed;
       right:10px;
@@ -160,11 +139,9 @@
       height: 140px;
       font-size: 30px;
     }
-
     div.result:hover {
       background: #eee;
     }
-
     #record {
       visibility: hidden;
       display: none;
@@ -181,11 +158,9 @@
       background-color: #fff;
       overflow: auto;
     }
-
     .record_text:hover {
       background: #eee;
     }
-
     .icon {
       position: absolute;
       margin-top: 3px;
@@ -198,12 +173,10 @@
       font-size: 20px;
       cursor: pointer;
     }
-
     .tool_container {
 position:relative;
       display: inline;
     }
-
     [class*="tool_text"] {
       width: 400px;
       visibility: hidden;
@@ -224,69 +197,53 @@ position:relative;
       left: 0%;
       top:-35%;
     }
-
     .multi .tool_text {
       min-width: 320px;
       left: -100%;
     }
-
     .tool_container:hover [class*="tool_text"] {
       opacity: 1;
       visibility: visible;
     }
-
     [class*="col-"] {
       float: left;
     }
-
     .col-1 {
       width: 8.33%;
     }
-
     .col-2 {
       width: 16.66%;
     }
-
     .col-3 {
       width: 25%;
     }
-
     .col-4 {
       width: 33.33%;
     }
-
     .col-5 {
       width: 41.66%;
     }
-
     .col-6 {
       width: 50%;
     }
-
     .col-7 {
       width: 58.33%;
     }
-
     .col-8 {
       width: 66.66%;
     }
-
     .col-9 {
       width: 75%;
     }
-
     .col-10 {
       width: 83.33%;
     }
-
     .col-11 {
       width: 91.66%;
     }
-
     .col-12 {
       width: 100%;
     }
-
     @media only screen and (max-width: 768px) {
       [class*="col-"] {
         width: 100%;
@@ -313,12 +270,10 @@ position:relative;
 </head>
 
 
-<body onkeydown="javascript:if(event.keyCode == 13){ calculate();}
+<body onkeydown="javascript:if(event.keyCode == 13){ damageCalculate();}
 else if (event.keyCode == 27) {
   exitRecord();
 };">
-  <input type="button" onclick="blockActive(0)" value="데미지 계산기">
-  <input type="button" onclick="blockActive(1)" value="점령전 점수 계산기">
   <form>
   <div class="div-blocks">
     <header>
@@ -338,6 +293,7 @@ else if (event.keyCode == 27) {
                     <option value="imp">빛임프 3스(타루)</option>
                     <option value="highE">불하엘 2스(칼리)</option>
                     <option value="balloon">풍선인 3스(풍백)</option>
+                    <option value="sniper">물스나 3스(코버넌트)</option>
                   </select>
                   자동세팅은 필수사항 아님
                 </td>
@@ -711,7 +667,7 @@ else if (event.keyCode == 27) {
         <input type="button" value="◁" class="icon" onclick="resetRecord()" title="기록 초기화" style="right:50px;">
       </div>
     </div>
-    <input class="col-12" type="button" value="계산하기(Enter)" onclick="calculate()" style="margin:25px 0 25px 0; cursor:pointer;">
+    <input class="col-12" type="button" value="계산하기(Enter)" onclick="damageCalculate()" style="margin:25px 0 25px 0; cursor:pointer;">
 
     <a href="http://summonerswar.wikia.com/wiki/Monster_Collection" target="_blank" style="width:100%;text-align:center; margin:5px 0">
       <span class="link">몬스터 계수 확인 링크</span>
@@ -721,120 +677,9 @@ else if (event.keyCode == 27) {
     </a>
     <hr />
   </div>
-  <div class="div-blocks" style="display:none;">
-    <h1 class="header col-12">점령전 점수 계산기</h1><br />
-    <div class="row">
-      <div class="col-6" style="border:1px solid #ddd; padding:15px;">
-        <div>
-          <span><b>길드 티어</b></span>
-          <select id="tier" onchange="rewardUpdate();">
-            <option value="1">수호길드3</option>
-            <option>수호길드2</option>
-            <option>수호길드1</option>
-            <option>정복길드3</option>
-            <option>정복길드2</option>
-            <option>정복길드1</option>
-            <option>승부길드3</option>
-            <option>승부길드2</option>
-            <option>승부길드1</option>
-          </select>
-          <br />
-          <span><b>내 기여도 %</b></span><input type="number" id="contribution">
-        </div>
-        <table>
-          <tr>
-            <th></th>
-            <td>현재 점수</td>
-            <td>유효 거점 개수</td>
-          </tr>
-          <tr>
-            <th>우리길드</th>
-            <td><input type="number" class="guildbattlepoint"></td>
-            <td><input type="number" class="guildbattlepoint"></td>
-          </tr>
-          <tr>
-            <th>2번길드</th>
-            <td><input type="number" class="guildbattlepoint"></td>
-            <td><input type="number" class="guildbattlepoint"></td>
-          </tr>
-          <tr>
-            <th>3번길드</th>
-            <td><input type="number" class="guildbattlepoint"></td>
-            <td><input type="number" class="guildbattlepoint"></td>
-          </tr>
-        </table>
-      </div>
-      <div class="col-6" style="border:1px solid #ddd; padding:15px;">
-        <div>
-          <p><b>1위 길드 보상</b> :
-            <span style="color:red;">크리<span class="reward"></span>%, </span>
-            <span style="color:brown;">길포<span class="reward"></span>%</span>
-          </p>
-          <p><b>2위 길드 보상</b> :
-            <span style="color:red;">크리<span class="reward"></span>%, </span>
-            <span style="color:brown;">길포<span class="reward"></span>%</span>
-          </p>
-          <p><b>3위 길드 보상</b> :
-            <span style="color:red;">크리<span class="reward"></span>%, </span>
-            <span style="color:brown;">길포<span class="reward"></span>%</span>
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12" style="text-align:center;">
-        <table>
-          <tr>
-            <td><span class="guildbattle-end"></span> 종료 예정</td>
-          </tr>
-          <tr>
-            <td>우리길드 : <span class="guildbattle-end"></span></td>
-          </tr>
-          <tr>
-            <td>2번길드 : <span class="guildbattle-end"></span></td>
-          </tr>
-          <tr>
-            <td>3번길드 : <span class="guildbattle-end"></span></td>
-          </tr>
-          <tr>
-            <td><span style="color:red;">내 크리: <span class="guildbattle-end"></span></span></td>
-          </tr>
-          <tr>
-            <td><span style="color:brown;">내 길포: <span class="guildbattle-end"></span></span></td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <input class="col-12" type="button" value="계산하기(Enter)" onclick="calculate()" style="margin:25px 0 25px 0; cursor:pointer;">
-
-    
-  
-  </div>
   <input type="reset" value="입력값 초기화">
 </form>
   <script>
-    var countBlock = 2 //현재 가지고 있는 div블럭 개수(데미지, 점령전)
-    var time = new Date();
-    function calculate() {
-      var i;
-      for (i = 0; i < countBlock; i++) {
-        if (document.getElementsByClassName("div-blocks")[i].style.display != "none")
-          break;
-      }
-      switch (i) {
-        case 0: damageCalculate();
-          break;
-        case 1: guildBattleCalculate();
-          break;
-      }
-    }
-    function blockActive(num) {
-      var i;
-      for (i = 0; i < countBlock; i++) {
-        document.getElementsByClassName("div-blocks")[i].style.display = "none";
-      }
-      document.getElementsByClassName("div-blocks")[num].style.display = "block";
-    }
     function multiChanger() {
       var autoMultiSelect = document.getElementById("auto_multi_select").value;
       switch (autoMultiSelect) {
@@ -912,6 +757,16 @@ else if (event.keyCode == 27) {
           document.getElementById("leader_type").value = "attack";
           document.getElementById("leader_value").value = "";
           break;
+        case "sniper":
+          document.getElementById("atk_base").value = 780;
+          document.getElementById("multi_type").value = "attack_multi";
+          document.getElementById("skill_multi").value = 400;
+          document.getElementById("skill_multi2").value = 0;
+          document.getElementById("skill_level").value = 25;
+          document.getElementById("enemy_def").value = 0;
+          document.getElementById("leader_type").value = "attack";
+          document.getElementById("leader_value").value = "";
+          break;
       }
     }
     function fromNaNtoZero(num) {
@@ -922,53 +777,44 @@ else if (event.keyCode == 27) {
     function confirmInputValue() {
       if (document.getElementById("skill_multi").value == "") {
         alert("계수를 입력해주세요.");
-        document.getElementById("skill_multi").focus();
-        return -1;
+        document.getElementById("skill_multi").focus();return;
       }
       if (document.getElementById("multi_type").value == "attack_multi" || document.getElementById("multi_type").value == "bomb_multi") {
         if (document.getElementById("atk_base").value == "") {
           alert("기본 공격력을 입력해주세요.");
-          document.getElementById("atk_base").focus();
-          return -1;
+          document.getElementById("atk_base").focus();return;
         }
       }
       if (document.getElementById("multi_type").value == "defense_multi") {
         if (document.getElementById("def_base").value == "") {
           alert("기본 방어력을 입력해주세요.");
-          document.getElementById("def_base").focus();
-          return -1;
+          document.getElementById("def_base").focus();return;
         }
       }
       if (document.getElementById("multi_type").value == "speed_multi") {
         if (document.getElementById("atk_base").value == "") {
           alert("기본 공격력을 입력해주세요.");
-          document.getElementById("atk_base").focus();
-          return -1;
+          document.getElementById("atk_base").focus();return;
         }
         if (document.getElementById("spd_base").value == "") {
           alert("기본 공격속도를 입력해주세요.");
-          document.getElementById("spd_base").focus();
-          return -1;
+          document.getElementById("spd_base").focus();return;
         }
       }
       if (document.getElementById("multi_type").value == "attack_defense_multi") {
         if (document.getElementById("atk_base").value == "") {
           alert("기본 공격력을 입력해주세요.");
-          document.getElementById("atk_base").focus();
-          return -1;
+          document.getElementById("atk_base").focus();return;
         }
         if (document.getElementById("def_base").value == "") {
           alert("기본 방어력을 입력해주세요.");
-          document.getElementById("def_base").focus();
-          return -1;
+          document.getElementById("def_base").focus();return;
         }
       }
       if (document.getElementById("cri").value == "" && document.getElementById("multi_type").value != "bomb_multi") {
         alert("치명피해 수치를 입력해주세요.");
-        document.getElementById("cri").focus();
-        return -1;
+        document.getElementById("cri").focus(); return;
       }
-      return 0;
     }
     var recordCount = 0;
     function gw(base, name) {
@@ -980,11 +826,10 @@ else if (event.keyCode == 27) {
       }
     }
     function damageCalculate() {
-      if(confirmInputValue()) return;
+      confirmInputValue();
       var attack, healthpoint, defense, speed, leader_type, leader_value, enchanted_rune, enchanted_rune2;
       leader_type = document.getElementById("leader_type").value;
       leader_value = fromNaNtoZero(document.getElementById("leader_value").value);
-
       enchanted_rune = 0; enchanted_rune2 = 0;
       var base = fromNaNtoZero(document.getElementById("hp_base").value);
       var rune = fromNaNtoZero(document.getElementById("hp_rune").value);
@@ -1013,7 +858,6 @@ else if (event.keyCode == 27) {
         document.getElementsByClassName("healthpoint")[0].innerHTML += ", 리더 : " + leader_value;
       }
       document.getElementById("hp_sum").innerHTML = healthpoint;
-
       enchanted_rune = 0; enchanted_rune2 = 0;
       base = fromNaNtoZero(document.getElementById("atk_base").value);
       rune = fromNaNtoZero(document.getElementById("atk_rune").value);
@@ -1043,7 +887,6 @@ else if (event.keyCode == 27) {
       }
       if (document.getElementById("isAtkBuff").checked == true) attack = parseInt(attack * 1.5);
       document.getElementById("atk_sum").innerHTML = attack;
-
       enchanted_rune = 0; enchanted_rune2 = 0;
       base = fromNaNtoZero(document.getElementById("def_base").value);
       rune = fromNaNtoZero(document.getElementById("def_rune").value);
@@ -1073,7 +916,6 @@ else if (event.keyCode == 27) {
       }
       if (document.getElementById("isDefBuff").checked == true) defense = parseInt(defense * 1.7);
       document.getElementById("def_sum").innerHTML = defense;
-
       base = fromNaNtoZero(document.getElementById("spd_base").value);
       rune = fromNaNtoZero(document.getElementById("spd_rune").value);
       rune2 = fromNaNtoZero(document.getElementById("spd_rune2").value);
@@ -1088,7 +930,6 @@ else if (event.keyCode == 27) {
       }
       if (document.getElementById("isSpdBuff").checked == true) speed *= parseInt(speed * 1.3);
       document.getElementById("spd_sum").innerHTML = speed;
-
       enchanted_rune = 0; enchanted_rune2 = 0;
       base = document.getElementById("cri").value;
       cri_rune2 = fromNaNtoZero(document.getElementById("cri_rune2").value);
@@ -1105,18 +946,14 @@ else if (event.keyCode == 27) {
       document.getElementsByClassName("cri")[0].innerHTML =
         "기본 : " + base + ", 룬강 : " + enchanted_rune + ", 명예 : " + honor + ", 깃발 : " + flag;
       document.getElementById("cri_sum").innerHTML = cri;
-
       var enemy_def = fromNaNtoZero(document.getElementById("enemy_def").value);
       if (document.getElementsByClassName("debuff")[0].checked) enemy_def *= 0.3;
       var def_dmg = 1000 / (1140 + enemy_def * 3.5);
       document.getElementById("def_dmg").innerHTML = " 데미지 경감 : " + def_dmg.toFixed(4);
-
       var multi_type = document.getElementById("multi_type").value;
-
       var multi = fromNaNtoZero(document.getElementById("skill_multi").value);
       var multi2 = document.getElementById("skill_multi2").value; //속비례인경우 1이하이므로 parse하면 안됨
       var skillLevel = fromNaNtoZero(document.getElementById("skill_level").value);
-
       var dmg;
       if (multi_type == "attack_multi") {
         dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000;
@@ -1158,7 +995,6 @@ else if (event.keyCode == 27) {
       else averageDmg1 = (dmgNoCri * (85 - criRate) + dmg * (criRate + 15)) / 100;
       if (criRate == 100) averageDmg2 = dmg;
       else averageDmg2 = (dmgNoCri * (100 - criRate) + dmg * (criRate)) / 100;
-
       if (dmg > 0) {
         recordCount++;
         document.getElementById("record_container").innerHTML +=
@@ -1171,6 +1007,85 @@ else if (event.keyCode == 27) {
       document.getElementById("result").innerHTML = fromNaNtoZero(dmg);
       document.getElementsByClassName("error_range")[0].innerHTML =
         "서머내 오차범위 : " + fromNaNtoZero(dmg * 0.97) + "~" + fromNaNtoZero(dmg * 1.03);
+// 이 아래부터는 룬 변경 전 계산식
+      base = fromNaNtoZero(document.getElementById("hp_base").value);
+     rune = fromNaNtoZero(document.getElementById("hp_rune").value);
+      honor = fromNaNtoZero(document.getElementById("hp_honor").value * base / 100);
+      flag = gw(base, "hp_flag");
+healthpoint = base + rune + honor + flag;
+     if (leader_type == "healthpoint") {
+        leader_value = parseInt(base * leader_value / 100);
+        healthpoint += leader_value;
+      }
+      base = fromNaNtoZero(document.getElementById("atk_base").value);
+      rune = fromNaNtoZero(document.getElementById("atk_rune").value);
+      honor = fromNaNtoZero(document.getElementById("atk_honor").value * base / 100);
+      flag = gw(base, "atk_flag");
+      attack = base + rune+ honor + flag;
+      if (leader_type == "attack") {
+        leader_value = parseInt(base * leader_value / 100);
+        attack += leader_value;
+      }
+      if (document.getElementById("isAtkBuff").checked == true) attack = parseInt(attack * 1.5);
+      base = fromNaNtoZero(document.getElementById("def_base").value);
+      rune = fromNaNtoZero(document.getElementById("def_rune").value);
+      honor = fromNaNtoZero(document.getElementById("def_honor").value * base / 100);
+      flag = gw(base, "def_flag");
+      defense = base + rune+ honor + flag;
+       if (leader_type == "defense") {
+        leader_value = parseInt(base * leader_value / 100);
+        defense += leader_value;
+      }
+      if (document.getElementById("isDefBuff").checked == true) defense = parseInt(defense * 1.7);
+      base = fromNaNtoZero(document.getElementById("spd_base").value);
+      rune = fromNaNtoZero(document.getElementById("spd_rune").value);
+      honor = fromNaNtoZero(document.getElementById("spd_honor").value * base / 100);
+      speed = base + rune + honor;
+      if (leader_type == "speed") {
+        leader_value = parseInt(base * leader_value / 100);
+        speed += leader_value;
+      }
+      if (document.getElementById("isSpdBuff").checked == true) speed *= parseInt(speed * 1.3);
+      base = document.getElementById("cri").value;
+      honor = document.getElementById("cri_honor").value;
+      if (document.getElementById("isGW").checked == true) {
+        flag = fromNaNtoZero(document.getElementById("cri_flag").value);
+      } else flag = 0;
+      cri = fromNaNtoZero(base) + fromNaNtoZero(honor) + flag;
+      if (multi_type == "attack_multi") {
+        dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000;
+      }
+      else if (multi_type == "defense_multi") {
+        dmg = defense * multi * (100 + cri + skillLevel) * def_dmg / 10000;
+      }
+      else if (multi_type == "speed_multi") {
+        dmg = attack * ((multi + speed) / multi2) * (100 + cri + skillLevel) * def_dmg / 10000;
+      }
+      else if (multi_type == "attack_defense_multi") {
+        dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000 + defense * multi * (100 + cri + skillLevel) * def_dmg / 10000;
+      }
+      else if (multi_type == "bomb_multi") {
+        dmg = attack * multi * (100 + skillLevel) / 10000;
+      }
+      var dmgNoCri;
+      if (multi_type == "attack_multi") {
+        dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000;
+      }
+      else if (multi_type == "defense_multi") {
+        dmgNoCri = defense * multi * (100 + skillLevel) * def_dmg / 10000;
+      }
+      else if (multi_type == "speed_multi") {
+        dmgNoCri = attack * ((multi + speed) / multi2) * (100 + skillLevel) * def_dmg / 10000;
+      }
+      else if (multi_type == "attack_defense_multi") {
+        dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000 + defense * multi * (100 + skillLevel) * def_dmg / 10000;
+      }
+      else if (multi_type == "bomb_multi") {
+        dmgNoCri = dmg;
+      }
+      dmg = dmg + parseInt(dmg * fromNaNtoZero(document.getElementsByClassName("debuff")[2].value) / 100)
+      if (document.getElementsByClassName("debuff")[1].checked) dmg = parseInt(dmg * 1.25);
+      document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : "+parseInt(dmg);
     }
     function openRecord() {
       document.getElementById("record").style.display = "block";
@@ -1192,95 +1107,6 @@ else if (event.keyCode == 27) {
         document.getElementById(myId).value = 100;
       };
     }
-    function guildBattleCalculate() {
-      var guildBattlePoint = document.getElementsByClassName("guildbattlepoint");
-      var guildPoint = [
-        20000 - fromNaNtoZero(guildBattlePoint[0].value),
-        20000 - fromNaNtoZero(guildBattlePoint[2].value),
-        20000 - fromNaNtoZero(guildBattlePoint[4].value)
-      ];
-      var baseNumber = [0, 0, 0];
-      for (let i = 0; i < 3; i++) {
-        if (guildBattlePoint[2 * i + 1].value > 12)
-          baseNumber[i] = fromNaNtoZero(guildBattlePoint[2 * i + 1].value) + 10;
-        else baseNumber[i] = fromNaNtoZero(guildBattlePoint[2 * i + 1].value);
-      }
-      var minute = [
-        guildPoint[0] / baseNumber[0],
-        guildPoint[1] / baseNumber[1],
-        guildPoint[2] / baseNumber[2]
-      ];
-      var min = Math.min(...minute);
-      for (let i = 0; i < 3; i++) {
-        guildPoint[i] = fromNaNtoZero(guildBattlePoint[2 * i].value) + fromNaNtoZero(baseNumber[i] * min);
-      }
-      var end = document.getElementsByClassName("guildbattle-end");
-      end[0].innerHTML = (!isFinite(min)) ? "시간이 다 될 때" : parseInt(min) + "분 후";
-      for (let i = 0; i < 3; i++) {
-        end[i + 1].innerHTML = parseInt(guildPoint[i]);
-      }
-      var contribution = document.getElementById("contribution").value;
-      var reward = document.getElementsByClassName("reward");
-      if (guildPoint[0] == Math.max(...guildPoint)) {
-        end[4].innerHTML = fromNaNtoZero(guildPoint[0] * contribution * reward[0].innerHTML / 10000)
-        end[5].innerHTML = fromNaNtoZero(guildPoint[0] * contribution * reward[1].innerHTML / 10000)
-      }
-      else {
-        end[4].innerHTML = fromNaNtoZero(guildPoint[0] * contribution * reward[2].innerHTML / 10000)
-        end[5].innerHTML = fromNaNtoZero(guildPoint[0] * contribution * reward[3].innerHTML / 10000)
-      }
-    }
-    function rewardUpdate() {
-      var reward = document.getElementsByClassName("reward");
-      var tier = document.getElementById("tier").selectedIndex;
-      switch (tier) {
-        case 0:
-          reward[0].innerHTML = "22"; reward[1].innerHTML = "37";
-          reward[2].innerHTML = "15"; reward[3].innerHTML = "30";
-          reward[4].innerHTML = "15"; reward[5].innerHTML = "30";
-          break;
-        case 1:
-          reward[0].innerHTML = "19"; reward[1].innerHTML = "32";
-          reward[2].innerHTML = "13"; reward[3].innerHTML = "25";
-          reward[4].innerHTML = "13"; reward[5].innerHTML = "25";
-          break;
-        case 2:
-          reward[0].innerHTML = "17"; reward[1].innerHTML = "27";
-          reward[2].innerHTML = "11"; reward[3].innerHTML = "20";
-          reward[4].innerHTML = "11"; reward[5].innerHTML = "20";
-          break;
-        case 3:
-          reward[0].innerHTML = "10"; reward[1].innerHTML = "21";
-          reward[2].innerHTML = "7"; reward[3].innerHTML = "15";
-          reward[4].innerHTML = "7"; reward[5].innerHTML = "15";
-          break;
-        case 4:
-          reward[0].innerHTML = "9"; reward[1].innerHTML = "18";
-          reward[2].innerHTML = "6"; reward[3].innerHTML = "13";
-          reward[4].innerHTML = "6"; reward[5].innerHTML = "13";
-          break;
-        case 5:
-          reward[0].innerHTML = "7"; reward[1].innerHTML = "15";
-          reward[2].innerHTML = "5"; reward[3].innerHTML = "11";
-          reward[4].innerHTML = "5"; reward[5].innerHTML = "11";
-          break;
-        case 6:
-          reward[0].innerHTML = "5"; reward[1].innerHTML = "12";
-          reward[2].innerHTML = "3"; reward[3].innerHTML = "8";
-          reward[4].innerHTML = "3"; reward[5].innerHTML = "8";
-          break;
-        case 7:
-          reward[0].innerHTML = "4"; reward[1].innerHTML = "9";
-          reward[2].innerHTML = "3"; reward[3].innerHTML = "6";
-          reward[4].innerHTML = "3"; reward[5].innerHTML = "6";
-          break;
-        case 8:
-          reward[0].innerHTML = "3"; reward[1].innerHTML = "6";
-          reward[2].innerHTML = "2"; reward[3].innerHTML = "4";
-          reward[4].innerHTML = "2"; reward[5].innerHTML = "4";
-          break;
-      }
-    }
     function datalistChangeCri(node) {
       let datalist = document.getElementById("rune_datalist_cri");
       if (node.value == 'cri') {
@@ -1299,7 +1125,7 @@ else if (event.keyCode == 27) {
     }
   </script>
     <footer class="col-12 footer">
-        　　　　　　　　　마지막 수정일 : 2018-12-04<br/>
+        　　　　　　　　　마지막 수정일 : 2019-04-06<br/>
     </footer>
 </body>
 
