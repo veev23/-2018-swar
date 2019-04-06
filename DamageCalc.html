@@ -1042,6 +1042,8 @@ else if (event.keyCode == 27) {
             document.getElementsByClassName("error_range")[0].innerHTML =
                 "서머내 오차범위 : " + fromNaNtoZero(dmg * 0.97) + "~" + fromNaNtoZero(dmg * 1.03);
             // 이 아래부터는 룬 변경 전 계산식
+            leader_value = fromNaNtoZero(document.getElementById("leader_value").value);
+            
             base = fromNaNtoZero(document.getElementById("hp_base").value);
             rune = fromNaNtoZero(document.getElementById("hp_rune").value);
             honor = fromNaNtoZero(document.getElementById("hp_honor").value * base / 100);
@@ -1067,7 +1069,7 @@ else if (event.keyCode == 27) {
             honor = fromNaNtoZero(document.getElementById("def_honor").value * base / 100);
             flag = gw(base, "def_flag");
             defense = base + rune + honor + flag;
-            if (multi_type == "defense_multi") defense += parseInt(base * dimension * 0.08);
+            if (multi_type == "defense_multi" || multi_type == "attack_defense_multi") defense += parseInt(base * dimension * 0.08);
             if (leader_type == "defense") {
                 leader_value = parseInt(base * leader_value / 100);
                 defense += leader_value;
