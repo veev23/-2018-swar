@@ -71,7 +71,7 @@
     footer{
       padding: 20px 0 40px 0;
     }
-    [type="reset"]{
+    [id="view_recode"]{
       position: fixed;
       bottom: 10px;
       left:10px;
@@ -703,8 +703,8 @@ else if (event.keyCode == 27) {
             </a>
             <hr />
         </div>
-	
-        <input type="button" onclick="openRecord()" value="계산 기록보기" style="margin-top:25px;">
+        <div>
+            <input type="button" id="view_recode" onclick="openRecord()" value="계산 기록보기">
         <div id="record">
             <div id="record_container"></div>
             <input type="button" value="X" class="icon" onclick="exitRecord()" title="창 닫기" style="right:5px;">
