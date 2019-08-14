@@ -218,7 +218,7 @@ position:relative;
       width: 25%;
     }
     .col-4 {
-      width: 33.33%;
+      width: 35%;
     }
     .col-5 {
       width: 41.66%;
@@ -227,7 +227,7 @@ position:relative;
       width: 50%;
     }
     .col-7 {
-      width: 58.33%;
+      width: 60%;
     }
     .col-8 {
       width: 66.66%;
@@ -295,8 +295,9 @@ else if (event.keyCode == 27) {
                                     <option value="highE">불하엘 2스(칼리)</option>
                                     <option value="balloon">풍선인 3스(풍백)</option>
                                     <option value="sniper">물스나 3스(코버넌트)</option>
+                                    <option value="panda">풍팬더 평타(풍연)</option>
                                 </select>
-                                자동세팅은 필수사항 아님
+                                <span id="auto_setting_alert">자동세팅은 필수사항 아님</span>
                             </td>
                         </tr>
                         <tr>
@@ -479,7 +480,7 @@ else if (event.keyCode == 27) {
                     </table>
                     <br />
                 </div>
-                <div class="col-5 main">
+                <div class="col-4 main">
                     <table>
                         <tr>
                             <th>스텟</th>
@@ -716,7 +717,7 @@ else if (event.keyCode == 27) {
             var autoMultiSelect = document.getElementById("auto_multi_select").value;
             switch (autoMultiSelect) {
                 case "joker":
-                    window.alert("1히트 기준입니다.");
+                    document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
                     document.getElementById("atk_base").value = 900;
                     document.getElementById("multi_type").value = "attack_multi";
                     document.getElementById("skill_multi").value = 68;
@@ -727,6 +728,7 @@ else if (event.keyCode == 27) {
                     document.getElementById("leader_value").value = "";
                     break;
                 case "copper":
+                    document.getElementById("auto_setting_alert").innerHTML = "";
                     document.getElementById("def_base").value = 692;
                     document.getElementById("atk_base").value = 483;
                     document.getElementById("multi_type").value = "attack_defense_multi";
@@ -738,7 +740,7 @@ else if (event.keyCode == 27) {
                     document.getElementById("leader_value").value = "";
                     break;
                 case "bulldozer":
-                    window.alert("1히트 기준입니다.");
+                    document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
                     document.getElementById("def_base").value = 615;
                     document.getElementById("multi_type").value = "defense_multi";
                     document.getElementById("skill_multi").value = 160;
@@ -749,7 +751,7 @@ else if (event.keyCode == 27) {
                     document.getElementById("leader_value").value = 21;
                     break;
                 case "valkyrie":
-                    window.alert("1히트 기준입니다.");
+                    document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
                     document.getElementById("atk_base").value = 801;
                     document.getElementById("multi_type").value = "attack_multi";
                     document.getElementById("skill_multi").value = 280;
@@ -760,6 +762,7 @@ else if (event.keyCode == 27) {
                     document.getElementById("leader_value").value = "";
                     break;
                 case "imp":
+                    document.getElementById("auto_setting_alert").innerHTML = "";
                     document.getElementById("atk_base").value = 604;
                     document.getElementById("multi_type").value = "attack_multi";
                     document.getElementById("skill_multi").value = 370;
@@ -770,6 +773,7 @@ else if (event.keyCode == 27) {
                     document.getElementById("leader_value").value = "";
                     break;
                 case "highE":
+                    document.getElementById("auto_setting_alert").innerHTML = "";
                     document.getElementById("atk_base").value = 878;
                     document.getElementById("multi_type").value = "attack_multi";
                     document.getElementById("skill_multi").value = 300;
@@ -780,6 +784,7 @@ else if (event.keyCode == 27) {
                     document.getElementById("leader_value").value = "";
                     break;
                 case "balloon":
+                    document.getElementById("auto_setting_alert").innerHTML = "";
                     document.getElementById("atk_base").value = 769;
                     document.getElementById("multi_type").value = "attack_multi";
                     document.getElementById("skill_multi").value = 800;
@@ -790,6 +795,7 @@ else if (event.keyCode == 27) {
                     document.getElementById("leader_value").value = "";
                     break;
                 case "sniper":
+                    document.getElementById("auto_setting_alert").innerHTML = "";
                     document.getElementById("atk_base").value = 780;
                     document.getElementById("multi_type").value = "attack_multi";
                     document.getElementById("skill_multi").value = 400;
@@ -797,6 +803,17 @@ else if (event.keyCode == 27) {
                     document.getElementById("skill_level").value = 25;
                     document.getElementById("enemy_def").value = 0;
                     document.getElementById("leader_type").value = "attack";
+                    document.getElementById("leader_value").value = "";
+                    break;
+                case "panda":
+                    document.getElementById("auto_setting_alert").innerHTML = "풀스작 1히트 기준. 모든 치명피해 0으로 설정바람";
+                    document.getElementById("atk_base").value = 659;
+                    document.getElementById("multi_type").value = "attack_defense_multi";
+                    document.getElementById("skill_multi").value = 162.5;
+                    document.getElementById("skill_multi2").value = 216;
+                    document.getElementById("skill_level").value = 0;
+                    document.getElementById("enemy_def").value = 0;
+                    document.getElementById("leader_type").value = "defense";
                     document.getElementById("leader_value").value = "";
                     break;
             }
@@ -1001,7 +1018,7 @@ else if (event.keyCode == 27) {
                 dmg = attack * ((multi + speed) / multi2) * (100 + cri + skillLevel) * def_dmg / 10000;
             }
             else if (multi_type == "attack_defense_multi") {
-                dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000 + defense * multi * (100 + cri + skillLevel) * def_dmg / 10000;
+                dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000 + defense * multi2 * (100 + cri + skillLevel) * def_dmg / 10000;
             }
             else if (multi_type == "bomb_multi") {
                 dmg = attack * multi * (100 + skillLevel) / 10000;
@@ -1017,7 +1034,7 @@ else if (event.keyCode == 27) {
                 dmgNoCri = attack * ((multi + speed) / multi2) * (100 + skillLevel) * def_dmg / 10000;
             }
             else if (multi_type == "attack_defense_multi") {
-                dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000 + defense * multi * (100 + skillLevel) * def_dmg / 10000;
+                dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000 + defense * multi2 * (100 + skillLevel) * def_dmg / 10000;
             }
             else if (multi_type == "bomb_multi") {
                 dmgNoCri = dmg;
@@ -1102,7 +1119,7 @@ else if (event.keyCode == 27) {
                 dmg = attack * ((multi + speed) / multi2) * (100 + cri + skillLevel) * def_dmg / 10000;
             }
             else if (multi_type == "attack_defense_multi") {
-                dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000 + defense * multi * (100 + cri + skillLevel) * def_dmg / 10000;
+                dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000 + defense * multi2 * (100 + cri + skillLevel) * def_dmg / 10000;
             }
             else if (multi_type == "bomb_multi") {
                 dmg = attack * multi * (100 + skillLevel) / 10000;
@@ -1118,7 +1135,7 @@ else if (event.keyCode == 27) {
                 dmgNoCri = attack * ((multi + speed) / multi2) * (100 + skillLevel) * def_dmg / 10000;
             }
             else if (multi_type == "attack_defense_multi") {
-                dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000 + defense * multi * (100 + skillLevel) * def_dmg / 10000;
+                dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000 + defense * multi2 * (100 + skillLevel) * def_dmg / 10000;
             }
             else if (multi_type == "bomb_multi") {
                 dmgNoCri = dmg;
@@ -1166,7 +1183,17 @@ else if (event.keyCode == 27) {
         alert("빈 칸은 0으로 계산합니다.");
     </script>
     <footer class="col-12 footer">
-            　　　　　　　　　　마지막 수정일 : 2019-04-06<br />
+            　　　　　　　　　　마지막 수정일 : 2019-08-15<br />
+            <br />
+            　　　　　　　　　　<details style="display:inline">
+            <summary>수정 기록</summary>
+                2019-08-15 : <br/>
+                1. 풍팬더 계수 추가<br/>
+                2. 공+방비례 데미지 계산에서 계수가 공격력에 적은 계수로 계산되는 버그 수정<br/>
+                ->그러나 코퍼는 300, 300으로 같았기에 코퍼 한정 문제 없었음<br/>
+                <br/>
+            </details>
+            <br/>
     </footer>
 </body>
 
