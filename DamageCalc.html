@@ -7,266 +7,325 @@
     <title>서머너즈워 데미지 계산기</title>
     <style>
         body {
-      overflow-x: auto;
-      margin:0;
-    }
-    ::-webkit-scrollbar {
-      width: 20px;
-    }
-    ::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 3px grey;
-    }
-    ::-webkit-scrollbar-thumb {
-      border: 1px solid #009933;
-    }
-    ::-webkit-scrollbar-button:hover {
-      background: #009933;
-    }
-    ::-webkit-scrollbar-button:active {
-      background: green;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #009933;
-    }
-    ::-webkit-scrollbar-thumb:active {
-      background: green;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    scrollbar-track {
-      background: white;
-      border: 1px solid green;
-    }
-    .row::after {
-      content: "";
-      clear: both;
-      display: table;
-    }
-    select{
-      margin:10px 15px 10px 15px;
-      padding:5px 0;
-      transform:scale(1.1);
-    }
-    [type="checkbox"]{
-     transform:scale(2);
-     margin:10px 0 10px 10px;
-    }
-    table {
-      width: 90%;
-      border: 1px solid grey;
-      border-radius: 5px;
-      border-collapse: collapse;
-    }
-    tr:hover {
-      background: #eee;
-    }
-    input[type="number"] {
-      font-size: 15px;
-      width: 100px;
-    }
-    .header {
-      text-align: center;
-    }
-    footer{
-      padding: 20px 0 40px 0;
-    }
-    [id="view_recode"]{
-      position: fixed;
-      bottom: 10px;
-      left:10px;
-    }
-    a,[type="reset"],
-    [type="button"]{
-      font-size: 16px;
-      display: inline-block;
-      border: 1px solid green;
-      padding: 6px 13px;
-      margin: 8px;
-      color: green;
-      background-color: white;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-    label {
-      font-size: 16px;
-      display: inline-block;
-      border: 1px solid green;
-      padding: 2px 10px;
-      margin: 1px;
-      color: green;
-      background-color: white;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-    a:hover,[type="reset"]:hover,
-    [type="button"]:hover, label:hover {
-      color: white;
-      background-color: green;
-    }
-    a:active {
-      color: white;
-      background-color: green;
-    }
-    input[type="number"] {
-      border: 2px solid #ccc;
-      padding: 4px;
-      border-radius: 2px;
-      margin: 5px;
-    }
-    input[type="number"]:focus {
-      outline: none;
-      border: 2px solid #555;
-    }
-    a span.link {
-      transition: 0.2s;
-    }
-    span.link:after {
-      content: '>>';
-      opacity: 0;
-      transition: 0.2s;
-    }
-    a:hover span.link:after {
-      opacity: 1;
-    }
-    div.result {
-      position: fixed;
-      right:10px;
-      bottom:10px;
-      border: 3px solid black;
-      border-radius: 10px;
-      padding: 15px;
-      height: 140px;
-      font-size: 30px;
-    }
-    div.result:hover {
-      background: #eee;
-    }
-    #record {
-      visibility: hidden;
-      display: none;
-      border: 2px solid black;
-      border-radius: 5px;
-      padding: 50px 10px 10px 15px;
-      margin: 0 10% 0 10%;
-      position: fixed;
-      width: 80%;
-      top: 10%;
-      height: 400px;
-      min-width: 360px;
-      z-index: 1;
-      background-color: #fff;
-      overflow: auto;
-    }
-    .record_text:hover {
-      background: #eee;
-    }
-    .icon {
-      position: absolute;
-      margin-top: 3px;
-      top: 1%;
-      border: 1px solid black;
-      width: 40px;
-      height: 36px;
-      padding: 0;
-      text-align: center;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    .tool_container {
-position:relative;
-      display: inline;
-    }
-    [class*="tool_text"] {
-      width: 400px;
-      visibility: hidden;
-      color: #fff;
-      background-color: #555;
-      border-radius: 10px;
-      padding: 5px;
-      opacity: 0;
-      position: absolute;
-      z-index: 1;
-	top:95%;
-      left: -100%;
-    }
-.attack .tool_text{
-      left: -100%;
-}
-    .result .tool_text {
-      left: 0%;
-      top:-50%;
-    }
-    .multi .tool_text {
-      min-width: 320px;
-      left: -100%;
-    }
-    .tool_container:hover [class*="tool_text"] {
-      opacity: 1;
-      visibility: visible;
-    }
-    [class*="col-"] {
-      float: left;
-    }
-    .col-1 {
-      width: 8.33%;
-    }
-    .col-2 {
-      width: 16.66%;
-    }
-    .col-3 {
-      width: 25%;
-    }
-    .col-4 {
-      width: 35%;
-    }
-    .col-5 {
-      width: 41.66%;
-    }
-    .col-6 {
-      width: 50%;
-    }
-    .col-7 {
-      width: 60%;
-    }
-    .col-8 {
-      width: 66.66%;
-    }
-    .col-9 {
-      width: 75%;
-    }
-    .col-10 {
-      width: 83.33%;
-    }
-    .col-11 {
-      width: 91.66%;
-    }
-    .col-12 {
-      width: 100%;
-    }
-    @media only screen and (max-width: 768px) {
-      [class*="col-"] {
-        width: 100%;
-      }
-      div.result{
-        position: static;
-      }
-      #record {
-        height: 80%;
-        width: 95%;
-        margin-right: 1%;
-        margin-left: 1%;
-      }
-      .tool_text {
-        min-width: auto;
-        left: -150px;
-      }
-      .multi .tool_text {
-        min-width: auto;
-        left:-1200%;
-      }
-    }
-  </style>
+            overflow-x: auto;
+            margin: 0;
+        }
+
+        ::-webkit-scrollbar {
+            width: 20px;
+        }
+
+        ::-webkit-scrollbar-track {
+            box-shadow: inset 0 0 3px grey;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            border: 1px solid #009933;
+        }
+
+        ::-webkit-scrollbar-button:hover {
+            background: #009933;
+        }
+
+        ::-webkit-scrollbar-button:active {
+            background: green;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #009933;
+        }
+
+        ::-webkit-scrollbar-thumb:active {
+            background: green;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        scrollbar-track {
+            background: white;
+            border: 1px solid green;
+        }
+
+        .row::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        select {
+            margin: 10px 15px 10px 15px;
+            padding: 5px 0;
+            transform: scale(1.1);
+        }
+
+        [type="checkbox"] {
+            transform: scale(2);
+            margin: 10px 0 10px 10px;
+        }
+
+        table {
+            width: 90%;
+            border: 1px solid grey;
+            border-radius: 5px;
+            border-collapse: collapse;
+        }
+
+        tr:hover {
+            background: #eee;
+        }
+
+        input[type="number"] {
+            font-size: 15px;
+            width: 100px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        footer {
+            padding: 20px 0 40px 0;
+        }
+
+        [id="view_recode"] {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        a,
+        [type="reset"],
+        [type="button"] {
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            padding: 6px 13px;
+            margin: 8px;
+            color: green;
+            background-color: white;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        label {
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            padding: 2px 10px;
+            margin: 1px;
+            color: green;
+            background-color: white;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        a:hover,
+        [type="reset"]:hover,
+        [type="button"]:hover,
+        label:hover {
+            color: white;
+            background-color: green;
+        }
+
+        a:active {
+            color: white;
+            background-color: green;
+        }
+
+        input[type="number"] {
+            border: 2px solid #ccc;
+            padding: 4px;
+            border-radius: 2px;
+            margin: 5px;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border: 2px solid #555;
+        }
+
+        a span.link {
+            transition: 0.2s;
+        }
+
+        span.link:after {
+            content: '>>';
+            opacity: 0;
+            transition: 0.2s;
+        }
+
+        a:hover span.link:after {
+            opacity: 1;
+        }
+
+        div.result {
+            position: fixed;
+            right: 10px;
+            bottom: 10px;
+            border: 3px solid black;
+            border-radius: 10px;
+            padding: 15px;
+            height: 140px;
+            font-size: 30px;
+        }
+
+        div.result:hover {
+            background: #eee;
+        }
+
+        #record {
+            visibility: hidden;
+            display: none;
+            border: 2px solid black;
+            border-radius: 5px;
+            padding: 50px 10px 10px 15px;
+            margin: 0 10% 0 10%;
+            position: fixed;
+            width: 80%;
+            top: 10%;
+            height: 400px;
+            min-width: 360px;
+            z-index: 1;
+            background-color: #fff;
+            overflow: auto;
+        }
+
+        .record_text:hover {
+            background: #eee;
+        }
+
+        .icon {
+            position: absolute;
+            margin-top: 3px;
+            top: 1%;
+            border: 1px solid black;
+            width: 40px;
+            height: 36px;
+            padding: 0;
+            text-align: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .tool_container {
+            position: relative;
+            display: inline;
+        }
+
+        [class*="tool_text"] {
+            width: 400px;
+            visibility: hidden;
+            color: #fff;
+            background-color: #555;
+            border-radius: 10px;
+            padding: 5px;
+            opacity: 0;
+            position: absolute;
+            z-index: 1;
+            top: 95%;
+            left: -100%;
+        }
+
+        .attack .tool_text {
+            left: -100%;
+        }
+
+        .result .tool_text {
+            left: 0%;
+            top: -50%;
+        }
+
+        .multi .tool_text {
+            min-width: 320px;
+            left: -100%;
+        }
+
+        .tool_container:hover [class*="tool_text"] {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        [class*="col-"] {
+            float: left;
+        }
+
+        .col-1 {
+            width: 8.33%;
+        }
+
+        .col-2 {
+            width: 16.66%;
+        }
+
+        .col-3 {
+            width: 25%;
+        }
+
+        .col-4 {
+            width: 35%;
+        }
+
+        .col-5 {
+            width: 41.66%;
+        }
+
+        .col-6 {
+            width: 50%;
+        }
+
+        .col-7 {
+            width: 60%;
+        }
+
+        .col-8 {
+            width: 66.66%;
+        }
+
+        .col-9 {
+            width: 75%;
+        }
+
+        .col-10 {
+            width: 83.33%;
+        }
+
+        .col-11 {
+            width: 91.66%;
+        }
+
+        .col-12 {
+            width: 100%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            [class*="col-"] {
+                width: 100%;
+            }
+
+            div.result {
+                position: static;
+            }
+
+            #record {
+                height: 80%;
+                width: 95%;
+                margin-right: 1%;
+                margin-left: 1%;
+            }
+
+            .tool_text {
+                min-width: auto;
+                left: -150px;
+            }
+
+            .multi .tool_text {
+                min-width: auto;
+                left: -1200%;
+            }
+        }
+    </style>
 </head>
 
 
@@ -304,9 +363,11 @@ else if (event.keyCode == 27) {
                             <th>체력</th>
                             <td>
                                 <input type="number" id="hp_base" name="hp_base" placeholder="기본체력" /> +
-                                <input type="number" id="hp_rune" name="hp_rune" title="룬으로 오르는 수치를 입력하세요." placeholder="추가수치" />+
+                                <input type="number" id="hp_rune" name="hp_rune" title="룬으로 오르는 수치를 입력하세요."
+                                    placeholder="추가수치" />+
                                 <input type="number" id="hp_rune2" placeholder="룬변경시" onmousedown="this.value='';">
-                                = <span class="tool_container"><span id="hp_sum"></span><span class="tool_text healthpoint"></span></span>
+                                = <span class="tool_container"><span id="hp_sum"></span><span
+                                        class="tool_text healthpoint"></span></span>
                             </td>
                         </tr>
                         <tr>
@@ -345,7 +406,8 @@ else if (event.keyCode == 27) {
                         </tr>
                         <tr>
                             <th>치명확률</th>
-                            <td><input type="number" id="cri_rate" name="cri_rate" value="85" onchange="rateConfirm('cri_rate', 15, 100)"></td>
+                            <td><input type="number" id="cri_rate" name="cri_rate" value="85"
+                                    onchange="rateConfirm('cri_rate', 15, 100)"></td>
                         </tr>
                         <tr>
                             <th>치명피해</th>
@@ -362,7 +424,8 @@ else if (event.keyCode == 27) {
                     <script>
                     </script>
                     <label>룬 강화 설정
-                        <input type="checkbox" onchange="if(!checked){document.getElementById('rune_enchant').style.display='none';document.getElementById('rune_all_check').checked=false;for(let i=1;i<=6;i++)document.getElementById('rune_checked_'+i).checked=false; }else document.getElementById('rune_enchant').style.display='block'"></label>
+                        <input type="checkbox"
+                            onchange="if(!checked){document.getElementById('rune_enchant').style.display='none';document.getElementById('rune_all_check').checked=false;for(let i=1;i<=6;i++)document.getElementById('rune_checked_'+i).checked=false; }else document.getElementById('rune_enchant').style.display='block'"></label>
                     <table id='rune_enchant' style="display: none;">
                         <label class="tool_container">?<span class="tool_text">
                                 룬이 15강 미만인 경우,<br /> 15강을 맞춘 스텟으로 데미지를 계산합니다.<br /> 선택한 룬 번호만 계산됩니다.
@@ -372,7 +435,9 @@ else if (event.keyCode == 27) {
                             <th>타입</th>
                             <th>현재 수치</th>
                             <th>최종 수치</th>
-                            <th>모두 선택<input type="checkbox" id="rune_all_check" onchange="javascript:if(this.checked){for(let i=1;i<=6;i++){document.getElementById('rune_checked_'+i).checked=true;}}else{for(let i=1;i<=6;i++)document.getElementById('rune_checked_'+i).checked=false;}"></th>
+                            <th>모두 선택<input type="checkbox" id="rune_all_check"
+                                    onchange="javascript:if(this.checked){for(let i=1;i<=6;i++){document.getElementById('rune_checked_'+i).checked=true;}}else{for(let i=1;i<=6;i++)document.getElementById('rune_checked_'+i).checked=false;}">
+                            </th>
                             </th>
                         </tr>
                         <tr>
@@ -380,9 +445,12 @@ else if (event.keyCode == 27) {
                             <td><select>
                                     <option>깡공(+)</option>
                                 </select></td>
-                            <td><input class="rune_no1" type="number" list="rune_datalist02" value="118" onmousedown="this.value='';"></td>
-                            <td><input class="rune_no1" type="number" list="rune_datalist1" value="160" onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_1" onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input class="rune_no1" type="number" list="rune_datalist02" value="118"
+                                    onmousedown="this.value='';"></td>
+                            <td><input class="rune_no1" type="number" list="rune_datalist1" value="160"
+                                    onmousedown="this.value='';"></td>
+                            <td><input type="checkbox" id="rune_checked_1"
+                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>2번%룬</th>
@@ -391,18 +459,24 @@ else if (event.keyCode == 27) {
                                     <option value='hp'>체력%</option>
                                     <option value='def'>방어력%</option>
                                 </select></td>
-                            <td><input class="rune_no2" type="number" list="rune_datalist01" value="47" onmousedown="this.value='';"></td>
-                            <td><input class="rune_no2" type="number" list="rune_datalist2" value="63" onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_2" onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input class="rune_no2" type="number" list="rune_datalist01" value="47"
+                                    onmousedown="this.value='';"></td>
+                            <td><input class="rune_no2" type="number" list="rune_datalist2" value="63"
+                                    onmousedown="this.value='';"></td>
+                            <td><input type="checkbox" id="rune_checked_2"
+                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>3번룬</th>
                             <td><select>
                                     <option>깡방(+)</option>
                                 </select></td>
-                            <td><input class="rune_no3" type="number" list="rune_datalist02" value="118" onmousedown="this.value='';"></td>
-                            <td><input class="rune_no3" type="number" list="rune_datalist1" value="160" onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_3" onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input class="rune_no3" type="number" list="rune_datalist02" value="118"
+                                    onmousedown="this.value='';"></td>
+                            <td><input class="rune_no3" type="number" list="rune_datalist1" value="160"
+                                    onmousedown="this.value='';"></td>
+                            <td><input type="checkbox" id="rune_checked_3"
+                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>4번%룬</th>
@@ -412,18 +486,24 @@ else if (event.keyCode == 27) {
                                     <option value='hp'>체력%</option>
                                     <option value='def'>방어력%</option>
                                 </select></td>
-                            <td><input class="rune_no4" type="number" list="rune_datalist_cri" value="59" onmousedown="this.value='';"></td>
-                            <td><input class="rune_no4" type="number" list="rune_datalist4" value="80" onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_4" onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input class="rune_no4" type="number" list="rune_datalist_cri" value="59"
+                                    onmousedown="this.value='';"></td>
+                            <td><input class="rune_no4" type="number" list="rune_datalist4" value="80"
+                                    onmousedown="this.value='';"></td>
+                            <td><input type="checkbox" id="rune_checked_4"
+                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>5번룬</th>
                             <td><select>
                                     <option>깡체(+)</option>
                                 </select></td>
-                            <td><input class="rune_no5" type="number" list="rune_datalist03" value="1800" onmousedown="this.value='';"></td>
-                            <td><input class="rune_no5" type="number" list="rune_datalist5" value="2448" onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_5" onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input class="rune_no5" type="number" list="rune_datalist03" value="1800"
+                                    onmousedown="this.value='';"></td>
+                            <td><input class="rune_no5" type="number" list="rune_datalist5" value="2448"
+                                    onmousedown="this.value='';"></td>
+                            <td><input type="checkbox" id="rune_checked_5"
+                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>6번%룬</th>
@@ -432,9 +512,12 @@ else if (event.keyCode == 27) {
                                     <option value='hp'>체력%</option>
                                     <option value='def'>방어력%</option>
                                 </select></td>
-                            <td><input class="rune_no6" type="number" list="rune_datalist01" value="47" onmousedown="this.value='';"></td>
-                            <td><input class="rune_no6" type="number" list="rune_datalist2" value="63" onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_6" onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input class="rune_no6" type="number" list="rune_datalist01" value="47"
+                                    onmousedown="this.value='';"></td>
+                            <td><input class="rune_no6" type="number" list="rune_datalist2" value="63"
+                                    onmousedown="this.value='';"></td>
+                            <td><input type="checkbox" id="rune_checked_6"
+                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <datalist id='rune_datalist1'>
                             <option value="160">6성</option>
@@ -522,8 +605,8 @@ else if (event.keyCode == 27) {
                         </tr>
                         <tr>
                             <td>치명피해</td>
-                            <td><input type="number" id="cri_honor" name="cri_honor" value="25" list='passive_datalist22'
-                                    onmousedown="this.value='';"></td>
+                            <td><input type="number" id="cri_honor" name="cri_honor" value="25"
+                                    list='passive_datalist22' onmousedown="this.value='';"></td>
                             <td><input type="number" id="cri_flag" name="cri_flag" value="25" list='passive_datalist2'
                                     onmousedown="this.value='';"></td>
                         </tr>
@@ -682,7 +765,7 @@ else if (event.keyCode == 27) {
                         <label>공격력버프인가요?　<input type="checkbox" id="isAtkBuff"></label><br />
                         <label>방어력버프인가요?　<input type="checkbox" id="isDefBuff"></label><br />
                         <label>공격속도버프인가요?<input type="checkbox" id="isSpdBuff"></label><br />
-			    <div>카이로스 던전 등은 길드스킬의 영향을 받으므로 추가를 했는지 확인해 주세요.</br>(다른 스텟 넣을 수 있는 곳에 직접 추가)</div>
+                        <div>카이로스 던전 등은 길드스킬의 영향을 받으므로 추가를 했는지 확인해 주세요.</br>(다른 스텟 넣을 수 있는 곳에 직접 추가)</div>
                     </div>
                 </div>
                 <div class="col-4 result tool_container">
@@ -692,25 +775,28 @@ else if (event.keyCode == 27) {
                 </div>
             </div>
             <div class="col-12">
-       		<input type="reset" value="입력값 초기화">
+                <input type="reset" value="입력값 초기화">
             </div>
-            <input class="col-12" type="button" value="계산하기(Enter)" onclick="damageCalculate()" style="margin:25px 0 25px 0; cursor:pointer;">
+            <input class="col-12" type="button" value="계산하기(Enter)" onclick="damageCalculate()"
+                style="margin:25px 0 25px 0; cursor:pointer;">
 
-            <a href="http://summonerswar.wikia.com/wiki/Monster_Collection" target="_blank" style="width:100%;text-align:center; margin:5px 0">
+            <a href="http://summonerswar.wikia.com/wiki/Monster_Collection" target="_blank"
+                style="width:100%;text-align:center; margin:5px 0">
                 <span class="link">몬스터 계수 확인 링크</span>
             </a>
-            <a href="http://summonerswar.wikia.com/wiki/Guide:Skill_damage" target="_blank" style="width:100%;text-align:center; margin:5px 0">
+            <a href="http://summonerswar.wikia.com/wiki/Guide:Skill_damage" target="_blank"
+                style="width:100%;text-align:center; margin:5px 0">
                 <span class="link">데미지 계산식 참고한 링크</span>
             </a>
             <hr />
         </div>
         <div>
             <input type="button" id="view_recode" onclick="openRecord()" value="계산 기록보기">
-        <div id="record">
-            <div id="record_container"></div>
-            <input type="button" value="X" class="icon" onclick="exitRecord()" title="창 닫기" style="right:5px;">
-            <input type="button" value="◁" class="icon" onclick="resetRecord()" title="기록 초기화" style="right:50px;">
-        </div>
+            <div id="record">
+                <div id="record_container"></div>
+                <input type="button" value="X" class="icon" onclick="exitRecord()" title="창 닫기" style="right:5px;">
+                <input type="button" value="◁" class="icon" onclick="resetRecord()" title="기록 초기화" style="right:50px;">
+            </div>
     </form>
     <script>
         function multiChanger() {
@@ -790,7 +876,6 @@ else if (event.keyCode == 27) {
                     document.getElementById("skill_multi").value = 800;
                     document.getElementById("skill_multi2").value = 0;
                     document.getElementById("skill_level").value = 30;
-                    document.getElementById("enemy_def").value = "";
                     document.getElementById("leader_type").value = "attack";
                     document.getElementById("leader_value").value = "";
                     break;
@@ -807,12 +892,12 @@ else if (event.keyCode == 27) {
                     break;
                 case "panda":
                     document.getElementById("auto_setting_alert").innerHTML = "풀스작 1히트 기준. 모든 치명피해 0으로 설정바람";
+                    document.getElementById("def_base").value = 801;
                     document.getElementById("atk_base").value = 659;
                     document.getElementById("multi_type").value = "attack_defense_multi";
                     document.getElementById("skill_multi").value = 162.5;
                     document.getElementById("skill_multi2").value = 216;
                     document.getElementById("skill_level").value = 0;
-                    document.getElementById("enemy_def").value = 0;
                     document.getElementById("leader_type").value = "defense";
                     document.getElementById("leader_value").value = "";
                     break;
@@ -1062,7 +1147,7 @@ else if (event.keyCode == 27) {
                 "서머내 오차범위 : " + fromNaNtoZero(dmg * 0.97) + "~" + fromNaNtoZero(dmg * 1.03);
             // 이 아래부터는 룬 변경 전 계산식
             leader_value = fromNaNtoZero(document.getElementById("leader_value").value);
-            
+
             base = fromNaNtoZero(document.getElementById("hp_base").value);
             rune = fromNaNtoZero(document.getElementById("hp_rune").value);
             honor = fromNaNtoZero(document.getElementById("hp_honor").value * base / 100);
@@ -1183,17 +1268,17 @@ else if (event.keyCode == 27) {
         alert("빈 칸은 0으로 계산합니다.");
     </script>
     <footer class="col-12 footer">
-            　　　　　　　　　　마지막 수정일 : 2019-08-15<br />
-            <br />
-            　　　　　　　　　　<details style="display:inline">
+        　　　　　　　　　　마지막 수정일 : 2019-08-15<br />
+        <br />
+        　　　　　　　　　　<details style="display:inline">
             <summary>수정 기록</summary>
-                2019-08-15 : <br/>
-                1. 풍팬더 계수 추가<br/>
-                2. 공+방비례 데미지 계산에서 계수가 공격력에 적은 계수로 계산되는 버그 수정<br/>
-                ->그러나 코퍼는 300, 300으로 같았기에 코퍼 한정 문제 없었음<br/>
-                <br/>
-            </details>
-            <br/>
+            2019-08-15 : <br />
+            1. 풍팬더 계수 추가<br />
+            2. 공+방비례 데미지 계산에서 계수가 공격력에 적은 계수로 계산되는 버그 수정<br />
+            ->그러나 코퍼는 300, 300으로 같았기에 코퍼 한정 문제 없었음<br />
+            <br />
+        </details>
+        <br />
     </footer>
 </body>
 
