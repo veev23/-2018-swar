@@ -5,6 +5,9 @@
 <h3><a href="https://veev23.github.io/2018-swar/DamageCalc" target="_blank">서머너즈워 데미지 계산기 링크</a></h3>
 <details>
   <summary>서머너즈워 데미지 계산기 설명 Click</summary>
+  <p>입력칸에 아무 수도 적지 않으면 0으로 계산됩니다.</p>
+  <
+  <h4>사용법</h4>
  <p><b>자동세팅</b>을 이용하거나 실제 몹의 기본스텟을 채워줍니다.</p>
 <img src="https://veev23.github.io/2018-swar/1.png">
   <p>사진처럼 나머지 스텟을 채워주고 <b>명예</b>와 <b>깃발</b> %를 채워줍니다.</p>
