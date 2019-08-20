@@ -8,7 +8,7 @@
     <style>
         body {
             overflow-x: auto;
-            margin: 0;
+            margin: 0%;
         }
 
         ::-webkit-scrollbar {
@@ -66,7 +66,7 @@
         }
 
         table {
-            width: 90%;
+            width: 95%;
             border: 1px solid grey;
             border-radius: 5px;
             border-collapse: collapse;
@@ -211,7 +211,7 @@
 
         .tool_container {
             position: relative;
-            display: inline;
+            display: inline-block;
         }
 
         [class*="tool_text"] {
@@ -222,7 +222,7 @@
             padding: 5px;
             opacity: 0;
             position: absolute;
-            z-index: 1;
+            z-index: 999;
             top: 95%;
             left: -100%;
         }
@@ -302,6 +302,9 @@
                 width: 100%;
             }
 
+            table {
+            width: 100%;
+            }
             div.result {
                 position: static;
             }
@@ -320,15 +323,18 @@
             .tool_text {
                 left: -150px;
             }
+
             .multi .tool_text {
                 left: -300px;
             }
+
             .dimension {
                 left: -180px;
             }
-            div.result .tool_text {
-                top:1570px;
-                left:0px;
+
+            .result .tool_text {
+                left: 0%;
+                top: -50%;
             }
         }
     </style>
@@ -802,10 +808,12 @@ else if (event.keyCode == 27) {
                         <div>카이로스 던전 등은 길드스킬의 영향을 받으므로 추가를 했는지 확인해 주세요.</br>(다른 스텟 넣을 수 있는 곳에 직접 추가)</div>
                     </div>
                 </div>
-                <div class="col-4 result tool_container">
-                    <span class="error_range tool_text">데이터가 없습니다.</span>
-                    예상 데미지는<br />
-                    <span id="result"></span>
+                <div class="col-4 tool_container">
+                    <div class="col-4 result">
+                        <span class="error_range tool_text">데이터가 없습니다.</span>
+                        예상 데미지는<br />
+                        <span id="result"></span>
+                    </div>
                 </div>
             </div>
             <div class="col-12">
