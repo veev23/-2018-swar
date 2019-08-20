@@ -964,9 +964,14 @@ else if (event.keyCode == 27) {
             var multi_type = document.getElementById("multi_type").value;
             var dimension = fromNaNtoZero(document.getElementById("dimension").value);
 
-            var attack, healthpoint, defense, speed, leader_type, leader_value, enchanted_rune, enchanted_rune2;
+            //룬 변경 후
+            var attack, healthpoint, defense, speed, cri, leader_type, leader_value, enchanted_rune, enchanted_rune2;
+            //룬 변경 전
+            var before_attack, before_healthpoint, before_defense, before_speed, before_cri;
             leader_type = document.getElementById("leader_type").value;
             leader_value = fromNaNtoZero(document.getElementById("leader_value").value);
+
+            //체력
             enchanted_rune = 0; enchanted_rune2 = 0;
             var base = fromNaNtoZero(document.getElementById("hp_base").value);
             var rune = fromNaNtoZero(document.getElementById("hp_rune").value);
@@ -988,13 +993,16 @@ else if (event.keyCode == 27) {
                 }
             }
             document.getElementsByClassName("healthpoint")[0].innerHTML =
-                "기본 : " + base + ", 룬 : " + parseInt(rune + rune2) + ", 룬강 : " + parseInt(enchanted_rune + enchanted_rune2) + ", 명예 : " + honor + ", 깃발 : " + flag;
+            "기본 : " + base + ", 룬 : " + parseInt(rune + rune2) + ", 룬강 : " + parseInt(enchanted_rune + enchanted_rune2) + ", 명예 : " + honor + ", 깃발 : " + flag;
             if (leader_type == "healthpoint") {
                 leader_value = parseInt(base * leader_value / 100);
                 healthpoint += leader_value;
                 document.getElementsByClassName("healthpoint")[0].innerHTML += ", 리더 : " + leader_value;
             }
+            before_healthpoint = healthpoint - rune2;
             document.getElementById("hp_sum").innerHTML = healthpoint;
+
+            //공격력
             enchanted_rune = 0; enchanted_rune2 = 0;
             base = fromNaNtoZero(document.getElementById("atk_base").value);
             rune = fromNaNtoZero(document.getElementById("atk_rune").value);
@@ -1023,8 +1031,14 @@ else if (event.keyCode == 27) {
                 attack += leader_value;
                 document.getElementsByClassName("attack")[0].innerHTML += ", 리더 : " + leader_value;
             }
-            if (document.getElementById("isAtkBuff").checked == true) attack = parseInt(attack * 1.5);
+            before_attack = attack - rune2;
+            if (document.getElementById("isAtkBuff").checked == true){
+                                attack = parseInt(attack * 1.5);
+                                before_attack =parseInt(before_attack * 1.5);
+            }
             document.getElementById("atk_sum").innerHTML = attack;
+
+            //방어력
             enchanted_rune = 0; enchanted_rune2 = 0;
             base = fromNaNtoZero(document.getElementById("def_base").value);
             rune = fromNaNtoZero(document.getElementById("def_rune").value);
@@ -1053,8 +1067,14 @@ else if (event.keyCode == 27) {
                 defense += leader_value;
                 document.getElementsByClassName("defense")[0].innerHTML += ", 리더 : " + leader_value;
             }
-            if (document.getElementById("isDefBuff").checked == true) defense = parseInt(defense * 1.7);
+            before_defense = defense - rune2;
+            if (document.getElementById("isDefBuff").checked == true){ 
+                defense = parseInt(defense * 1.7)
+                before_defense = parseInt(before_defense * 1.7);
+            }
             document.getElementById("def_sum").innerHTML = defense;
+
+            //공격속도
             base = fromNaNtoZero(document.getElementById("spd_base").value);
             rune = fromNaNtoZero(document.getElementById("spd_rune").value);
             rune2 = fromNaNtoZero(document.getElementById("spd_rune2").value);
@@ -1067,8 +1087,14 @@ else if (event.keyCode == 27) {
                 speed += leader_value;
                 document.getElementsByClassName("speed")[0].innerHTML += ", 리더 : " + leader_value;
             }
-            if (document.getElementById("isSpdBuff").checked == true) speed *= parseInt(speed * 1.3);
+            before_speed = speed - rune2;
+            if (document.getElementById("isSpdBuff").checked == true){
+             speed = parseInt(speed * 1.3);
+             before_speed =parseInt(before_speed*1.3);
+            }
             document.getElementById("spd_sum").innerHTML = speed;
+
+            //치명피해
             enchanted_rune = 0; enchanted_rune2 = 0;
             base = document.getElementById("cri").value;
             cri_rune2 = fromNaNtoZero(document.getElementById("cri_rune2").value);
@@ -1076,15 +1102,18 @@ else if (event.keyCode == 27) {
             if (document.getElementById("isGW").checked == true) {
                 flag = fromNaNtoZero(document.getElementById("cri_flag").value);
             } else flag = 0;
-            var cri = fromNaNtoZero(base) + fromNaNtoZero(honor) + flag + cri_rune2;
+            cri = fromNaNtoZero(base) + fromNaNtoZero(honor) + flag + cri_rune2;
             if (document.getElementById("rune_checked_4").checked && document.getElementsByClassName("rune_no4")[0].value == "cri") {
                 let stat = fromNaNtoZero(document.getElementsByClassName("rune_no4")[2].value) - fromNaNtoZero(document.getElementsByClassName("rune_no4")[1].value);
                 cri += stat;
                 enchanted_rune = stat;
             }
+            before_cri = cri - cri_rune2;
             document.getElementsByClassName("cri")[0].innerHTML =
                 "기본 : " + base + ", 룬강 : " + enchanted_rune + ", 명예 : " + honor + ", 깃발 : " + flag;
             document.getElementById("cri_sum").innerHTML = cri;
+
+            //방어력 및 계수 선택
             var enemy_def = fromNaNtoZero(document.getElementById("enemy_def").value);
             if (document.getElementsByClassName("debuff")[0].checked) enemy_def *= 0.3;
             var def_dmg = 1000 / (1140 + enemy_def * 3.5);
@@ -1092,6 +1121,8 @@ else if (event.keyCode == 27) {
             var multi = fromNaNtoZero(document.getElementById("skill_multi").value);
             var multi2 = document.getElementById("skill_multi2").value; //속비례인경우 1이하이므로 parse하면 안됨
             var skillLevel = fromNaNtoZero(document.getElementById("skill_level").value);
+
+            //계산식
             var dmg;
             if (multi_type == "attack_multi") {
                 dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000;
@@ -1108,6 +1139,23 @@ else if (event.keyCode == 27) {
             else if (multi_type == "bomb_multi") {
                 dmg = attack * multi * (100 + skillLevel) / 10000;
             }
+            var before_dmg;
+            if (multi_type == "attack_multi") {
+                before_dmg = before_attack * multi * (100 + before_cri + skillLevel) * def_dmg / 10000;
+            }
+            else if (multi_type == "defense_multi") {
+                before_dmg = before_defense * multi * (100 + before_cri + skillLevel) * def_dmg / 10000;
+            }
+            else if (multi_type == "speed_multi") {
+                before_dmg = before_attack * ((multi + before_speed) / multi2) * (100 + before_cri + skillLevel) * def_dmg / 10000;
+            }
+            else if (multi_type == "attack_defense_multi") {
+                before_dmg = before_attack * multi * (100 + before_cri + skillLevel) * def_dmg / 10000 + before_defense * multi2 * (100 + before_cri + skillLevel) * def_dmg / 10000;
+            }
+            else if (multi_type == "bomb_multi") {
+                before_dmg = before_attack * multi * (100 + skillLevel) / 10000;
+            }
+
             var dmgNoCri;
             if (multi_type == "attack_multi") {
                 dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000;
@@ -1124,8 +1172,13 @@ else if (event.keyCode == 27) {
             else if (multi_type == "bomb_multi") {
                 dmgNoCri = dmg;
             }
-            dmg = dmg + parseInt(dmg * fromNaNtoZero(document.getElementsByClassName("debuff")[2].value) / 100)
-            if (document.getElementsByClassName("debuff")[1].checked) dmg = parseInt(dmg * 1.25);
+            dmg = dmg + parseInt(dmg * fromNaNtoZero(document.getElementsByClassName("debuff")[2].value) / 100);
+            before_dmg = before_dmg + parseInt(before_dmg * fromNaNtoZero(document.getElementsByClassName("debuff")[2].value) / 100);
+           
+            if (document.getElementsByClassName("debuff")[1].checked){
+                dmg = parseInt(dmg * 1.25);
+                before_dmg = parseInt(before_dmg * 1.25);
+            } 
             var criRate = fromNaNtoZero(document.getElementById("cri_rate").value);
             var averageDmg1;
             var averageDmg2;
@@ -1145,89 +1198,8 @@ else if (event.keyCode == 27) {
             document.getElementById("result").innerHTML = fromNaNtoZero(dmg);
             document.getElementsByClassName("error_range")[0].innerHTML =
                 "서머내 오차범위 : " + fromNaNtoZero(dmg * 0.97) + "~" + fromNaNtoZero(dmg * 1.03);
-            // 이 아래부터는 룬 변경 전 계산식
-            leader_value = fromNaNtoZero(document.getElementById("leader_value").value);
-
-            base = fromNaNtoZero(document.getElementById("hp_base").value);
-            rune = fromNaNtoZero(document.getElementById("hp_rune").value);
-            honor = fromNaNtoZero(document.getElementById("hp_honor").value * base / 100);
-            flag = gw(base, "hp_flag");
-            healthpoint = base + rune + honor + flag;
-            if (leader_type == "healthpoint") {
-                leader_value = parseInt(base * leader_value / 100);
-                healthpoint += leader_value;
-            }
-            base = fromNaNtoZero(document.getElementById("atk_base").value);
-            rune = fromNaNtoZero(document.getElementById("atk_rune").value);
-            honor = fromNaNtoZero(document.getElementById("atk_honor").value * base / 100);
-            flag = gw(base, "atk_flag");
-            attack = base + rune + honor + flag;
-            if (multi_type == "attack_multi" || multi_type == "bomb_multi" || multi_type == "speed_multi") attack += parseInt(base * dimension * 0.08);
-            if (leader_type == "attack") {
-                leader_value = parseInt(base * leader_value / 100);
-                attack += leader_value;
-            }
-            if (document.getElementById("isAtkBuff").checked == true) attack = parseInt(attack * 1.5);
-            base = fromNaNtoZero(document.getElementById("def_base").value);
-            rune = fromNaNtoZero(document.getElementById("def_rune").value);
-            honor = fromNaNtoZero(document.getElementById("def_honor").value * base / 100);
-            flag = gw(base, "def_flag");
-            defense = base + rune + honor + flag;
-            if (multi_type == "defense_multi" || multi_type == "attack_defense_multi") defense += parseInt(base * dimension * 0.08);
-            if (leader_type == "defense") {
-                leader_value = parseInt(base * leader_value / 100);
-                defense += leader_value;
-            }
-            if (document.getElementById("isDefBuff").checked == true) defense = parseInt(defense * 1.7);
-            base = fromNaNtoZero(document.getElementById("spd_base").value);
-            rune = fromNaNtoZero(document.getElementById("spd_rune").value);
-            honor = fromNaNtoZero(document.getElementById("spd_honor").value * base / 100);
-            speed = base + rune + honor;
-            if (leader_type == "speed") {
-                leader_value = parseInt(base * leader_value / 100);
-                speed += leader_value;
-            }
-            if (document.getElementById("isSpdBuff").checked == true) speed *= parseInt(speed * 1.3);
-            base = document.getElementById("cri").value;
-            honor = document.getElementById("cri_honor").value;
-            if (document.getElementById("isGW").checked == true) {
-                flag = fromNaNtoZero(document.getElementById("cri_flag").value);
-            } else flag = 0;
-            cri = fromNaNtoZero(base) + fromNaNtoZero(honor) + flag;
-            if (multi_type == "attack_multi") {
-                dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000;
-            }
-            else if (multi_type == "defense_multi") {
-                dmg = defense * multi * (100 + cri + skillLevel) * def_dmg / 10000;
-            }
-            else if (multi_type == "speed_multi") {
-                dmg = attack * ((multi + speed) / multi2) * (100 + cri + skillLevel) * def_dmg / 10000;
-            }
-            else if (multi_type == "attack_defense_multi") {
-                dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000 + defense * multi2 * (100 + cri + skillLevel) * def_dmg / 10000;
-            }
-            else if (multi_type == "bomb_multi") {
-                dmg = attack * multi * (100 + skillLevel) / 10000;
-            }
-            var dmgNoCri;
-            if (multi_type == "attack_multi") {
-                dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000;
-            }
-            else if (multi_type == "defense_multi") {
-                dmgNoCri = defense * multi * (100 + skillLevel) * def_dmg / 10000;
-            }
-            else if (multi_type == "speed_multi") {
-                dmgNoCri = attack * ((multi + speed) / multi2) * (100 + skillLevel) * def_dmg / 10000;
-            }
-            else if (multi_type == "attack_defense_multi") {
-                dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000 + defense * multi2 * (100 + skillLevel) * def_dmg / 10000;
-            }
-            else if (multi_type == "bomb_multi") {
-                dmgNoCri = dmg;
-            }
-            dmg = dmg + parseInt(dmg * fromNaNtoZero(document.getElementsByClassName("debuff")[2].value) / 100)
-            if (document.getElementsByClassName("debuff")[1].checked) dmg = parseInt(dmg * 1.25);
-            document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : " + parseInt(dmg);
+           
+             document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : " + parseInt(before_dmg);
         }
         function openRecord() {
             document.getElementById("record").style.display = "block";
@@ -1265,10 +1237,9 @@ else if (event.keyCode == 27) {
                 datalist.innerHTML += '<option value="30">5성+9</option>';
             }
         }
-        alert("빈 칸은 0으로 계산합니다.");
     </script>
     <footer class="col-12 footer">
-        　　　　　　　　　　마지막 수정일 : 2019-08-15<br />
+        　　　　　　　　　　마지막 수정일 : 2019-08-20<br />
         <br />
         　　　　　　　　　　<details style="display:inline">
             <summary>수정 기록</summary>
@@ -1276,6 +1247,8 @@ else if (event.keyCode == 27) {
             1. 풍팬더 계수 추가<br />
             2. 공+방비례 데미지 계산에서 계수가 공격력에 적은 계수로 계산되는 버그 수정<br />
             ->그러나 코퍼는 300, 300으로 같았기에 코퍼 한정 문제 없었음<br />
+            2019-08-20 : <br/>
+            1. 공속버프 받았을 때 데미지가 1.3공속배만큼 되던 버그 수정<br/>
             <br />
         </details>
         <br />
