@@ -1,6 +1,6 @@
 <h1>Summonerswar</h1>
 
-<div>Summoners War Damage Calculator</div>
+<div>Summoners War Calculator</div>
 <br/>
 <h3><a href="https://veev23.github.io/2018-swar/DamageCalc" target="_blank">서머너즈워 데미지 계산기 링크</a></h3>
 <details>
