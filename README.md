@@ -6,4 +6,4 @@ https://veev23.github.io/2018-swar/DamageCalc.html
 
 Summoners War Damage Calculator
 
-![png](./1.png)
+![png](https://veev23.github.io/2018-swar/1.png)
