@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>뇌가드 테스터</title>
+    <style>
+        table {
+            width: 95%;
+            border: 1px solid grey;
+            border-radius: 5px;
+            border-collapse: collapse;
+        }
+        a,
+        [type="button"] {
+            width: 100%;
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            padding: 13px 13px;
+            margin: 3px;
+            color: green;
+            background-color: white;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        a:hover,
+        [type="button"]:hover {
+            color: white;
+            background-color: green;
+        }
+
+        .border {
+            border-radius: 3px;
+            border: 1px solid black;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .green {
+            color: green;
+        }
+
+        .row::after,
+        section::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        tr:hover {
+            background: #eee;
+        }
+
+        input[type="number"] {
+            font-size: 15px;
+            width: 100px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        [class*="col-"] {
+            float: left;
+        }
+
+        .col-1 {
+            width: 8.33%;
+        }
+
+        .col-2 {
+            width: 16.66%;
+        }
+
+        .col-3 {
+            width: 25%;
+        }
+
+        .col-4 {
+            width: 33.33%;
+        }
+
+        .col-5 {
+            width: 41.66%;
+        }
+
+        .col-6 {
+            width: 50%;
+        }
+
+        .col-7 {
+            width: 58.33%;
+        }
+
+        .col-8 {
+            width: 66.66%;
+        }
+
+        .col-9 {
+            width: 75%;
+        }
+
+        .col-10 {
+            width: 83.33%;
+        }
+
+        .col-11 {
+            width: 91.66%;
+        }
+
+        .col-12 {
+            width: 100%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            [class*="col-"] {
+                width: 100%;
+            }
+
+            table {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body onbeforeunload="saveInputData()" onkeydown="if(event.keyCode == 13){ calc();}">
+    <header>
+        <H1>뇌가드 테스터</H1>
+    </header>
+    <form id="reset_form">
+    <section>
+
+        <table class="col-5" id="glory">
+            <tr>
+                <th>명예건물</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>공격력</th>
+                <td><input type="number" class="input_atk" value="20">%</td>
+            </tr>
+            <tr>
+                <th>공격력(불)</th>
+                <td><input type="number" class="input_fire" value="21">%</td>
+            </tr>
+            <tr>
+                <th>공격력(풍)</th>
+                <td><input type="number" class="input_wind" value="21">%</td>
+            </tr>
+            <tr>
+                <th>체력</th>
+                <td><input type="number" class="input_hp" value="20">%</td>
+            </tr>
+            <tr>
+                <th>방어력</th>
+                <td><input type="number" class="input_def" value="20">%</td>
+            </tr>
+            <tr>
+                <th>공격속도</th>
+                <td><input type="number" class="input_spd" value="15">%</td>
+            </tr>
+            <tr>
+                <th>치명피해</th>
+                <td><input type="number" class="input_cd" value="25">%</td>
+            </tr>
+        </table>
+        <table class="col-5" id="guild">
+            <tr>
+                <th>길드스킬</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>공격력</th>
+                <td><input type="number" class="input_atk" value="5">%</td>
+            </tr>
+            <tr>
+                <th>체력</th>
+                <td><input type="number" class="input_hp" value="5">%</td>
+            </tr>
+            <tr>
+                <th>방어력</th>
+                <td><input type="number" class="input_def" value="5">%</td>
+            </tr>
+        </table>
+        <table class="col-5" id="leader">
+            <tr>
+                <th>리더</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>공격력</th>
+                <td><input type="number" class="input_atk" value="18">%</td>
+            </tr>
+        </table>
+        <table class="col-5" id="fight">
+            <tr>
+                <th>투지</th>
+                <td></td>
+            </tr>
+            <tr>
+                <th>공격력</th>
+                <td><input type="number" class="input_atk" value="64">%</td>
+            </tr>
+        </table>
+    </section>
+    <section>
+        <table class="col-5" id="emper">
+            <tr>
+                <th>불뇌제</th>
+                <td>기본스텟</td>
+                <td>추가스텟</td>
+            </tr>
+            <tr>
+                <th>체력</th>
+                <td><input type="number" class="base_hp" value="10215"></td>
+                <td><input type="number" class="input_hp"></td>
+            </tr>
+            <tr>
+                <th>공격력</th>
+                <td><input type="number" class="base_atk" value="790"></td>
+                <td><input type="number" class="input_atk"></td>
+            </tr>
+            <tr>
+                <th>방어력</th>
+                <td><input type="number" class="base_def" value="670"></td>
+                <td><input type="number" class="input_def"></td>
+            </tr>
+            <tr>
+                <th>공격속도</th>
+                <td><input type="number" class="base_spd" value="102"></td>
+                <td><input type="number" class="input_spd"></td>
+            </tr>
+            <tr>
+                <th>치명피해</th>
+                <td><input type="number" class="input_cd"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>스킬작</th>
+                <td><input type="number" class="input_skill" value="30"></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table class="col-5" id="valky">
+            <tr>
+                <th>풍발키리</th>
+                <td>기본스텟</td>
+                <td>추가스텟</td>
+            </tr>
+            <tr>
+                <th>체력</th>
+                <td><input type="number" class="base_hp" value="11205"></td>
+                <td><input type="number" class="input_hp"></td>
+            </tr>
+            <tr>
+                <th>공격력</th>
+                <td><input type="number" class="base_atk" value="801"></td>
+                <td><input type="number" class="input_atk"></td>
+            </tr>
+            <tr>
+                <th>방어력</th>
+                <td><input type="number" class="base_def" value="593"></td>
+                <td><input type="number" class="input_def"></td>
+            </tr>
+            <tr>
+                <th>공격속도</th>
+                <td><input type="number" class="base_spd" value="116"></td>
+                <td><input type="number" class="input_spd"></td>
+            </tr>
+            <tr>
+                <th>치명피해</th>
+                <td><input type="number" class="input_cd"></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th>스킬작</th>
+                <td><input type="number" class="input_skill" value="20"></td>
+                <td></td>
+            </tr>
+        </table>
+        <table class="col-5" id="water_h">
+            <tr>
+                <th>물호루스</th>
+                <td>기본스텟</td>
+                <td>추가스텟</td>
+            </tr>
+            <tr>
+                <th>체력</th>
+                <td><input type="number" class="base_hp" value="10545"></td>
+                <td><input type="number" class="input_hp"></td>
+            </tr>
+            <tr>
+                <th>방어력</th>
+                <td><input type="number" class="base_def" value="659"></td>
+                <td><input type="number" class="input_def"></td>
+            </tr>
+            <tr>
+                <th>공격속도</th>
+                <td><input type="number" class="base_spd" value="102"></td>
+                <td><input type="number" class="input_spd"></td>
+            </tr>
+            <tr>
+                <th>전열</th>
+                <td><input type="radio" name="front_line" checked></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table class="col-5" id="wind_h">
+            <tr>
+                <th>풍호루스</th>
+                <td>기본스텟</td>
+                <td>추가스텟</td>
+            </tr>
+            <tr>
+                <th>체력</th>
+                <td><input type="number" class="base_hp" value="10050"></td>
+                <td><input type="number" class="input_hp"></td>
+            </tr>
+            <tr>
+                <th>방어력</th>
+                <td><input type="number" class="base_def" value="626"></td>
+                <td><input type="number" class="input_def"></td>
+            </tr>
+            <tr>
+                <th>공격속도</th>
+                <td><input type="number" class="base_spd" value="102"></td>
+                <td><input type="number" class="input_spd"></td>
+            </tr>
+            <tr>
+                <th>전열</th>
+                <td><input type="radio" name="front_line"></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table class="col-5" id="cow">
+            <tr>
+                <th>빛카우걸</th>
+                <td>기본스텟</td>
+                <td>추가스텟</td>
+            </tr>
+            <tr>
+                <th>체력</th>
+                <td><input type="number" class="base_hp" value="9225"></td>
+                <td><input type="number" class="input_hp"></td>
+            </tr>
+            <tr>
+                <th>방어력</th>
+                <td><input type="number" class="base_def" value="516"></td>
+                <td><input type="number" class="input_def"></td>
+            </tr>
+            <tr>
+                <th>공격속도</th>
+                <td><input type="number" class="base_spd" value="102"></td>
+                <td><input type="number" class="input_spd"></td>
+            </tr>
+            <tr>
+                <th>전열</th>
+                <td><input type="radio" name="front_line"></td>
+                <td></td>
+            </tr>
+        </table>
+        <table class="col-5" id="garuda">
+            <tr>
+                <th>물가루다</th>
+                <td>기본스텟</td>
+                <td>추가스텟</td>
+            </tr>
+            <tr>
+                <th>체력</th>
+                <td><input type="number" class="base_hp" value="7635"></td>
+                <td><input type="number" class="input_hp"></td>
+            </tr>
+            <tr>
+                <th>방어력</th>
+                <td><input type="number" class="base_def" value="331"></td>
+                <td><input type="number" class="input_def"></td>
+            </tr>
+            <tr>
+                <th>공격속도</th>
+                <td><input type="number" class="base_spd" value="90"></td>
+                <td><input type="number" class="input_spd"></td>
+            </tr>
+            <tr>
+                <th>전열</th>
+                <td><input type="radio" name="front_line"></td>
+                <td></td>
+            </tr>
+        </table>
+    </section>
+    <input type="button" onclick="calc()" value="계산하기">
+    <section>
+        <div id="result"></div>
+    </section>
+    <article>
+            <div class="col-12">
+                    <input type="button" onclick="if(confirm('정말로 초기화하시겠습니까?')){ 
+                    document.getElementById('reset_form').reset();
+                    }" value="입력값 초기화">
+                </div>
+    </article>
+</form>
+    <footer>
+        <br>
+        <br>
+        <br>
+        <a href="https://cafe.naver.com/smonwar/1780621" target="_blank">원본 공략글 링크</a>
+        <div>마지막 수정일 : 2019-09-06</div>
+        <br>
+    </footer>
+</body>
+<script>
+    var eng_names = ["emper", "valky", "water_h", "wind_h", "cow", "garuda"];
+    function saveInputData() {
+        eng_names.forEach(function (name) {
+            let monster = document.getElementById(name).getElementsByTagName("input");
+            for (const iter of monster) {
+                if (iter.type == "radio") {
+                    localStorage.setItem(name + "+" + iter.className, iter.checked);
+                }
+                else {
+                    localStorage.setItem(name + "+" + iter.className, iter.value);
+                }
+            };
+        });
+    }
+    function readInputData() {
+        eng_names.forEach(function (name) {
+            let monster = document.getElementById(name).getElementsByTagName("input");
+            for (const iter of monster) {
+                if (iter.type == "radio") {
+                    if (localStorage.getItem(name + "+" + iter.className) == "true") {
+                        iter.checked = true;
+                    }
+                    else {
+                        iter.checked = false;
+                    }
+                }
+                else {
+                    let val = localStorage.getItem(name + "+" + iter.className);
+                    if (val != "") {
+                        iter.value = val;
+                    }
+                }
+            };
+        });
+    }
+    readInputData();
+    function myParseInt(num) {
+        if (num == undefined || num == "") return 0;
+        return parseInt(num);
+    }
+    function get_def_reduction(defense) {
+        let result = 1000 / (1140 + 3.5 * defense);
+        return result;
+    }
+    //name = "emper", "valky", "water_h", "wind_h", "cow", "garuda"
+    //type = "atk", "hp", "def", "spd", "cd"
+    //element = "fire" or "wind"
+    function get_stat(name, type, element = "") {
+        let node = document.getElementById(name);
+        let extra_stat_multi = 0;
+        try {
+            extra_stat_multi += myParseInt(document.getElementById("glory").getElementsByClassName("input_" + type)[0].value);
+            extra_stat_multi += myParseInt(document.getElementById("guild").getElementsByClassName("input_" + type)[0].value);
+            extra_stat_multi += myParseInt(document.getElementById("leader").getElementsByClassName("input_" + type)[0].value);
+            extra_stat_multi += myParseInt(document.getElementById("fight").getElementsByClassName("input_" + type)[0].value);
+        }
+        catch (e) {
+        }
+        if (element != "") {
+            extra_stat_multi +=
+                myParseInt(document.getElementById("glory").getElementsByClassName("input_" + element)[0].value);
+        }
+
+        let stat;
+        if (type != "cd") {
+            stat = myParseInt(myParseInt(node.getElementsByClassName("base_" + type)[0].value) * (100 + extra_stat_multi) / 100)
+                + myParseInt(node.getElementsByClassName("input_" + type)[0].value);
+        }
+        else {
+            stat = myParseInt(node.getElementsByClassName("input_" + type)[0].value)
+                + myParseInt(node.getElementsByClassName("input_skill")[0].value) + extra_stat_multi;
+        }
+
+        if (type == "spd") {
+            stat = Math.ceil(stat);
+        }
+        return stat;
+    }
+    function get_dmg(atk, multiplier, ene_def, cri_dmg) {
+        return atk * multiplier / 100 * get_def_reduction(ene_def) * (1 + cri_dmg / 100);
+    }
+    function get_rank(arr, val) {
+        let rank = 1;
+        for (let i of arr) {
+            if (i > val) rank++;
+        }
+        return rank;
+    }
+    function calc() {
+        let boss_atk = 3996;
+        let boss_def = 2670;
+        let boss_multi = 105;
+        let end_line_reduction = 0.75;
+        let arr = [];
+        let names = ["불뇌제", "풍발키리", "물호루스", "풍호루스", "빛카우걸", "물가루다"];
+        let suporter_names = ["water_h", "wind_h", "cow", "garuda"];
+        let mon_name;
+        let result = document.getElementById("result");
+        let hit_num = 6;
+        let string = "<div>최악의 경우를 가정</div>";
+
+        for (let cri_rate = 0; cri_rate <= hit_num; cri_rate++) {
+            mon_name = "emper";
+            let dmg = get_dmg(boss_atk, boss_multi, get_stat(mon_name, "def"), 0);
+            arr[0] = (get_stat(mon_name, "hp") -
+                ((hit_num - cri_rate) * dmg + cri_rate * dmg * 1.5) * 1.00 * end_line_reduction) /
+                get_stat(mon_name, "hp");
+
+            mon_name = "valky";
+            dmg = get_dmg(boss_atk, boss_multi, get_stat(mon_name, "def"), 0);
+            arr[1] = (get_stat(mon_name, "hp") - hit_num * dmg * 1.00 * end_line_reduction) /
+                get_stat(mon_name, "hp");
+
+            for (let i = 0; i < 4; i++) {
+                mon_name = suporter_names[i];
+                dmg = get_dmg(boss_atk, boss_multi, get_stat(mon_name, "def"), 0);
+                arr[2 + i] = (get_stat(mon_name, "hp") -
+                    ((hit_num - cri_rate) * dmg + cri_rate * dmg * 1.5) * 1.00 *
+                    (document.getElementsByName("front_line")[i].checked ? 1 : end_line_reduction)) /
+                    get_stat(mon_name, "hp");
+            }
+
+            string += "<table class='col-3'><tr><th>치명타 " + cri_rate + "회 시 남은 체력 비율<th></tr>";
+            let min_hp_rate = 1;
+            let min_hp_rate_idx = 0;
+            for (let i = 0; i < 6; i++) {
+                if (min_hp_rate > arr[i]) {
+                    min_hp_rate = arr[i];
+                    min_hp_rate_idx = i;
+                }
+                string += "<tr><td>" + names[i] + " : " + arr[i].toFixed(2) + "</td></tr>";
+            }
+            string += "<tr><td>";
+            if (min_hp_rate_idx != 1) {
+                string += "<b class='red'>무적이 " + names[min_hp_rate_idx] + "에게 갑니다.</b>";
+            }
+            else {
+                string += "<b class='green'>무적이 풍발에게 갑니다.</b>";
+            }
+            string += "</td></tr></table>";
+        }
+
+        //공속순서
+        string += "<span class='row'></span>";
+        for (let i = 0; i < 6; i++) {
+            arr[i] = get_stat(eng_names[i], "spd");
+        }
+        //rank[i] = i번째 몹의 rank
+        let rank = [];
+        for (let i = 0; i < 6; i++) {
+            rank[i] = get_rank(arr, arr[i]);
+        }
+        let speed_ok = [true, true, true, true, true, true];
+        let input_speed = [];
+        for (let i = 0; i < 6; i++) {
+            input_speed[i] = myParseInt(document.getElementById(eng_names[i]).getElementsByClassName("input_spd")[0].value);
+        }
+        //불뇌제
+        if (input_speed[0] < 32 ||
+            (input_speed[2] < 72 && input_speed[0] > 36) || input_speed[0] > 37) {
+            speed_ok[0] = false;
+        }
+        //풍발
+        if (arr[1] > arr[0]) {
+            alert(arr[0] + " " + arr[1]);
+            speed_ok[1] = false;
+        }
+        //물호루스
+        if (rank[2] != 1 || input_speed[2] < 68 || input_speed[2] > 73) {
+            speed_ok[2] = false;
+        }
+        //풍호루스
+        if (rank[2] > rank[3]) {
+            speed_ok[3] = false;
+        }
+        //빛카우걸
+        if (rank[4] < rank[5]) {
+            speed_ok[4] = false;
+        }
+        //물가루다
+        if (input_speed[5] > 68 || rank[5] < rank[3]) {
+            speed_ok[5] = false;
+        }
+        for (let i = 0; i < 6; i++) {
+            string += "<table class='col-3'>";
+            string += "<tr><td><b>" + names[i] + "</b> 공속 : " + arr[i] + "</td></tr>";
+            string += "<tr><td "
+            if (speed_ok[i] == true) {
+                string += "class='green'>공속 조건 만족";
+            }
+            else {
+                string += "class='red'>공속 조건 불만족";
+            }
+            string += "</td></tr></table>";
+        }
+
+        //데미지
+        string += "<span class='row'></span>";
+        arr[0] = get_dmg(1.5 * get_stat(eng_names[0], "atk", "fire"), 2400, boss_def * 0.3, get_stat(eng_names[0], "cd"));
+        arr[1] = get_dmg(1.5 * get_stat(eng_names[1], "atk", "wind"), 280 * 3, 0, get_stat(eng_names[1], "cd"));
+        let sum = 0;
+        for (let i = 0; i < 2; i++) {
+            string += "<table class='col-3'><tr><th>" + names[i] + " 데미지 : </th><td>" + arr[i].toFixed(0) + "</td></tr>";
+            let node = document.getElementById(eng_names[i]);
+            point = myParseInt(node.getElementsByClassName("input_atk")[0].value)
+                + myParseInt(node.getElementsByClassName("input_cd")[0].value) * 10
+                + myParseInt(node.getElementsByClassName("input_skill")[0].value) * 10 - ((i == 0) ? 300 : 200);
+            string += "<tr><th>전투력 : </th><td>" + point + "</td></tr></table>";
+            sum += point;
+        }
+        string +="<table class='col-3'><tr><th>총 전투력 : " + sum +"</th></tr></table>";
+        result.innerHTML = string;
+    }
+
+</script>
+
+</html>
