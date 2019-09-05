@@ -8,7 +8,7 @@
 <br/>
 <h3><a href="https://veev23.github.io/2018-swar/DamageCalc" target="_blank">서머너즈워 데미지 계산기 링크</a></h3>
 <details>
-  <summary>서머너즈워 데미지 계산기 설명 Click</summary>
+  <summary>데미지 계산기 설명 Click</summary>
   <h4>사용법</h4>
   <hr/>
  <p><b>자동세팅</b>을 이용하거나 실제 몹의 기본스텟을 채워줍니다.</p>
@@ -34,7 +34,7 @@
  <section>
 <h3><a href="https://veev23.github.io/2018-swar/defInversion" target="_blank">서머너즈워 방어력 역산기 링크</a></h3>
 <details>
-  <summary>서머너즈워 방어력 역산기 설명 Click</summary>
+  <summary>방어력 역산기 설명 Click</summary>
 <p>방어력에 의한 데미지 감소 1000/(1140*3.5+방어력)임을 이용하여 계산합니다.</p>
 <p>계산기상의 데미지 : <a href="https://veev23.github.io/2018-swar/DamageCalc" target="_blank">계산기</a>에서 적의 방어력이 "0"일 때 나온 결과값을 입력합니다.</p>
 <p><b>적에게 가한 데미지</b> : 실제로 때렸을 때 데미지를 입력합니다.</p>
@@ -45,6 +45,11 @@
 <br/>
 <p>계산기상의 데미지는 소숫점을 버리고, 실제 데미지는 이론상 데미지에서 오차가 있기 때문에 결과값으로 나오는 방어력은 실제와의 차이가 있습니다.</p>
 </details>
+  
+<h3><a href="https://veev23.github.io/2018-swar/emperor-garuda-raid" target="_blank">뇌가드 테스터 링크</a></h3>
+<details>
+  <summary>뇌가드 테스터 설명 Click</summary>
+  </details>
   </section>
 <footer>
   </footer>
