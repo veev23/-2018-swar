@@ -509,8 +509,7 @@
     function calc() {
         let boss_atk = 3996;
         let boss_def = 2670;
-        let boss_multi = 105;
-        let end_line_reduction = 0.75;
+        let boss_multi = 120;
         let arr = [];
         let names = ["불뇌제", "풍발키리", "물호루스", "풍호루스", "빛카우걸", "물가루다"];
         let suporter_names = ["water_h", "wind_h", "cow", "garuda"];
@@ -518,25 +517,31 @@
         let result = document.getElementById("result");
         let hit_num = 6;
         let string = "<div>최악의 경우를 가정</div>";
-
+        
         for (let cri_rate = 0; cri_rate <= hit_num; cri_rate++) {
+            let end_line_reduction = 0.75;
             mon_name = "emper";
             let dmg = get_dmg(boss_atk, boss_multi, get_stat(mon_name, "def"), 0);
             arr[0] = (get_stat(mon_name, "hp") -
-                ((hit_num - cri_rate) * dmg + cri_rate * dmg * 1.5) * 1.00 * end_line_reduction) /
+                ((hit_num - cri_rate) * dmg + cri_rate * dmg * 1.5) * 1.03 * end_line_reduction) /
                 get_stat(mon_name, "hp");
 
             mon_name = "valky";
             dmg = get_dmg(boss_atk, boss_multi, get_stat(mon_name, "def"), 0);
-            arr[1] = (get_stat(mon_name, "hp") - hit_num * dmg * 1.00 * end_line_reduction) /
+            arr[1] = (get_stat(mon_name, "hp") - hit_num * dmg * 0.97) /
                 get_stat(mon_name, "hp");
 
             for (let i = 0; i < 4; i++) {
                 mon_name = suporter_names[i];
                 dmg = get_dmg(boss_atk, boss_multi, get_stat(mon_name, "def"), 0);
+                if(document.getElementsByName("front_line")[i].checked){
+                    end_line_reduction = 1;
+                }
+                else{
+                    end_line_reduction = 0.75;
+                }
                 arr[2 + i] = (get_stat(mon_name, "hp") -
-                    ((hit_num - cri_rate) * dmg + cri_rate * dmg * 1.5) * 1.00 *
-                    (document.getElementsByName("front_line")[i].checked ? 1 : end_line_reduction)) /
+                    ((hit_num - cri_rate) * dmg + cri_rate * dmg * 1.5) * 1.03 * end_line_reduction) /
                     get_stat(mon_name, "hp");
             }
 
