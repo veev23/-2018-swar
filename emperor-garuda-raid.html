@@ -437,16 +437,17 @@
             let monster = document.getElementById(name).getElementsByTagName("input");
             for (const iter of monster) {
                 if (iter.type == "radio") {
-                    if (localStorage.getItem(name + "+" + iter.className) == "true") {
+                    let str = localStorage.getItem(name + "+" + iter.className);
+                    if (str == "true") {
                         iter.checked = true;
                     }
-                    else {
+                    else if(str != null){
                         iter.checked = false;
                     }
                 }
                 else {
                     let val = localStorage.getItem(name + "+" + iter.className);
-                    if (val != "") {
+                    if (val != null) {
                         iter.value = val;
                     }
                 }
