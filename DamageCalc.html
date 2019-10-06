@@ -783,13 +783,25 @@ else if (event.keyCode == 27) {
                                 </select>
                             </td>
                             <td>
-                                    <select id="multi_type2">
+                                    <select onchange='disable_skill2(this)' id="multi_type2">
                                         <option value="null">미선택</option>
                                         <option value="attack_multi">공격력비례</option>
                                         <option value="defense_multi">방어력비례</option>
                                         <option value="hp_multi">체력비례</option>
                                         <option value="bomb_multi">폭탄</option>
                                     </select>
+                                    <script>
+                                        function disable_skill2(obj){
+                                            if(obj.value == 'null'){
+                                                document.getElementById("skill_level2").disabled = true;
+                                                document.getElementById("skill_multi2").disabled = true;
+                                            }
+                                            else{
+                                                document.getElementById("skill_level2").disabled= false;
+                                                document.getElementById("skill_multi2").disabled = false;
+                                            }
+                                        }
+                                    </script>
                             </td>
                             <td>
                             </td>
@@ -816,7 +828,7 @@ else if (event.keyCode == 27) {
                         <tr>
                             <th>스킬작</th>
                             <td><input type="number" id="skill_level" placeholder="데미지%"></td>
-                            <td></td>
+                            <td><input type="number" id="skill_level2" placeholder="데미지%" disabled></td>
                             <td>
                             </td>
 
@@ -948,7 +960,7 @@ else if (event.keyCode == 27) {
                     "rune_checked_4", "rune_checked_5", "rune_checked_6",
                     "multi_type", "multi_type2",
                     "skill_multi", "skill_multi2",
-                    "skill_level",
+                    "skill_level", "skill_level2",
                     "leader_type", "leader_value",
                     "dimension",
                     "enemy_def",
@@ -1005,7 +1017,7 @@ else if (event.keyCode == 27) {
                 }
 
                 function multiChanger() {
-                    var autoMultiSelect = document.getElementById("auto_multi_select").value;
+                    let autoMultiSelect = document.getElementById("auto_multi_select").value;
                     switch (autoMultiSelect) {
                         case "joker":
                             document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
@@ -1028,6 +1040,7 @@ else if (event.keyCode == 27) {
                             document.getElementById("skill_multi").value = 300;
                             document.getElementById("skill_multi2").value = 300;
                             document.getElementById("skill_level").value = 30;
+                            document.getElementById("skill_level2").value = 30;
                             document.getElementById("enemy_def").value = 0;
                             document.getElementById("leader_type").value = "defense";
                             document.getElementById("leader_value").value = "";
@@ -1110,12 +1123,14 @@ else if (event.keyCode == 27) {
                             document.getElementById("multi_type").value = "defense_multi";
                             document.getElementById("multi_type2").value = "attack_multi";
                             document.getElementById("skill_multi").value = -216;
-                            document.getElementById("skill_multi2").value = 162.5;
+                            document.getElementById("skill_multi2").value = 130;
                             document.getElementById("skill_level").value = 0;
+                            document.getElementById("skill_level2").value = 25;
                             document.getElementById("leader_type").value = "defense";
                             document.getElementById("leader_value").value = "";
                             break;
                     }
+                    disable_skill2(document.getElementById("multi_type2"));
                 }
                 function fromNaNtoZero(num) {
                     if (num != "")
@@ -1310,6 +1325,7 @@ else if (event.keyCode == 27) {
                     var multi = fromNaNtoZero(document.getElementById("skill_multi").value);
                     var multi2 = document.getElementById("skill_multi2").value; //속비례인경우 1이하이므로 parse하면 안됨
                     var skillLevel = fromNaNtoZero(document.getElementById("skill_level").value);
+                    var skillLevel2 = fromNaNtoZero(document.getElementById("skill_level2").value);
 
                     //계산식
                     var dmg = 0;
@@ -1320,11 +1336,12 @@ else if (event.keyCode == 27) {
                         let stat;
                         let tmp_mul_type = [ multi_type, multi_type2];
                         let tmp_multi = [ multi, multi2];
+                        let tmp_skill_level = [skillLevel, skillLevel2];
                         for(let i = 0; i<2; ++i){
                             if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = attack;
                             else if(tmp_mul_type[i] == "defense_multi") stat = defense;
                             else if(tmp_mul_type[i] == "hp_multi") stat = healthpoint;
-                            dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], cri, skillLevel, def_dmg);
+                            dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], cri, tmp_skill_level, def_dmg);
                         }
                     }
 
@@ -1336,11 +1353,12 @@ else if (event.keyCode == 27) {
                         let stat;
                         let tmp_mul_type = [ multi_type, multi_type2];
                         let tmp_multi = [ multi, multi2];
+                        let tmp_skill_level = [skillLevel, skillLevel2];
                         for(let i = 0; i<2; ++i){
                             if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = before_attack;
                             else if(tmp_mul_type[i] == "defense_multi") stat = before_defense;
                             else if(tmp_mul_type[i] == "hp_multi") stat = before_healthpoint;
-                            before_dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], before_cri, skillLevel, def_dmg);
+                            before_dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], before_cri, tmp_skill_level, def_dmg);
                         }
                     }
                     
@@ -1352,11 +1370,12 @@ else if (event.keyCode == 27) {
                         let stat;
                         let tmp_mul_type = [ multi_type, multi_type2];
                         let tmp_multi = [ multi, multi2];
+                        let tmp_skill_level = [skillLevel, skillLevel2];
                         for(let i = 0; i<2; ++i){
                             if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = attack;
                             else if(tmp_mul_type[i] == "defense_multi") stat = defense;
                             else if(tmp_mul_type[i] == "hp_multi") stat = healthpoint;
-                            dmgNoCri += get_damage(tmp_mul_type[i], stat, tmp_multi[i], 0, skillLevel, def_dmg);
+                            dmgNoCri += get_damage(tmp_mul_type[i], stat, tmp_multi[i], 0, tmp_skill_level, def_dmg);
                         }
                     }
                     
@@ -1425,15 +1444,16 @@ else if (event.keyCode == 27) {
                         datalist.innerHTML += '<option value="30">5성+9</option>';
                     }
                 }
+                
             </script>
     </section>
     <footer class="col-12 footer">
         　　　　　　　　　　마지막 수정일 : 2019-10-06<br />
         <br />
         　　　　　　　　　　<details style="display:inline">
-            <summary>수정 기록</summary>
-            2019-08-15 : <br />
-            1. 풍팬더 계수 추가<br />
+                <summary>수정 기록</summary>
+                2019-08-15 : <br />
+                1. 풍팬더 계수 추가<br />
             2. 공+방비례 데미지 계산에서 계수가 공격력에 적은 계수로 계산되는 버그 수정<br />
             ->그러나 코퍼는 300, 300으로 같았기에 코퍼 한정 문제 없었음<br />
             2019-08-20 : <br />
@@ -1452,6 +1472,7 @@ else if (event.keyCode == 27) {
 <script>
     readInputData();
     hideRuneEnchant();
+    disable_skill2(document.getElementById("multi_type2"));
 </script>
 
 </html>
