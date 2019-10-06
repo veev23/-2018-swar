@@ -981,8 +981,8 @@ else if (event.keyCode == 27) {
                     });
                     enchant_rune_class_list.forEach(function (name) {
                         let rune = document.getElementsByClassName(name);
-                        for (const iter of rune) {
-                            localStorage.setItem(name + "" + iter, iter.value);
+                        for (let iter=0; iter<rune.length; ++iter) {
+                            localStorage.setItem(name + "." + iter, rune[iter].value);
                         };
                     });
                 }
@@ -1003,8 +1003,8 @@ else if (event.keyCode == 27) {
                     });
                     enchant_rune_class_list.forEach(function (name) {
                         let rune = document.getElementsByClassName(name);
-                        for (const iter of rune) {
-                            iter.value = localStorage.getItem(name + "" + iter);
+                        for (let iter=0; iter<rune.length; ++iter) {
+                            rune[iter].value = localStorage.getItem(name + "." + iter);
                         };
                     });
                 }
