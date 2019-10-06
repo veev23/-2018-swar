@@ -422,8 +422,13 @@ else if (event.keyCode == 27) {
                                     rawFile.send(null);
                                 }
                                 let filename = "https://veev23.github.io/2018-swar/monster_info.txt";
-                                function load_monster_info() {
+                                function load_monster_info(obj) {
+                                    if(monster_list.length > 0) {
+                                        return;
+                                    }
+                                    obj.innerHTML = "불러오는 중입니다..";
                                     readTextFile(filename);
+                                    obj.innerHTML = "자동세팅(영어)";
                                 }
 
 
@@ -774,11 +779,18 @@ else if (event.keyCode == 27) {
                                     <option value="attack_multi">공격력비례</option>
                                     <option value="defense_multi">방어력비례</option>
                                     <option value="speed_multi">공속비례</option>
-                                    <option value="attack_defense_multi">공+방비례</option>
+                                    <option value="hp_multi">체력비례</option>
                                     <option value="bomb_multi">폭탄</option>
                                 </select>
                             </td>
                             <td>
+                                    <select id="multi_type2">
+                                        <option value="null">미선택</option>
+                                        <option value="attack_multi">공격력비례</option>
+                                        <option value="defense_multi">방어력비례</option>
+                                        <option value="hp_multi">체력비례</option>
+                                        <option value="bomb_multi">폭탄</option>
+                                    </select>
                             </td>
                             <td>
                             </td>
@@ -797,8 +809,7 @@ else if (event.keyCode == 27) {
                                         속비례 계수인 경우: <br />
                                         1번계수는 더하는 값, 2번계수는 나누는값<br />
                                         예를들어 물이프는 210, 0.7순<br />
-                                        공+방비례
-                                        계수인 경우: 공, 방순으로 입력
+                                        크리티컬이 터지지 않는 경우 : 음수로 입력
                                     </span>
                                 </span>
                             </td>
@@ -834,8 +845,10 @@ else if (event.keyCode == 27) {
                                 <span type="button" class="tool_container">
                                     ?
                                     <span class="dimension tool_text">
+                                        첫 번째 계수가<br>
                                         공격력, 공격속도, 폭탄 계수일 때 : 투지<br>
-                                        방어력, 공격력+방어력 계수 : 결의
+                                        방어력 : 결의<br>
+                                        체력 : 고양으로 계산
                                     </span>
                                 </span>
                             </td>
@@ -934,7 +947,7 @@ else if (event.keyCode == 27) {
                     "enchant_setting_check",
                     "rune_checked_1", "rune_checked_2", "rune_checked_3",
                     "rune_checked_4", "rune_checked_5", "rune_checked_6",
-                    "multi_type",
+                    "multi_type", "multi_type2",
                     "skill_multi", "skill_multi2",
                     "skill_level",
                     "leader_type", "leader_value",
@@ -999,6 +1012,7 @@ else if (event.keyCode == 27) {
                             document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
                             document.getElementById("atk_base").value = 900;
                             document.getElementById("multi_type").value = "attack_multi";
+                            document.getElementById("multi_type2").value = "null";
                             document.getElementById("skill_multi").value = 68;
                             document.getElementById("skill_multi2").value = 0;
                             document.getElementById("skill_level").value = 30;
@@ -1010,7 +1024,8 @@ else if (event.keyCode == 27) {
                             document.getElementById("auto_setting_alert").innerHTML = "";
                             document.getElementById("def_base").value = 692;
                             document.getElementById("atk_base").value = 483;
-                            document.getElementById("multi_type").value = "attack_defense_multi";
+                            document.getElementById("multi_type").value = "defense_multi";
+                            document.getElementById("multi_type2").value = "attack_multi";
                             document.getElementById("skill_multi").value = 300;
                             document.getElementById("skill_multi2").value = 300;
                             document.getElementById("skill_level").value = 30;
@@ -1022,6 +1037,7 @@ else if (event.keyCode == 27) {
                             document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
                             document.getElementById("def_base").value = 615;
                             document.getElementById("multi_type").value = "defense_multi";
+                            document.getElementById("multi_type2").value = "null";
                             document.getElementById("skill_multi").value = 160;
                             document.getElementById("skill_multi2").value = 0;
                             document.getElementById("skill_level").value = 25;
@@ -1033,6 +1049,7 @@ else if (event.keyCode == 27) {
                             document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
                             document.getElementById("atk_base").value = 801;
                             document.getElementById("multi_type").value = "attack_multi";
+                            document.getElementById("multi_type2").value = "null";
                             document.getElementById("skill_multi").value = 280;
                             document.getElementById("skill_multi2").value = 0;
                             document.getElementById("skill_level").value = 20;
@@ -1044,6 +1061,7 @@ else if (event.keyCode == 27) {
                             document.getElementById("auto_setting_alert").innerHTML = "";
                             document.getElementById("atk_base").value = 604;
                             document.getElementById("multi_type").value = "attack_multi";
+                            document.getElementById("multi_type2").value = "null";
                             document.getElementById("skill_multi").value = 370;
                             document.getElementById("skill_multi2").value = 0;
                             document.getElementById("skill_level").value = 30;
@@ -1055,6 +1073,7 @@ else if (event.keyCode == 27) {
                             document.getElementById("auto_setting_alert").innerHTML = "";
                             document.getElementById("atk_base").value = 878;
                             document.getElementById("multi_type").value = "attack_multi";
+                            document.getElementById("multi_type2").value = "null";
                             document.getElementById("skill_multi").value = 300;
                             document.getElementById("skill_multi2").value = 0;
                             document.getElementById("skill_level").value = 25;
@@ -1066,6 +1085,7 @@ else if (event.keyCode == 27) {
                             document.getElementById("auto_setting_alert").innerHTML = "";
                             document.getElementById("atk_base").value = 769;
                             document.getElementById("multi_type").value = "attack_multi";
+                            document.getElementById("multi_type2").value = "null";
                             document.getElementById("skill_multi").value = 800;
                             document.getElementById("skill_multi2").value = 0;
                             document.getElementById("skill_level").value = 30;
@@ -1076,6 +1096,7 @@ else if (event.keyCode == 27) {
                             document.getElementById("auto_setting_alert").innerHTML = "";
                             document.getElementById("atk_base").value = 780;
                             document.getElementById("multi_type").value = "attack_multi";
+                            document.getElementById("multi_type2").value = "null";
                             document.getElementById("skill_multi").value = 400;
                             document.getElementById("skill_multi2").value = 0;
                             document.getElementById("skill_level").value = 25;
@@ -1087,9 +1108,10 @@ else if (event.keyCode == 27) {
                             document.getElementById("auto_setting_alert").innerHTML = "풀스작 1히트 기준. 모든 치명피해 0으로 설정바람";
                             document.getElementById("def_base").value = 801;
                             document.getElementById("atk_base").value = 659;
-                            document.getElementById("multi_type").value = "attack_defense_multi";
-                            document.getElementById("skill_multi").value = 162.5;
-                            document.getElementById("skill_multi2").value = 216;
+                            document.getElementById("multi_type").value = "defense_multi";
+                            document.getElementById("multi_type2").value = "attack_multi";
+                            document.getElementById("skill_multi").value = -216;
+                            document.getElementById("skill_multi2").value = 162.5;
                             document.getElementById("skill_level").value = 0;
                             document.getElementById("leader_type").value = "defense";
                             document.getElementById("leader_value").value = "";
@@ -1101,48 +1123,6 @@ else if (event.keyCode == 27) {
                         return parseInt(num);
                     return 0;
                 }
-                function confirmInputValue() {
-                    if (document.getElementById("skill_multi").value == "") {
-                        alert("계수를 입력해주세요.");
-                        document.getElementById("skill_multi").focus(); return;
-                    }
-                    if (document.getElementById("multi_type").value == "attack_multi" || document.getElementById("multi_type").value == "bomb_multi") {
-                        if (document.getElementById("atk_base").value == "") {
-                            alert("기본 공격력을 입력해주세요.");
-                            document.getElementById("atk_base").focus(); return;
-                        }
-                    }
-                    if (document.getElementById("multi_type").value == "defense_multi") {
-                        if (document.getElementById("def_base").value == "") {
-                            alert("기본 방어력을 입력해주세요.");
-                            document.getElementById("def_base").focus(); return;
-                        }
-                    }
-                    if (document.getElementById("multi_type").value == "speed_multi") {
-                        if (document.getElementById("atk_base").value == "") {
-                            alert("기본 공격력을 입력해주세요.");
-                            document.getElementById("atk_base").focus(); return;
-                        }
-                        if (document.getElementById("spd_base").value == "") {
-                            alert("기본 공격속도를 입력해주세요.");
-                            document.getElementById("spd_base").focus(); return;
-                        }
-                    }
-                    if (document.getElementById("multi_type").value == "attack_defense_multi") {
-                        if (document.getElementById("atk_base").value == "") {
-                            alert("기본 공격력을 입력해주세요.");
-                            document.getElementById("atk_base").focus(); return;
-                        }
-                        if (document.getElementById("def_base").value == "") {
-                            alert("기본 방어력을 입력해주세요.");
-                            document.getElementById("def_base").focus(); return;
-                        }
-                    }
-                    if (document.getElementById("cri").value == "" && document.getElementById("multi_type").value != "bomb_multi") {
-                        alert("치명피해 수치를 입력해주세요.");
-                        document.getElementById("cri").focus(); return;
-                    }
-                }
                 var recordCount = 0;
                 function gw(base, name) {
                     if (document.getElementById("isGW").checked == true) {
@@ -1152,9 +1132,25 @@ else if (event.keyCode == 27) {
                         return 0;
                     }
                 }
+                function get_damage(multi_type ,stat, multi, cri, skillLevel, def_dmg){
+                    //크리가 터지지 않는 경우
+                    if(multi < 0){
+                        cri = 0;
+                        multi = -multi; 
+                    }
+                    let dmg;
+                    if(multi_type == "null") return 0;
+                    if (multi_type == "bomb_multi") {
+                        dmg = stat * multi * (100 + skillLevel) / 10000;
+                    }
+                    else{
+                        dmg = stat * multi * (100 + cri + skillLevel) * def_dmg / 10000;
+                    }
+                    return dmg
+                }
                 function damageCalculate() {
-                    confirmInputValue();
                     var multi_type = document.getElementById("multi_type").value;
+                    var multi_type2 = document.getElementById("multi_type2").value;
                     var dimension = fromNaNtoZero(document.getElementById("dimension").value);
 
                     //룬 변경 후
@@ -1172,6 +1168,7 @@ else if (event.keyCode == 27) {
                     var honor = fromNaNtoZero(document.getElementById("hp_honor").value * base / 100);
                     var flag = gw(base, "hp_flag");
                     healthpoint = base + rune + rune2 + honor + flag;
+                    if (multi_type == "hp_multi") healthpoint += parseInt(base * dimension * 0.08);
                     if (document.getElementById("rune_checked_5").checked) {
                         let stat = fromNaNtoZero(document.getElementsByClassName("rune_no5")[1].value) - fromNaNtoZero(document.getElementsByClassName("rune_no5")[0].value);
                         healthpoint += stat;
@@ -1239,7 +1236,7 @@ else if (event.keyCode == 27) {
                     honor = fromNaNtoZero(document.getElementById("def_honor").value * base / 100);
                     flag = gw(base, "def_flag");
                     defense = base + rune + rune2 + honor + flag;
-                    if (multi_type == "defense_multi" || multi_type == "attack_defense_multi") defense += parseInt(base * dimension * 0.08);
+                    if (multi_type == "defense_multi") defense += parseInt(base * dimension * 0.08);
                     if (document.getElementById("rune_checked_3").checked) {
                         let stat = fromNaNtoZero(document.getElementsByClassName("rune_no3")[1].value) - fromNaNtoZero(document.getElementsByClassName("rune_no3")[0].value);
                         defense += stat;
@@ -1316,55 +1313,54 @@ else if (event.keyCode == 27) {
                     var skillLevel = fromNaNtoZero(document.getElementById("skill_level").value);
 
                     //계산식
-                    var dmg;
-                    if (multi_type == "attack_multi") {
-                        dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000;
-                    }
-                    else if (multi_type == "defense_multi") {
-                        dmg = defense * multi * (100 + cri + skillLevel) * def_dmg / 10000;
-                    }
-                    else if (multi_type == "speed_multi") {
+                    var dmg = 0;
+                    if (multi_type == "speed_multi") {
                         dmg = attack * ((multi + speed) / multi2) * (100 + cri + skillLevel) * def_dmg / 10000;
                     }
-                    else if (multi_type == "attack_defense_multi") {
-                        dmg = attack * multi * (100 + cri + skillLevel) * def_dmg / 10000 + defense * multi2 * (100 + cri + skillLevel) * def_dmg / 10000;
-                    }
-                    else if (multi_type == "bomb_multi") {
-                        dmg = attack * multi * (100 + skillLevel) / 10000;
-                    }
-                    var before_dmg;
-                    if (multi_type == "attack_multi") {
-                        before_dmg = before_attack * multi * (100 + before_cri + skillLevel) * def_dmg / 10000;
-                    }
-                    else if (multi_type == "defense_multi") {
-                        before_dmg = before_defense * multi * (100 + before_cri + skillLevel) * def_dmg / 10000;
-                    }
-                    else if (multi_type == "speed_multi") {
-                        before_dmg = before_attack * ((multi + before_speed) / multi2) * (100 + before_cri + skillLevel) * def_dmg / 10000;
-                    }
-                    else if (multi_type == "attack_defense_multi") {
-                        before_dmg = before_attack * multi * (100 + before_cri + skillLevel) * def_dmg / 10000 + before_defense * multi2 * (100 + before_cri + skillLevel) * def_dmg / 10000;
-                    }
-                    else if (multi_type == "bomb_multi") {
-                        before_dmg = before_attack * multi * (100 + skillLevel) / 10000;
+                    else{
+                        let stat;
+                        let tmp_mul_type = [ multi_type, multi_type2];
+                        let tmp_multi = [ multi, multi2];
+                        for(let i = 0; i<2; ++i){
+                            if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = attack;
+                            else if(tmp_mul_type[i] == "defense_multi") stat = defense;
+                            else if(tmp_mul_type[i] == "hp_multi") stat = healthpoint;
+                            dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], cri, skillLevel, def_dmg);
+                        }
                     }
 
-                    var dmgNoCri;
-                    if (multi_type == "attack_multi") {
-                        dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000;
+                    var before_dmg = 0;
+                    if (multi_type == "speed_multi") {
+                        before_dmg = before_attack * ((multi + before_speed) / multi2) * (100 + before_cri + skillLevel) * def_dmg / 10000;
                     }
-                    else if (multi_type == "defense_multi") {
-                        dmgNoCri = defense * multi * (100 + skillLevel) * def_dmg / 10000;
+                    else{
+                        let stat;
+                        let tmp_mul_type = [ multi_type, multi_type2];
+                        let tmp_multi = [ multi, multi2];
+                        for(let i = 0; i<2; ++i){
+                            if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = before_attack;
+                            else if(tmp_mul_type[i] == "defense_multi") stat = before_defense;
+                            else if(tmp_mul_type[i] == "hp_multi") stat = before_healthpoint;
+                            before_dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], before_cri, skillLevel, def_dmg);
+                        }
                     }
-                    else if (multi_type == "speed_multi") {
+                    
+                    var dmgNoCri = 0;
+                    if (multi_type == "speed_multi") {
                         dmgNoCri = attack * ((multi + speed) / multi2) * (100 + skillLevel) * def_dmg / 10000;
                     }
-                    else if (multi_type == "attack_defense_multi") {
-                        dmgNoCri = attack * multi * (100 + skillLevel) * def_dmg / 10000 + defense * multi2 * (100 + skillLevel) * def_dmg / 10000;
+                    else{
+                        let stat;
+                        let tmp_mul_type = [ multi_type, multi_type2];
+                        let tmp_multi = [ multi, multi2];
+                        for(let i = 0; i<2; ++i){
+                            if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = attack;
+                            else if(tmp_mul_type[i] == "defense_multi") stat = defense;
+                            else if(tmp_mul_type[i] == "hp_multi") stat = healthpoint;
+                            dmgNoCri += get_damage(tmp_mul_type[i], stat, tmp_multi[i], 0, skillLevel, def_dmg);
+                        }
                     }
-                    else if (multi_type == "bomb_multi") {
-                        dmgNoCri = dmg;
-                    }
+                    
                     dmg = dmg + parseInt(dmg * fromNaNtoZero(document.getElementById("increase_dmg").value) / 100);
                     before_dmg = before_dmg + parseInt(before_dmg * fromNaNtoZero(document.getElementById("increase_dmg").value) / 100);
 
