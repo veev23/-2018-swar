@@ -1341,10 +1341,10 @@ else if (event.keyCode == 27) {
                             if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = attack;
                             else if(tmp_mul_type[i] == "defense_multi") stat = defense;
                             else if(tmp_mul_type[i] == "hp_multi") stat = healthpoint;
-                            dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], cri, tmp_skill_level, def_dmg);
+                            dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], cri, tmp_skill_level[i], def_dmg);
                         }
                     }
-
+                    
                     var before_dmg = 0;
                     if (multi_type == "speed_multi") {
                         before_dmg = before_attack * ((multi + before_speed) / multi2) * (100 + before_cri + skillLevel) * def_dmg / 10000;
@@ -1358,7 +1358,7 @@ else if (event.keyCode == 27) {
                             if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = before_attack;
                             else if(tmp_mul_type[i] == "defense_multi") stat = before_defense;
                             else if(tmp_mul_type[i] == "hp_multi") stat = before_healthpoint;
-                            before_dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], before_cri, tmp_skill_level, def_dmg);
+                            before_dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], before_cri, tmp_skill_level[i], def_dmg);
                         }
                     }
                     
@@ -1375,7 +1375,7 @@ else if (event.keyCode == 27) {
                             if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = attack;
                             else if(tmp_mul_type[i] == "defense_multi") stat = defense;
                             else if(tmp_mul_type[i] == "hp_multi") stat = healthpoint;
-                            dmgNoCri += get_damage(tmp_mul_type[i], stat, tmp_multi[i], 0, tmp_skill_level, def_dmg);
+                            dmgNoCri += get_damage(tmp_mul_type[i], stat, tmp_multi[i], 0, tmp_skill_level[i], def_dmg);
                         }
                     }
                     
