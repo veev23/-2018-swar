@@ -384,6 +384,10 @@ else if (event.keyCode == 27) {
                                         obj.innerHTML += "<option value='" + idx + "." + i + "'>" +
                                             (parseInt(i) + 1) + "번 스킬:" + multiplier + "</option>";
                                     }
+                                    document.getElementById("hp_base").value = monster_list[idx][2][0];
+                                    document.getElementById("atk_base").value = monster_list[idx][2][1];
+                                    document.getElementById("def_base").value = monster_list[idx][2][2];
+                                    document.getElementById("spd_base").value = monster_list[idx][2][3];
                                 }
                                 function set_multiplier(obj) {
                                     if (obj.value == null) return;
@@ -391,10 +395,6 @@ else if (event.keyCode == 27) {
                                     let idx = info[0];
                                     let skill_num = info[1];
                                     document.getElementById("auto_setting_alert").innerHTML = "계수 타입 확인바람.";
-                                    document.getElementById("hp_base").value = monster_list[idx][2][0];
-                                    document.getElementById("atk_base").value = monster_list[idx][2][1];
-                                    document.getElementById("def_base").value = monster_list[idx][2][2];
-                                    document.getElementById("spd_base").value = monster_list[idx][2][3];
                                     try {
                                         document.getElementById("skill_multi").value = monster_list[idx][1][skill_num][0][0];
                                         document.getElementById("skill_multi2").value = monster_list[idx][1][skill_num][0][1];
@@ -426,7 +426,6 @@ else if (event.keyCode == 27) {
                                     if(monster_list.length > 0) {
                                         return;
                                     }
-                                    obj.innerHTML = "불러오는 중입니다..";
                                     readTextFile(filename);
                                     obj.innerHTML = "자동세팅(영어)";
                                 }
