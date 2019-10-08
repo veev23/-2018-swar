@@ -1185,17 +1185,16 @@ else if (event.keyCode == 27) {
                     if (multi_type == "hp_multi") healthpoint += parseInt(base * dimension * 0.08);
                     if (document.getElementById("rune_checked_5").checked) {
                         let stat = fromNaNtoZero(document.getElementsByClassName("rune_no5")[1].value) - fromNaNtoZero(document.getElementsByClassName("rune_no5")[0].value);
-                        healthpoint += stat;
                         enchanted_rune = stat;
                     }
                     for (let i = 2; i <= 6; i += 2) {
                         if (document.getElementById("rune_checked_" + i).checked && document.getElementsByClassName("rune_no" + i)[0].value == "hp") {
                             let stat = fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[2].value) - fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[1].value);
                             stat = parseInt(base * stat / 100);
-                            healthpoint += stat;
                             enchanted_rune2 += stat;
                         }
                     }
+                    healthpoint += enchanted_rune + enchanted_rune2;
                     document.getElementsByClassName("healthpoint")[0].innerHTML =
                         "기본 : " + base + ", 룬 : " + parseInt(rune + rune2) + ", 룬강 : " + parseInt(enchanted_rune + enchanted_rune2) + ", 명예 : " + honor + ", 깃발 : " + flag;
                     if (leader_type == "healthpoint") {
@@ -1203,7 +1202,7 @@ else if (event.keyCode == 27) {
                         healthpoint += leader_value;
                         document.getElementsByClassName("healthpoint")[0].innerHTML += ", 리더 : " + leader_value;
                     }
-                    before_healthpoint = healthpoint - rune2;
+                    before_healthpoint = healthpoint - rune2 - enchanted_rune - enchanted_rune2;
                     document.getElementById("hp_sum").innerHTML = healthpoint;
 
                     //공격력
@@ -1217,17 +1216,16 @@ else if (event.keyCode == 27) {
                     if (multi_type == "attack_multi" || multi_type == "bomb_multi" || multi_type == "speed_multi") attack += parseInt(base * dimension * 0.08);
                     if (document.getElementById("rune_checked_1").checked) {
                         let stat = fromNaNtoZero(document.getElementsByClassName("rune_no1")[1].value) - fromNaNtoZero(document.getElementsByClassName("rune_no1")[0].value);
-                        attack += stat;
                         enchanted_rune = stat;
                     }
                     for (let i = 2; i <= 6; i += 2) {
                         if (document.getElementById("rune_checked_" + i).checked && document.getElementsByClassName("rune_no" + i)[0].value == "atk") {
                             let stat = fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[2].value) - fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[1].value);
                             stat = parseInt(base * stat / 100);
-                            attack += stat;
                             enchanted_rune2 += stat;
                         }
                     }
+                    attack += enchanted_rune + enchanted_rune2;
                     document.getElementsByClassName("attack")[0].innerHTML =
                         "기본 : " + base + ", 룬 : " + parseInt(rune + rune2) + ", 룬강 : " + parseInt(enchanted_rune + enchanted_rune2) + ", 명예 : " + honor + ", 깃발 : " + flag;
                     if (leader_type == "attack") {
@@ -1235,7 +1233,7 @@ else if (event.keyCode == 27) {
                         attack += leader_value;
                         document.getElementsByClassName("attack")[0].innerHTML += ", 리더 : " + leader_value;
                     }
-                    before_attack = attack - rune2;
+                    before_attack = attack - rune2 - enchanted_rune - enchanted_rune2;
                     if (document.getElementById("isAtkBuff").checked == true) {
                         attack = parseInt(attack * 1.5);
                         before_attack = parseInt(before_attack * 1.5);
@@ -1253,17 +1251,16 @@ else if (event.keyCode == 27) {
                     if (multi_type == "defense_multi") defense += parseInt(base * dimension * 0.08);
                     if (document.getElementById("rune_checked_3").checked) {
                         let stat = fromNaNtoZero(document.getElementsByClassName("rune_no3")[1].value) - fromNaNtoZero(document.getElementsByClassName("rune_no3")[0].value);
-                        defense += stat;
                         enchanted_rune = stat;
                     }
                     for (let i = 2; i <= 6; i += 2) {
                         if (document.getElementById("rune_checked_" + i).checked && document.getElementsByClassName("rune_no" + i)[0].value == "def") {
                             let stat = fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[2].value) - fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[1].value);
                             stat = parseInt(base * stat / 100);
-                            defense += stat;
                             enchanted_rune2 += stat;
                         }
                     }
+                    defense += enchanted_rune + enchanted_rune2;
                     document.getElementsByClassName("defense")[0].innerHTML =
                         "기본 : " + base + ", 룬 : " + parseInt(rune + rune2) + ", 룬강 : " + parseInt(enchanted_rune + enchanted_rune2) + ", 명예 : " + honor + ", 깃발 : " + flag;
                     if (leader_type == "defense") {
@@ -1271,7 +1268,7 @@ else if (event.keyCode == 27) {
                         defense += leader_value;
                         document.getElementsByClassName("defense")[0].innerHTML += ", 리더 : " + leader_value;
                     }
-                    before_defense = defense - rune2;
+                    before_defense = defense - rune2 - enchanted_rune - enchanted_rune2;
                     if (document.getElementById("isDefBuff").checked == true) {
                         defense = parseInt(defense * 1.7)
                         before_defense = parseInt(before_defense * 1.7);
@@ -1309,10 +1306,10 @@ else if (event.keyCode == 27) {
                     cri = fromNaNtoZero(base) + fromNaNtoZero(honor) + flag + cri_rune2;
                     if (document.getElementById("rune_checked_4").checked && document.getElementsByClassName("rune_no4")[0].value == "cri") {
                         let stat = fromNaNtoZero(document.getElementsByClassName("rune_no4")[2].value) - fromNaNtoZero(document.getElementsByClassName("rune_no4")[1].value);
-                        cri += stat;
                         enchanted_rune = stat;
                     }
-                    before_cri = cri - cri_rune2;
+                    cri += enchanted_rune + enchanted_rune2;
+                    before_cri = cri - cri_rune2 - enchanted_rune - enchanted_rune2;
                     document.getElementsByClassName("cri")[0].innerHTML =
                         "기본 : " + base + ", 룬강 : " + enchanted_rune + ", 명예 : " + honor + ", 깃발 : " + flag;
                     document.getElementById("cri_sum").innerHTML = cri;
@@ -1448,7 +1445,7 @@ else if (event.keyCode == 27) {
             </script>
     </section>
     <footer class="col-12 footer">
-        　　　　　　　　　　마지막 수정일 : 2019-10-06<br />
+        　　　　　　　　　　마지막 수정일 : 2019-10-08<br />
         <br />
         　　　　　　　　　　<details style="display:inline">
                 <summary>수정 기록</summary>
