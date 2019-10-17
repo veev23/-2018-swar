@@ -464,6 +464,18 @@
         let result = 1000 / (1140 + 3.5 * defense);
         return result;
     }
+    //명예건물 최대치 이하인지
+    function get_differ_stat(name, element=""){
+        const max_multi = 20 + 5 + 21;
+        let node = document.getElementById(name);
+        let extra_stat_multi = max_multi;
+        extra_stat_multi -= myParseInt(document.getElementById("glory").getElementsByClassName("input_atk")[0].value);
+        extra_stat_multi -= myParseInt(document.getElementById("guild").getElementsByClassName("input_atk")[0].value);
+        extra_stat_multi -=
+                myParseInt(document.getElementById("glory").getElementsByClassName("input_" + element)[0].value);
+        let stat = myParseInt(myParseInt(node.getElementsByClassName("base_atk")[0].value) * extra_stat_multi / 100);
+        return stat;
+    }
     //name = "emper", "valky", "water_h", "wind_h", "cow", "garuda"
     //type = "atk", "hp", "def", "spd", "cd"
     //element = "fire" or "wind"
@@ -624,13 +636,15 @@
         string += "<span class='row'></span>";
         arr[0] = get_dmg(1.5 * get_stat(eng_names[0], "atk", "fire"), 2400, boss_def * 0.3, get_stat(eng_names[0], "cd"));
         arr[1] = get_dmg(1.5 * get_stat(eng_names[1], "atk", "wind"), 280 * 3, 0, get_stat(eng_names[1], "cd"));
-        let sum = 0;
+        let sum=0;
         for (let i = 0; i < 2; i++) {
             string += "<table class='col-3'><tr><th>" + names[i] + " 데미지 : </th><td>" + arr[i].toFixed(0) + "</td></tr>";
             let node = document.getElementById(eng_names[i]);
             point = myParseInt(node.getElementsByClassName("input_atk")[0].value)
                 + myParseInt(node.getElementsByClassName("input_cd")[0].value) * 10
-                + myParseInt(node.getElementsByClassName("input_skill")[0].value) * 10 - ((i == 0) ? 300 : 200);
+                + myParseInt(node.getElementsByClassName("input_skill")[0].value) * 10 - ((i == 0) ? 300 : 200)
+                -  get_differ_stat(eng_names[i], (i==0?"fire":"wind"));
+            
             string += "<tr><th>전투력 : </th><td>" + point + "</td></tr></table>";
             sum += point;
         }
