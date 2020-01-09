@@ -505,7 +505,7 @@ else if (event.keyCode == 27) {
                             <th>치명피해</th>
                             <td>
                                 <input type="number" id="cri" name="cri" />+
-                                <input type="number" id="cri_rune2" placeholder="룬변경시" onmousedown="this.value='';">=
+                                <input type="number" id="cri_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';">=
                                 <span class="tool_container">
                                     <span id="cri_sum"></span>
                                     <span class="tool_text cri"></span>
@@ -774,7 +774,7 @@ else if (event.keyCode == 27) {
                         <tr>
                             <th>무슨계수?</th>
                             <td>
-                                <select id="multi_type">
+                                <select onchange='able_skill(this)' id="multi_type">
                                     <option value="attack_multi">공격력비례</option>
                                     <option value="defense_multi">방어력비례</option>
                                     <option value="speed_multi">공속비례</option>
@@ -791,11 +791,22 @@ else if (event.keyCode == 27) {
                                         <option value="bomb_multi">폭탄</option>
                                     </select>
                                     <script>
-                                        function disable_skill2(obj){
-                                            if(obj.value == 'null'){
-                                                document.getElementById("skill_level2").disabled = true;
+                                        function able_skill(obj){
+                                            if(obj.value == 'speed_multi'){
+                                                document.getElementById("skill_multi2").disabled = false;
+                                            }
+                                            else if(document.getElementById("multi_type2").value == 'null'){
                                                 document.getElementById("skill_multi2").disabled = true;
                                             }
+                                        }
+                                        function disable_skill2(obj){
+                                            var skill1 = document.getElementById("multi_type");
+                                            if(obj.value == 'null'){
+                                                document.getElementById("skill_level2").disabled = true;
+                                                if(skill1.value != 'speed_multi'){
+                                                document.getElementById("skill_multi2").disabled = true;
+                                            }
+                                        }
                                             else{
                                                 document.getElementById("skill_level2").disabled= false;
                                                 document.getElementById("skill_multi2").disabled = false;
@@ -944,6 +955,23 @@ else if (event.keyCode == 27) {
                 <input type="button" value="◁" class="icon" onclick="resetRecord()" title="기록 초기화" style="right:50px;">
             </div>
             <script>
+                function fromNaNtoZero(num) {
+                    if (num != "")
+                        return parseInt(num);
+                    return 0;
+                }
+                function changeTextColorByNumber(inputTag){
+                   var num = fromNaNtoZero(inputTag.value);
+                   if(num > 0){
+                       inputTag.style.color = "green";
+                   }
+                   else if(num < 0){
+                       inputTag.style.color = "red";
+                   }
+                   else{
+                    inputTag.style.color = "black";
+                   }
+                }
                 var input_ID_list = ["hp_base", "hp_rune", "hp_rune2",
                     "atk_base", "atk_rune", "atk_rune2",
                     "def_base", "def_rune", "def_rune2",
@@ -1131,11 +1159,6 @@ else if (event.keyCode == 27) {
                             break;
                     }
                     disable_skill2(document.getElementById("multi_type2"));
-                }
-                function fromNaNtoZero(num) {
-                    if (num != "")
-                        return parseInt(num);
-                    return 0;
                 }
                 var recordCount = 0;
                 function gw(base, name) {
@@ -1445,24 +1468,9 @@ else if (event.keyCode == 27) {
             </script>
     </section>
     <footer class="col-12 footer">
-        　　　　　　　　　　마지막 수정일 : 2019-10-08<br />
+        　　　　　　　　　　마지막 수정일 : 2020-01-09<br />
+        <a href="https://veev23.github.io/2018-swar/">설명 페이지</a>
         <br />
-        　　　　　　　　　　<details style="display:inline">
-                <summary>수정 기록</summary>
-                2019-08-15 : <br />
-                1. 풍팬더 계수 추가<br />
-            2. 공+방비례 데미지 계산에서 계수가 공격력에 적은 계수로 계산되는 버그 수정<br />
-            ->그러나 코퍼는 300, 300으로 같았기에 코퍼 한정 문제 없었음<br />
-            2019-08-20 : <br />
-            1. 공속버프 받았을 때 데미지가 1.3공속배만큼 되던 버그 수정<br />
-            2019-08-21 : <br />
-            1. 계수 설명 툴팁 오류 수정<br />
-            2019-09-05 : <br />
-            1. 자동저장 기능 추가
-            2019-10-06 : <br />
-            1. 등록된 자동세팅 외의 모든 몹의 자동세팅 기능 추가
-            <br />
-        </details>
         <br />
     </footer>
 </body>
