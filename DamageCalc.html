@@ -457,7 +457,7 @@ else if (event.keyCode == 27) {
                                 <input type="number" id="hp_base" name="hp_base" placeholder="기본체력" /> +
                                 <input type="number" id="hp_rune" name="hp_rune" title="룬으로 오르는 수치를 입력하세요."
                                     placeholder="추가수치" />+
-                                <input type="number" id="hp_rune2" placeholder="룬변경시" onmousedown="this.value='';">
+                                <input type="number" id="hp_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';">
                                 = <span class="tool_container"><span id="hp_sum"></span><span
                                         class="tool_text healthpoint"></span></span>
                             </td>
@@ -468,7 +468,7 @@ else if (event.keyCode == 27) {
                                 <input type="number" id="atk_base" name="atk_base" placeholder="기본공격력" /> +
                                 <input type="number" id="atk_rune" name="atk_rune" title="룬으로 오르는 수치를 입력하세요."
                                     placeholder="추가수치" />+
-                                <input type="number" id="atk_rune2" placeholder="룬변경시" onmousedown="this.value='';"> =
+                                <input type="number" id="atk_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';"> =
                                 <span class="tool_container">
                                     <span id="atk_sum"></span><span class="tool_text attack"></span></span>
                             </td>
@@ -479,7 +479,7 @@ else if (event.keyCode == 27) {
                                 <input type="number" id="def_base" name="def_base" placeholder="기본방어력" /> +
                                 <input type="number" id="def_rune" name="def_rune" title="룬으로 오르는 수치를 입력하세요."
                                     placeholder="추가수치" />+
-                                <input type="number" id="def_rune2" placeholder="룬변경시" onmousedown="this.value='';"> =
+                                <input type="number" id="def_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';"> =
                                 <span class="tool_container">
                                     <span id="def_sum"></span><span class="tool_text defense"></span></span>
                             </td>
@@ -490,7 +490,7 @@ else if (event.keyCode == 27) {
                                 <input type="number" id="spd_base" name="spd_base" placeholder="기본공속" /> +
                                 <input type="number" id="spd_rune" name="spd_rune" title="룬으로 오르는 수치를 입력하세요."
                                     placeholder="추가수치" />+
-                                <input type="number" id="spd_rune2" placeholder="룬변경시" onmousedown="this.value='';"> =
+                                <input type="number" id="spd_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';"> =
                                 <span class="tool_container">
                                     <span id="spd_sum"></span><span class="tool_text speed"></span>
                                 </span>
@@ -903,7 +903,7 @@ else if (event.keyCode == 27) {
 
                         </tr>
                         <tr>
-                            <th>증가데미지(약화효과)</th>
+                            <th>증가데미지</th>
                             <td><input id='increase_dmg' type="number"></td>
                             <td></td>
                             <td>
