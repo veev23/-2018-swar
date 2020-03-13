@@ -1021,9 +1021,8 @@ else if (event.keyCode == 27) {
                 ];
                 var enchant_rune_class_list = [
                     "rune_no1", "rune_no2", "rune_no3", "rune_no4", "rune_no5", "rune_no6"];
-                    
                 function saveInputData(isLocal) {
-                    queryString = window.location.pathname+"?";
+                    queryString = window.location.origin + window.location.pathname+"?";
                     input_ID_list.forEach(function (name) {
                         let item = document.getElementById(name);
                         if (item.type == "checkbox") {
@@ -1054,15 +1053,14 @@ else if (event.keyCode == 27) {
                             }
                         };
                     });
-                    damageCalculate();
                     return queryString;
                 }
                 function readInputData() {
-                    var qeuryMap = getUrlParams();
+                    var queryMap = getUrlParams();
                     input_ID_list.forEach(function (name) {
                         let item = document.getElementById(name);
                         if (item.type == "checkbox") {
-                            if (qeuryMap[name] == "true" || localStorage.getItem(name) == "true") {
+                            if (queryMap[name] == "true" || localStorage.getItem(name) == "true") {
                                 item.checked = true;
                             }
                             else {
@@ -1070,25 +1068,26 @@ else if (event.keyCode == 27) {
                             }
                         }
                         else {
-                            if(qeuryMap[name] == ""){
-                            item.value = localStorage.getItem(name);
+                            if(queryMap[name] == undefined ||queryMap[name] == ""){
+                                item.value = localStorage.getItem(name);
                             }
                             else{
-                                item.value = qeuryMap[name]
+                                item.value = queryMap[name]
                             }
                         }
                     });
                     enchant_rune_class_list.forEach(function (name) {
                         let rune = document.getElementsByClassName(name);
                         for (let iter=0; iter<rune.length; ++iter) {
-                            if(qeuryMap[name+"."+iter] == ""){
-                            rune[iter].value = localStorage.getItem(name + "." + iter);
+                            if(queryMap[name+"."+iter] == undefined || queryMap[name+"."+iter] == ""){
+                                rune[iter].value = localStorage.getItem(name + "." + iter);
                             }
                             else{
-                                rune[iter].value = qeuryMap[name+"."+iter];
+                                rune[iter].value = queryMap[name+"."+iter];
                             }
                         };
                     });
+                    damageCalculate();
                 }
 
                 function hideRuneEnchant() {
