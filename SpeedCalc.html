@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>서머너즈워 중턴 계산기</title>
+    <style>
+        header,
+        p {
+            text-align: center;
+        }
+
+        button:hover {
+            color: white;
+            background-color: green;
+        }
+
+        button{
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            padding: 6px 13px;
+            margin: 8px 0px;
+            color: green;
+            background-color: white;
+            text-decoration: none;
+            transition: 0.2s;
+            width: 100%;
+        }
+        
+        .white_button {
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            color: green;
+            background-color: white;
+            text-decoration: none;
+            width: 100%;
+        }
+        .green_button {
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            color: white;
+            background-color: green;
+            text-decoration: none;
+            width: 100%;
+        }
+        
+        .red {
+            color: red;
+            font-weight: bold;
+        }
+
+        .green {
+            color: green;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border: 1px solid grey;
+            border-radius: 5px;
+            border-collapse: collapse;
+        }
+
+        tr:hover {
+            background: #eee;
+        }
+
+        td {
+            text-align: center;
+        }
+
+        input[type="number"] {
+            font-size: 15px;
+            width: 100px;
+        }
+
+        [class*="col-"] {
+            float: left;
+        }
+
+        .col-1 {
+            width: 8.33%;
+        }
+
+        .col-2 {
+            width: 16.66%;
+        }
+
+        .col-3 {
+            width: 25%;
+        }
+
+        .col-4 {
+            width: 33.33%;
+        }
+
+        .col-5 {
+            width: 41.66%;
+        }
+
+        .col-6 {
+            width: 50%;
+        }
+
+        .col-7 {
+            width: 58.33%;
+        }
+
+        .col-8 {
+            width: 66.66%;
+        }
+
+        .col-9 {
+            width: 75%;
+        }
+
+        .col-10 {
+            width: 83.33%;
+        }
+
+        .col-11 {
+            width: 91.66%;
+        }
+
+        .col-12 {
+            width: 100%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            [class*="col-"] {
+                width: 100%;
+            }
+
+            table {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body onkeydown="if(event.keyCode == 13){ calc();}">
+    <header>
+        <h1>서머너즈워 중턴 계산기</h1>
+    </header>
+    <section>
+        <table>
+            <tr>
+                <td>틱당 수치 <input type="number" class='tic' value='7' />%</td>
+            </tr>
+            <tr>
+                <td>공속 토템 <input type="number" class="totem" />%</td>
+            </tr>
+            <tr>
+                <td>공속 리더 <input type="number" class="leader" />%</td>
+            </tr>
+            <table>
+    </section>
+    <br />
+    <section>
+        <div id='input_struct'>
+        </div>
+    </section>
+    <button onclick="calc()">계산</button>
+    <section id='output'>
+    </section>
+</body>
+<script>
+    const max_tic = 10;
+    function getIntVal(parent, id) {
+        let tmp = getVal(parent, id);
+        tmp = parseInt(tmp);
+        if (isNaN(tmp)) return 0;
+        return tmp;
+    }
+    function getVal(parent, id) {
+        let tmp = parent.getElementsByClassName(id)[0];
+        if (tmp.type == "button") {
+            return tmp.value[0] == '미'?false:true;
+        }
+        return tmp.value;
+    }
+    function setVal(parent, id, value) {
+        let tmp = parent.getElementsByClassName(id)[0];
+        tmp.innerHTML = value;
+    }
+    const max_member = 4;
+    function button_click(obj) {
+        if(obj.value[0] =="미"){
+            obj.value = obj.value.substring(1);
+            obj.classList.toggle("white_button");
+            obj.classList.toggle("green_button");
+        }
+        else{
+            obj.value = "미"+obj.value;
+            obj.classList.toggle("white_button");
+            obj.classList.toggle("green_button");
+        }
+    }
+    function make_inputs() {
+        let struct = document.getElementById("input_struct");
+        for (let i = 1; i <= max_member; i++) {
+            let input_tag =
+                '<span class="monster_info col-3">' +
+                '<table>' +
+                '<tr><td><input type="text" class="mob_name" value="' + i + '번째 몹"/></td><td></td></tr>' +
+                '<tr>' +
+                '<td>기본 공속 : </td>' +
+                '<td><input type="number" class="base" /></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>뒷 공속 : </td>' +
+                '<td><input type="number" class="after" /></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>게이지: </td>' +
+                '<td><input type="number" class="gauge" placeholder="증가량%"/></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>신속룬 착용 : </td>' +
+                '<td><input type="button" class="is_swift white_button" onclick="button_click(this)" value="미착용"/></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>속업 버프 : </td>' +
+                '<td><input type="button" class="is_speedUp white_button" onclick="button_click(this)" value="미적용"/></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>합 속도 :</td>' +
+                '<td class="sum"></td>' +
+                '</tr>' +
+                '</table>' +
+                '</span>';
+            struct.innerHTML += input_tag;
+        }
+    }
+    function get_sum(info) {
+        let base = getIntVal(info, 'base');
+        let after = getIntVal(info, 'after');
+        let swift = getVal(info, 'is_swift');
+        if (swift) {
+            swift = base * 0.25;
+        }
+        else {
+            swift = 0;
+        }
+        let rune = Math.floor(after - swift);
+        let ret = base * (100 + totem + leader) / 100 + swift + rune;
+        ret = Math.ceil(ret);
+        setVal(info, 'sum', ret);
+        return ret;
+    }
+    // 0~length-1까지 val을 더함
+    function add_to_array_eles(array, length, val) {
+        for (let i = 0; i < length; i++) {
+            array[i] += val;
+        }
+    }
+    function calc_tics(info) {
+        let is_speedUp = false;
+        let tic_per = getIntVal(document, 'tic') / 100;
+        let speeds = [];
+        let gauge_ups = [];
+        let whos_turn = [];
+        for (let i = 0; i < max_member; i++) {
+            speeds[i] = get_sum(info[i]);
+            gauge_ups[i] = getIntVal(info[i], 'gauge');
+        }
+        gauge_ups[max_member] = 0;
+        speeds[max_member] = speeds[0];
+        //now_gauge[tic][n]=gauge
+        let now_gauge = [[0, 0, 0, 0, 0]];
+        for (let i = 1; i <= max_tic; i++) {
+            let max = 0, m_idx = 0;
+            now_gauge[i] = [];
+            //게이지 갱신
+            for (let m = 0; m <= max_member; m++) {
+                now_gauge[i][m] = now_gauge[i - 1][m]
+            }
+            //게이지 업 했는지?
+            if (whos_turn[i - 1] != undefined) {
+                now_gauge[i][whos_turn[i - 1]] = 0;
+                add_to_array_eles(now_gauge[i], max_member, gauge_ups[whos_turn[i - 1]]);
+                gauge_ups[whos_turn[i - 1]] = 0;
+            }
+            //자연게이지
+            for (let m = 0; m < max_member; m++) {
+                //TODO : 속업에 대해서도 고려해야함
+                now_gauge[i][m] += (is_speedUp ? Math.ceil(speeds[m] * 1.3) : speeds[m]) * tic_per;
+            }
+            //적은 속업 감안 x
+            now_gauge[i][max_member] += speeds[max_member] * tic_per;
+
+            //게이지 가장 높은 애 탐색
+            for (let member = 0; member <= max_member; member++) {
+                if (now_gauge[i][member] > max) {
+                    max = now_gauge[i][member];
+                    m_idx = member;
+                }
+            }
+            if (max >= 100) {
+                //m_idx가 턴잡음
+                whos_turn[i] = m_idx;
+                if (m_idx != max_member && getVal(info[m_idx], 'is_speedUp')) {
+                    is_speedUp = true;
+                }
+            }
+        }
+        return [now_gauge, whos_turn];
+    }
+    function print_tics(now_gauge, whos_turn, mob_name) {
+        let output_div = document.getElementById('output');
+        let output = '<table><tr><td></td>';
+        for (let i = 0; i <= max_member; i++) {
+            output += '<td>' + mob_name[i] + '</td>';
+        }
+        output += '</tr>';
+        for (let i = 1; i <= max_tic; i++) {
+            output += '<tr><td>' + i + '틱</td>';
+            for (let m = 0; m <= max_member; m++) {
+                output += '<td' + ((whos_turn[i] == m) ? ' class="red"' : '') + '>' + now_gauge[i][m].toFixed(2) + '</td>';
+            }
+            output += '</tr>';
+        }
+        output += "</table><p>";
+        for (let i = 1; i < max_tic; i++) {
+            if (whos_turn[i] == undefined) continue;
+            let t = whos_turn[i]
+            output += '<span class="' + (t == max_member ? 'green' : 'red') + '">' + mob_name[t] + '</span>->';
+        }
+        output += "순으로 이어받습니다.</p>";
+        output_div.innerHTML = output;
+    }
+    let totem = NaN;
+    let leader = NaN;
+    function calc() {
+        totem = getIntVal(document, 'totem');
+        leader = getIntVal(document, 'leader');
+        let mob_name = [];
+        let info = document.getElementsByClassName("monster_info");
+        for (let i = 0; i < max_member; i++) {
+            mob_name[i] = getVal(info[i], 'mob_name');
+        }
+        mob_name[max_member] = "적 선턴잡이";
+        result_pair = calc_tics(info);
+        print_tics(result_pair[0], result_pair[1], mob_name);
+    }
+</script>
+<script>
+    function main() {
+        make_inputs();
+    }
+    main();
+</script>
+
+</html>
