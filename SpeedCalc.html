@@ -147,10 +147,13 @@
     <section>
         <table>
             <tr>
+                <td>계산할 틱 수 <input type="number" class="tic_count" value="10"/>회</td>
+            </tr>
+            <tr>
                 <td>틱당 수치 <input type="number" class='tic' value='7' />%</td>
             </tr>
             <tr>
-                <td>공속 토템 <input type="number" class="totem" />%</td>
+                <td>공속 토템 <input type="number" class="totem" value='15'/>%</td>
             </tr>
             <tr>
                 <td>공속 리더 <input type="number" class="leader" />%</td>
@@ -167,7 +170,13 @@
     </section>
 </body>
 <script>
-    const max_tic = 10;
+    var max_tic;
+    function getFloatVal(parent, id) {
+        let tmp = getVal(parent, id);
+        tmp = parseFloat(tmp);
+        if (isNaN(tmp)) return 0;
+        return tmp;
+    }
     function getIntVal(parent, id) {
         let tmp = getVal(parent, id);
         tmp = parseInt(tmp);
@@ -177,7 +186,7 @@
     function getVal(parent, id) {
         let tmp = parent.getElementsByClassName(id)[0];
         if (tmp.type == "button") {
-            return tmp.value[0] == '미'?false:true;
+            return tmp.min == 1;
         }
         return tmp.value;
     }
@@ -186,20 +195,21 @@
         tmp.innerHTML = value;
     }
     const max_member = 4;
-    function button_click(obj) {
-        if(obj.value[0] =="미"){
-            obj.value = obj.value.substring(1);
-            obj.classList.toggle("white_button");
-            obj.classList.toggle("green_button");
+    function button_click(obj, positive, negative) {
+        if(obj.value == positive){
+            obj.value = negative;
+            obj.min = 0;
         }
         else{
-            obj.value = "미"+obj.value;
+            obj.value = positive;
+            obj.min = 1;
+        }
             obj.classList.toggle("white_button");
             obj.classList.toggle("green_button");
-        }
     }
     function make_inputs() {
         let struct = document.getElementById("input_struct");
+        let seperator = [["존재", "미존재"],["착용", "미착용"]];
         for (let i = 1; i <= max_member; i++) {
             let input_tag =
                 '<span class="monster_info col-3">' +
@@ -218,12 +228,12 @@
                 '<td><input type="number" class="gauge" placeholder="증가량%"/></td>' +
                 '</tr>' +
                 '<tr>' +
-                '<td>신속룬 착용 : </td>' +
-                '<td><input type="button" class="is_swift white_button" onclick="button_click(this)" value="미착용"/></td>' +
+                '<td>속업 버프 : </td>' +
+                '<td><input type="button" class="is_speedUp white_button" value="'+seperator[0][1]+'" min="0"/></td>' +
                 '</tr>' +
                 '<tr>' +
-                '<td>속업 버프 : </td>' +
-                '<td><input type="button" class="is_speedUp white_button" onclick="button_click(this)" value="미적용"/></td>' +
+                '<td>신속룬 착용 : </td>' +
+                '<td><input type="button" class="is_swift white_button" value="'+seperator[1][1]+'" min="0"/></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>합 속도 :</td>' +
@@ -233,10 +243,17 @@
                 '</span>';
             struct.innerHTML += input_tag;
         }
+        let info = document.getElementsByClassName("monster_info");
+        for(let i =0; i<max_member; i++){
+            let speedUp = info[i].getElementsByClassName("is_speedUp")[0];
+            speedUp.addEventListener("click", function(){button_click(speedUp, seperator[0][0], seperator[0][1])});
+            let swift = info[i].getElementsByClassName("is_swift")[0];
+            swift.addEventListener("click", function(){button_click(swift, seperator[1][0], seperator[1][1])});
+        }
     }
     function get_sum(info) {
-        let base = getIntVal(info, 'base');
-        let after = getIntVal(info, 'after');
+        let base = getFloatVal(info, 'base');
+        let after = getFloatVal(info, 'after');
         let swift = getVal(info, 'is_swift');
         if (swift) {
             swift = base * 0.25;
@@ -258,13 +275,13 @@
     }
     function calc_tics(info) {
         let is_speedUp = false;
-        let tic_per = getIntVal(document, 'tic') / 100;
+        let tic_per = getFloatVal(document, 'tic') / 100;
         let speeds = [];
         let gauge_ups = [];
         let whos_turn = [];
         for (let i = 0; i < max_member; i++) {
             speeds[i] = get_sum(info[i]);
-            gauge_ups[i] = getIntVal(info[i], 'gauge');
+            gauge_ups[i] = getFloatVal(info[i], 'gauge');
         }
         gauge_ups[max_member] = 0;
         speeds[max_member] = speeds[0];
@@ -334,8 +351,9 @@
     let totem = NaN;
     let leader = NaN;
     function calc() {
-        totem = getIntVal(document, 'totem');
-        leader = getIntVal(document, 'leader');
+        max_tic = getIntVal(document, 'tic_count');
+        totem = getFloatVal(document, 'totem');
+        leader = getFloatVal(document, 'leader');
         let mob_name = [];
         let info = document.getElementsByClassName("monster_info");
         for (let i = 0; i < max_member; i++) {
