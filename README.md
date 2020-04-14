@@ -31,6 +31,14 @@
 </details>
  </section>
  <section>
+<br/>
+<h3><a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank">서머너즈워 중턴 계산기 링크</a></h3>
+<details>
+  <summary>중턴 계산기 설명 Click</summary>
+  <h4>사용법</h4>
+</details>
+ </section>
+ <section>
 <h3><a href="https://veev23.github.io/2018-swar/defInversion" target="_blank">서머너즈워 방어력 역산기 링크</a></h3>
 <details>
   <summary>방어력 역산기 설명 Click</summary>
