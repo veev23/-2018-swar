@@ -27,10 +27,9 @@
 <p>참고 1 : 입력칸에 아무 수도 적지 않으면 0으로 계산됩니다.</p>
 <p>참고 2 : 결과값에 마우스를 대면 룬을 바꾸기 전 데미지도 표시됩니다.(룬 강화는 다 같이 적용됩니다.)</p>
 <p>참고 3 : 카이로스 등에서의 데미지를 알고 싶은데 길드레벨에 의한 %증가는 입력칸이 없으므로 다른 데에서 +해주시면 됩니다.</p>
-  <p>참고 4 : 몬스터 목록은 제가 직접 업데이트 하는 것이므로 최근에 데미지 상향을 받은 몬스터는 swarfarm.com 등에서 정확한 계수를 확인해주세요..</p> 
 </details>
  </section>
- <br/>
+ 
  <section>
 <h3><a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank">서머너즈워 중턴 계산기 링크</a></h3>
 <details>
@@ -49,7 +48,7 @@
   <p>계산 결과 : 표의 행에서 빨갛게 표시되었을 때 턴을 잡는다.</p>
 </details>
  </section>
- <br/>
+ 
  <section>
 <h3><a href="https://veev23.github.io/2018-swar/defInversion" target="_blank">서머너즈워 방어력 역산기 링크</a></h3>
 <details>
