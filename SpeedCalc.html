@@ -5,8 +5,11 @@
     <title>서머너즈워 중턴 계산기</title>
     <style>
         header,
-        p {
+        p, .center {
             text-align: center;
+        }
+        .left{
+            text-align: left;
         }
 
         button:hover {
@@ -14,7 +17,7 @@
             background-color: green;
         }
 
-        button{
+        button {
             font-size: 16px;
             display: inline-block;
             border: 1px solid green;
@@ -26,7 +29,7 @@
             transition: 0.2s;
             width: 100%;
         }
-        
+
         .white_button {
             font-size: 16px;
             display: inline-block;
@@ -36,6 +39,7 @@
             text-decoration: none;
             width: 100%;
         }
+
         .green_button {
             font-size: 16px;
             display: inline-block;
@@ -45,7 +49,7 @@
             text-decoration: none;
             width: 100%;
         }
-        
+
         .red {
             color: red;
             font-weight: bold;
@@ -144,30 +148,43 @@
     <header>
         <h1>서머너즈워 중턴 계산기</h1>
     </header>
-    <section>
-        <table>
+    <section class="col-12">
+        <table class="col-4" id='rapid_list'>
+        </table>
+        <table class="col-8">
             <tr>
-                <td>계산할 틱 수 <input type="number" class="tic_count" value="10"/>회</td>
+                <td>계산할 틱 수 <input type="number" class="tic_count" value="10" />회</td>
             </tr>
             <tr>
                 <td>틱당 수치 <input type="number" class='tic' value='7' />%</td>
             </tr>
             <tr>
-                <td>공속 토템 <input type="number" class="totem" value='15'/>%</td>
+                <td>공속 토템 <input type="number" class="totem" value='15' />%</td>
             </tr>
             <tr>
                 <td>공속 리더 <input type="number" class="leader" />%</td>
             </tr>
             <table>
+                
     </section>
     <br />
-    <section>
+    <section class="col-12">
+        <p>배치 순서대로 놓아주세요.</p>
         <div id='input_struct'>
         </div>
     </section>
     <button onclick="calc()">계산</button>
-    <section id='output'>
+    <section class='col-12' id='output'>
     </section>
+    <section>
+    </section>
+    <footer class="col-12">
+        
+        　　　　　　　　　　마지막 수정일 : 2020-04-18<br />
+        <a href="https://veev23.github.io/2018-swar/">설명 페이지</a>
+        <br />
+        <br />
+    </footer>
 </body>
 <script>
     var max_tic;
@@ -196,20 +213,20 @@
     }
     const max_member = 4;
     function button_click(obj, positive, negative) {
-        if(obj.value == positive){
+        if (obj.value == positive) {
             obj.value = negative;
             obj.min = 0;
         }
-        else{
+        else {
             obj.value = positive;
             obj.min = 1;
         }
-            obj.classList.toggle("white_button");
-            obj.classList.toggle("green_button");
+        obj.classList.toggle("white_button");
+        obj.classList.toggle("green_button");
     }
     function make_inputs() {
         let struct = document.getElementById("input_struct");
-        let seperator = [["존재", "미존재"],["착용", "미착용"]];
+        let seperator = [["존재", "미존재"], ["착용", "미착용"]];
         for (let i = 1; i <= max_member; i++) {
             let input_tag =
                 '<span class="monster_info col-3">' +
@@ -229,11 +246,11 @@
                 '</tr>' +
                 '<tr>' +
                 '<td>속업 버프 : </td>' +
-                '<td><input type="button" class="is_speedUp white_button" value="'+seperator[0][1]+'" min="0"/></td>' +
+                '<td><input type="button" class="is_speedUp white_button" value="' + seperator[0][1] + '" min="0"/></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>신속룬 착용 : </td>' +
-                '<td><input type="button" class="is_swift white_button" value="'+seperator[1][1]+'" min="0"/></td>' +
+                '<td><input type="button" class="is_swift white_button" value="' + seperator[1][1] + '" min="0"/></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>합 속도 :</td>' +
@@ -244,12 +261,19 @@
             struct.innerHTML += input_tag;
         }
         let info = document.getElementsByClassName("monster_info");
-        for(let i =0; i<max_member; i++){
+        for (let i = 0; i < max_member; i++) {
             let speedUp = info[i].getElementsByClassName("is_speedUp")[0];
-            speedUp.addEventListener("click", function(){button_click(speedUp, seperator[0][0], seperator[0][1])});
+            speedUp.addEventListener("click", function () { button_click(speedUp, seperator[0][0], seperator[0][1]) });
             let swift = info[i].getElementsByClassName("is_swift")[0];
-            swift.addEventListener("click", function(){button_click(swift, seperator[1][0], seperator[1][1])});
+            swift.addEventListener("click", function () { button_click(swift, seperator[1][0], seperator[1][1]) });
         }
+    }
+    function predict_speed(base, sum_speed) {
+        if(sum_speed == undefined) return 0;
+        let swift = base * 0.25;
+        let rune = Math.floor(sum_speed - (base * (100 + totem + leader) / 100 + swift));
+        let after = Math.ceil(rune + swift);
+        return after;
     }
     function get_speed(info) {
         let base = getFloatVal(info, 'base');
@@ -273,12 +297,39 @@
             array[i] += val;
         }
     }
-    function get_max(array, length){
+    function get_max(array, length) {
         let ret = array[0];
-        for(let i=1; i<length; i++){
+        for (let i = 1; i < length; i++) {
             ret = Math.max(ret, array[i]);
         }
         return ret;
+    }
+    //다른 선턴잡이들 경우는 뒷속 몇?
+    function calc_rapid_list(sum_speed) {
+        let table = document.getElementById("rapid_list")
+        table.innerHTML ="<caption>선턴잡이들 뒷속은?(신속기준)</caption><tr><th>몹이름</th><th>기본속</th><th>뒷속</th></tr>";
+        const rapid = [
+            ["풍극지", 96],
+            ["물브라", 106],
+            ["암해적", 108],
+            ["풍그리폰", 111],
+            ["풍해왕", 116],
+            ["암선인", 118],
+            ["빛하피", 120]];
+        for (const e of rapid) {
+            let tr = document.createElement("tr");
+            let td = document.createElement("td");
+            td.innerHTML = e[0];
+            tr.appendChild(td);
+            td = document.createElement("td");
+            td.innerHTML = e[1];
+            tr.appendChild(td);
+            td = document.createElement("td");
+            let res = predict_speed(e[1], sum_speed);
+            td.innerHTML = res;
+            tr.appendChild(td);
+            table.appendChild(tr);
+        }
     }
     function calc_tics(info) {
         let is_speedUp = false;
@@ -292,6 +343,9 @@
         }
         gauge_ups[max_member] = 0;
         speeds[max_member] = get_max(speeds, max_member);
+
+        calc_rapid_list(speeds[max_member]);
+
         //now_gauge[tic][n]=gauge
         let now_gauge = [[0, 0, 0, 0, 0]];
         for (let i = 1; i <= max_tic; i++) {
@@ -374,6 +428,7 @@
 <script>
     function main() {
         make_inputs();
+        calc_rapid_list();
     }
     main();
 </script>
