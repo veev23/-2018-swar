@@ -251,7 +251,7 @@
             swift.addEventListener("click", function(){button_click(swift, seperator[1][0], seperator[1][1])});
         }
     }
-    function get_sum(info) {
+    function get_speed(info) {
         let base = getFloatVal(info, 'base');
         let after = getFloatVal(info, 'after');
         let swift = getVal(info, 'is_swift');
@@ -273,6 +273,13 @@
             array[i] += val;
         }
     }
+    function get_max(array, length){
+        let ret = array[0];
+        for(let i=1; i<length; i++){
+            ret = Math.max(ret, array[i]);
+        }
+        return ret;
+    }
     function calc_tics(info) {
         let is_speedUp = false;
         let tic_per = getFloatVal(document, 'tic') / 100;
@@ -280,11 +287,11 @@
         let gauge_ups = [];
         let whos_turn = [];
         for (let i = 0; i < max_member; i++) {
-            speeds[i] = get_sum(info[i]);
+            speeds[i] = get_speed(info[i]);
             gauge_ups[i] = getFloatVal(info[i], 'gauge');
         }
         gauge_ups[max_member] = 0;
-        speeds[max_member] = speeds[0];
+        speeds[max_member] = get_max(speeds, max_member);
         //now_gauge[tic][n]=gauge
         let now_gauge = [[0, 0, 0, 0, 0]];
         for (let i = 1; i <= max_tic; i++) {
