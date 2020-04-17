@@ -30,6 +30,7 @@
   <p>참고 4 : 몬스터 목록은 제가 직접 업데이트 하는 것이므로 최근에 데미지 상향을 받은 몬스터는 swarfarm.com 등에서 정확한 계수를 확인해주세요..</p> 
 </details>
  </section>
+ <br/>
  <section>
 <h3><a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank">서머너즈워 중턴 계산기 링크</a></h3>
 <details>
@@ -48,6 +49,7 @@
   <p>계산 결과 : 표의 행에서 빨갛게 표시되었을 때 턴을 잡는다.</p>
 </details>
  </section>
+ <br/>
  <section>
 <h3><a href="https://veev23.github.io/2018-swar/defInversion" target="_blank">서머너즈워 방어력 역산기 링크</a></h3>
 <details>
