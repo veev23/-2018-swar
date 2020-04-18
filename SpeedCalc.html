@@ -64,7 +64,6 @@
             width: 100%;
             border: 1px solid grey;
             border-radius: 5px;
-            border-collapse: collapse;
         }
 
         tr:hover {
@@ -72,12 +71,15 @@
         }
 
         td {
+            width: auto;
+            max-width: 100px;
             text-align: center;
         }
 
-        input[type="number"] {
+        input[type="number"],input[type="text"] {
+            width: 100%;
+            max-width: 100px;
             font-size: 15px;
-            width: 100px;
         }
 
         [class*="col-"] {
@@ -260,7 +262,7 @@
             let input_tag =
                 '<span class="monster_info col-3">' +
                 '<table>' +
-                '<tr><td><input type="text" class="mob_name" value="' + i + '번째 몹"/></td><td></td></tr>' +
+                '<tr><td>몹 이름</td><td><input type="text" class="mob_name" value="' + i + '번째 몹"/></td></tr>' +
                 '<tr>' +
                 '<td>기본 공속 : </td>' +
                 '<td><input type="number" class="base" /></td>' +
@@ -283,7 +285,7 @@
                 '</tr>' +
                 '<tr>' +
                 '<td>적게이지업(응보) : </td>' +
-                '<td><input type="number" class="enemy_gauge" placeholder="공격 후 증가량%"/></td>' +
+                '<td><input type="number" class="enemy_gauge" placeholder="공격 후"/></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>합 속도 :</td>' +
