@@ -153,10 +153,13 @@
         </table>
         <table class="col-8">
             <tr>
-                <td>계산할 틱 수 <input type="number" class="tic_count" value="10" />회</td>
+                <td>계산할 틱 수 <input type="number" class="tic_count" value="10"/>회</td>
             </tr>
             <tr>
                 <td>틱당 수치 <input type="number" class='tic' value='7' />%</td>
+            </tr>
+            <tr>
+                <td><input id='show_tic_option' type='button' onclick="button_click(this, '턴 획득 틱만 보기', '모든 틱 보기');" class='white_button' value='모든 틱 보기' min='0'/></td>
             </tr>
             <tr>
                 <td>공속 토템 <input type="number" class="totem" value='15' />%</td>
@@ -164,6 +167,31 @@
             <tr>
                 <td>공속 리더 <input type="number" class="leader" />%</td>
             </tr>
+            <tr id='enemy_first'>
+                <td><input onclick="enemy_stat_active(this)" type='button' class='col-4 white_button' value='적 선턴 속도' min='0'/>
+                       
+                    <!-- getElementsByTag("span")으로 사용중 -->
+                    <span style="display: none;"><input type='number' placeholder="기본속"/>+<input type='number' placeholder="뒷속"/>=<input type='number' placeholder='합 속' disabled/></span>
+                <span>아군 선턴과 같게</span></td>
+            </tr>
+            <script>
+                let enemy_first = document.getElementById("enemy_first");
+                function enemy_stat_active(obj){
+                    const str = "적 선턴 속도";
+                    button_click(obj, str+" 커스텀", str);
+                    let childs = enemy_first.getElementsByTagName('span');
+                    let speed_input = childs[0];
+                    let same = childs[1];
+                    if(obj.min == '0'){
+                        speed_input.style.display = 'none';
+                        same.style.display = 'block';
+                    }
+                    else{
+                        speed_input.style.display = 'block';
+                        same.style.display = 'none';
+                    }
+                }
+            </script>
             <table>
                 
     </section>
@@ -176,12 +204,10 @@
     <button onclick="calc()">계산</button>
     <section class='col-12' id='output'>
     </section>
-    <section>
-    </section>
     <footer class="col-12">
         
-        　　　　　　　　　　마지막 수정일 : 2020-04-18<br />
-        <a href="https://veev23.github.io/">설명 페이지</a>
+        <a href="https://veev23.github.io/"><button>설명 페이지</button></a>
+        마지막 수정일 : 2020-04-18<br />
         <br />
         <br />
     </footer>
@@ -194,11 +220,14 @@
         if (isNaN(tmp)) return 0;
         return tmp;
     }
+    function inputParseInt(string){
+        let tmp = parseInt(string);
+        if(isNaN(tmp)) return 0;
+        return tmp;
+    }
     function getIntVal(parent, id) {
         let tmp = getVal(parent, id);
-        tmp = parseInt(tmp);
-        if (isNaN(tmp)) return 0;
-        return tmp;
+        return inputParseInt(tmp);
     }
     function getVal(parent, id) {
         let tmp = parent.getElementsByClassName(id)[0];
@@ -213,7 +242,7 @@
     }
     const max_member = 4;
     function button_click(obj, positive, negative) {
-        if (obj.value == positive) {
+        if (obj.min == '1') {
             obj.value = negative;
             obj.min = 0;
         }
@@ -241,7 +270,7 @@
                 '<td><input type="number" class="after" /></td>' +
                 '</tr>' +
                 '<tr>' +
-                '<td>게이지: </td>' +
+                '<td>아군게이지업 : </td>' +
                 '<td><input type="number" class="gauge" placeholder="증가량%"/></td>' +
                 '</tr>' +
                 '<tr>' +
@@ -251,6 +280,10 @@
                 '<tr>' +
                 '<td>신속룬 착용 : </td>' +
                 '<td><input type="button" class="is_swift white_button" value="' + seperator[1][1] + '" min="0"/></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td>적게이지업(응보) : </td>' +
+                '<td><input type="number" class="enemy_gauge" placeholder="공격 후 증가량%"/></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>합 속도 :</td>' +
@@ -275,11 +308,17 @@
         let after = Math.ceil(rune + swift);
         return after;
     }
-    function get_speed(info) {
+    function get_speed_by(info){
         let base = getFloatVal(info, 'base');
         let after = getFloatVal(info, 'after');
-        let swift = getVal(info, 'is_swift');
-        if (swift) {
+        let is_swift = getVal(info, 'is_swift');
+        let ret = get_speed(base, after, is_swift);
+        setVal(info, 'sum', ret);
+        return ret;
+    }
+    function get_speed(base, after, is_swift) {
+        let swift;
+        if (is_swift) {
             swift = base * 0.25;
         }
         else {
@@ -288,7 +327,6 @@
         let rune = Math.floor(after - swift);
         let ret = base * (100 + totem + leader) / 100 + swift + rune;
         ret = Math.ceil(ret);
-        setVal(info, 'sum', ret);
         return ret;
     }
     // 0~length-1까지 val을 더함
@@ -307,7 +345,7 @@
     //다른 선턴잡이들 경우는 뒷속 몇?
     function calc_rapid_list(sum_speed) {
         let table = document.getElementById("rapid_list")
-        table.innerHTML ="<caption>선턴잡이들 뒷속은?(신속기준)</caption><tr><th>몹이름</th><th>기본속</th><th>뒷속</th></tr>";
+        table.innerHTML ="<caption>적 선턴잡이들 뒷속은?(신속기준)</caption><tr><th>몹이름</th><th>기본속</th><th>뒷속</th></tr>";
         const rapid = [
             ["풍극지", 96],
             ["물브라", 106],
@@ -331,19 +369,35 @@
             table.appendChild(tr);
         }
     }
+    const scale = 1000;
     function calc_tics(info) {
         let is_speedUp = false;
-        let tic_per = getFloatVal(document, 'tic') / 100;
+        let tic_per = scale * getFloatVal(document, 'tic') / 100;
         let speeds = [];
         let gauge_ups = [];
+        let enemy_gauge_ups = [];
         let whos_turn = [];
-        for (let i = 0; i < max_member; i++) {
-            speeds[i] = get_speed(info[i]);
-            gauge_ups[i] = getFloatVal(info[i], 'gauge');
-        }
+        
         gauge_ups[max_member] = 0;
-        speeds[max_member] = get_max(speeds, max_member);
+        enemy_gauge_ups[max_member] = 0;
 
+        for (let i = 0; i < max_member; i++) {
+            speeds[i] = get_speed_by(info[i]);
+            gauge_ups[i] = getFloatVal(info[i], 'gauge') * scale;
+            enemy_gauge_ups[i] = getFloatVal(info[i], 'enemy_gauge') * scale;
+        }
+        //적 공격속도 세팅
+        if(enemy_first.getElementsByTagName('input')[0].min =='0'){
+        speeds[max_member] = get_max(speeds, max_member);
+        }
+        else{
+            let enemy_inputs = enemy_first.getElementsByTagName("span")[0].getElementsByTagName('input');
+            let e_base = inputParseInt(enemy_inputs[0].value);
+            let e_after = inputParseInt(enemy_inputs[1].value);
+            //적 공격속도 커스텀인 경우 신속룬 영향 x라고 가정
+            speeds[max_member] = get_speed(e_base, e_after, false);
+            enemy_inputs[2].value = speeds[max_member];
+        }
         calc_rapid_list(speeds[max_member]);
 
         //now_gauge[tic][n]=gauge
@@ -358,8 +412,12 @@
             //게이지 업 했는지?
             if (whos_turn[i - 1] != undefined) {
                 now_gauge[i][whos_turn[i - 1]] = 0;
+                //아군 게이지 업
                 add_to_array_eles(now_gauge[i], max_member, gauge_ups[whos_turn[i - 1]]);
                 gauge_ups[whos_turn[i - 1]] = 0;
+                //적군 게이지 업
+                now_gauge[i][max_member] += enemy_gauge_ups[whos_turn[i-1]];
+                enemy_gauge_ups[whos_turn[i-1]] = 0;
             }
             //자연게이지
             for (let m = 0; m < max_member; m++) {
@@ -376,7 +434,7 @@
                     m_idx = member;
                 }
             }
-            if (max >= 100) {
+            if (max >= 100*scale) {
                 //m_idx가 턴잡음
                 whos_turn[i] = m_idx;
                 if (m_idx != max_member && getVal(info[m_idx], 'is_speedUp')) {
@@ -387,6 +445,9 @@
         return [now_gauge, whos_turn];
     }
     function print_tics(now_gauge, whos_turn, mob_name) {
+        let show_tic_option = inputParseInt(document.getElementById('show_tic_option').min);
+        const ALL = 0;
+        
         let output_div = document.getElementById('output');
         let output = '<table><tr><td></td>';
         for (let i = 0; i <= max_member; i++) {
@@ -394,14 +455,15 @@
         }
         output += '</tr>';
         for (let i = 1; i <= max_tic; i++) {
+            if(show_tic_option != ALL && whos_turn[i] == undefined) continue;
             output += '<tr><td>' + i + '틱</td>';
             for (let m = 0; m <= max_member; m++) {
-                output += '<td' + ((whos_turn[i] == m) ? ' class="red"' : '') + '>' + now_gauge[i][m].toFixed(2) + '</td>';
+                output += '<td' + ((whos_turn[i] == m) ? ' class="red"' : '') + '>' + (now_gauge[i][m]/scale).toFixed(2) + '</td>';
             }
             output += '</tr>';
         }
         output += "</table><p>";
-        for (let i = 1; i < max_tic; i++) {
+        for (let i = 1; i <= max_tic; i++) {
             if (whos_turn[i] == undefined) continue;
             let t = whos_turn[i]
             output += '<span class="' + (t == max_member ? 'green' : 'red') + '">' + mob_name[t] + '</span>->';
@@ -413,6 +475,9 @@
     let leader = NaN;
     function calc() {
         max_tic = getIntVal(document, 'tic_count');
+        if(max_tic > 300 && !confirm("리스트가 길어요.")){
+            return;
+        }
         totem = getFloatVal(document, 'totem');
         leader = getFloatVal(document, 'leader');
         let mob_name = [];
