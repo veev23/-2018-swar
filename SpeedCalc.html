@@ -4,7 +4,7 @@
 <head>
     <title>서머너즈워 중턴 계산기</title>
     <link rel="shortcut icon" href="favicon.ico">
-    <style>
+<style>
         header,
         p, .center {
             text-align: center;
@@ -12,18 +12,31 @@
         .left{
             text-align: left;
         }
-
-        button:hover {
+        a:active {
             color: white;
             background-color: green;
         }
 
-        button {
+
+        a span.link {
+            transition: 0.2s;
+        }
+
+        span.link:after {
+            content: '>>';
+            opacity: 0;
+            transition: 0.2s;
+        }
+
+        a:hover span.link:after {
+            opacity: 1;
+        }
+
+        a, button {
             font-size: 16px;
             display: inline-block;
             border: 1px solid green;
             padding: 6px 13px;
-            margin: 8px 0px;
             color: green;
             background-color: white;
             text-decoration: none;
@@ -145,6 +158,7 @@
             }
         }
     </style>
+   
 </head>
 
 <body onkeydown="if(event.keyCode == 13){ calc();}">
@@ -207,11 +221,16 @@
     <button onclick="calc()">계산</button>
     <section class='col-12' id='output'>
     </section>
+    <hr/>
     <footer class="col-12">
-        
-        <a href="https://veev23.github.io/"><button>설명 페이지</button></a>
-        마지막 수정일 : 2020-04-18<br />
-        <br />
+        <a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank"
+            style="width:100%;text-align:center; margin:5px 0">
+            <span class="link">데미지 계산기</span>
+        </a>
+        <a href="https://veev23.github.io/" target="_blank"
+            style="width:100%;text-align:center; margin:5px 0">
+            <span class="link">설명 페이지</span></a>
+        <p>마지막 수정일 : 2020-04-18</p>
         <br />
     </footer>
 </body>
@@ -500,5 +519,4 @@
     }
     main();
 </script>
-
 </html>
