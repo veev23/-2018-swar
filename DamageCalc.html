@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js"></script>
     <title>서머너즈워 데미지 계산기</title>
-    <link rel="shortcut icon" href="favicon.ico">
     <style>
         body {
             overflow-x: auto;
@@ -57,21 +57,20 @@
         }
 
         select {
-            margin: 10px 15px 10px 15px;
+            margin: 8px;
             padding: 5px 0;
             transform: scale(1.1);
         }
 
         [type="checkbox"] {
             transform: scale(2);
-            margin: 10px 0 10px 10px;
+            margin: 8px;
         }
 
         table {
-            width: 95%;
+            width: 100%;
             border: 1px solid grey;
             border-radius: 5px;
-            border-collapse: collapse;
         }
 
         tr:hover {
@@ -80,62 +79,8 @@
 
         input[type="number"] {
             font-size: 15px;
-            width: 100px;
-        }
-
-        .header {
-            text-align: center;
-        }
-
-        footer {
-            padding: 20px 0 40px 0;
-        }
-
-        [id="view_recode"] {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-        }
-        [id="copy_clipboard"] {
-            position: fixed;
-            bottom: 10px;
-            left: 150px;
-        }
-        a,
-        [type="button"] {
-            font-size: 16px;
-            display: inline-block;
-            border: 1px solid green;
-            padding: 6px 13px;
-            margin: 8px;
-            color: green;
-            background-color: white;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-
-        label {
-            font-size: 16px;
-            display: inline-block;
-            border: 1px solid green;
-            padding: 2px 10px;
-            margin: 1px;
-            color: green;
-            background-color: white;
-            text-decoration: none;
-            transition: 0.2s;
-        }
-
-        a:hover,
-        [type="button"]:hover,
-        label:hover {
-            color: white;
-            background-color: green;
-        }
-
-        a:active {
-            color: white;
-            background-color: green;
+            width: auto;
+            max-width: 85px;
         }
 
         input[type="number"],
@@ -151,6 +96,93 @@
             outline: none;
             border: 2px solid #555;
         }
+
+        .white_button {
+            text-align: center;
+            min-height: 30px;
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            color: green;
+            background-color: white;
+            text-decoration: none;
+            width: 100%;
+        }
+
+        .green_button {
+            text-align: center;
+            min-height: 30px;
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid darkgrey;
+            color: white;
+            background-color: green;
+            text-decoration: none;
+            width: 100%;
+        }
+        .white_button:hover{
+            background-color: darkslategray;
+            color:honeydew;
+        }
+        .toggle_button:active{
+            background-color: darkseagreen;
+        }
+        .header {
+            text-align: center;
+        }
+
+        footer {
+            padding: 20px 0 40px 0;
+        }
+
+        [id="view_recode"] {
+            position: fixed;
+            bottom: 10px;
+            left: 150px;
+        }
+
+        [id="copy_clipboard"] {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        [type='button'],
+        a,
+        button {
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            padding: 6px 13px;
+            color: green;
+            background-color: white;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        label {
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            padding: 2px 10px;
+            color: green;
+            background-color: white;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+
+        a:hover,
+        button:hover,
+        [type='button']:hover{
+            color: white;
+            background-color: green;
+        }
+
+        a:active {
+            color: white;
+            background-color: green;
+        }
+
 
         a span.link {
             transition: 0.2s;
@@ -187,9 +219,8 @@
             border: 2px solid black;
             border-radius: 5px;
             padding: 50px 10px 10px 15px;
-            margin: 0 10% 0 10%;
             position: fixed;
-            width: 80%;
+            width: 100%;
             top: 10%;
             height: 400px;
             min-width: 360px;
@@ -268,7 +299,7 @@
         }
 
         .col-4 {
-            width: 35%;
+            width: 33.33%;
         }
 
         .col-5 {
@@ -280,7 +311,7 @@
         }
 
         .col-7 {
-            width: 60%;
+            width: 58.33%;
         }
 
         .col-8 {
@@ -359,13 +390,12 @@ else if (event.keyCode == 27) {
         <form id="reset_form">
             <div class="row">
                 <div class="col-7 main">
-                    <table>
+                    <table id='stat_info_table'>
                         <tr>
                             <th><a onclick='load_monster_info(this)'>자동세팅<br>정보 불러오기<br>[Click]</a></th>
                             <td>
                                 <input id="monster-name" type="text" list="all-multiplier"
-                                    onchange='change_multiplier_select()'
-                                    onclick='this.value=""'>
+                                    onchange='change_multiplier_select()' onclick='this.value=""'>
                                 <datalist id='all-multiplier'>
                                 </datalist>
                                 <select id="multi_selector_en" style="width:200px;" onchange="set_multiplier(this)">
@@ -429,7 +459,7 @@ else if (event.keyCode == 27) {
                                 }
                                 let filename = "https://veev23.github.io/2018-swar/monster_info.txt";
                                 function load_monster_info(obj) {
-                                    if(monster_list.length > 0) {
+                                    if (monster_list.length > 0) {
                                         return;
                                     }
                                     alert("어떤 몹들의 계수들은 갱신이 되지 않아 현재의 계수와 다를 수 있음에 유의해주세요.(ex:닌자류 평타계수)\n나중에 시간나면 다른 곳에서 찾아올게요..");
@@ -443,92 +473,56 @@ else if (event.keyCode == 27) {
                         <tr>
                             <th>자동세팅</th>
                             <td>
-                                <select id="auto_multi_select" onchange="multiChanger()">
-                                    <option>등록된 계수 선택</option>
-                                    <option value="joker">풍조커 3스(루쉔)</option>
-                                    <option value="copper">풍리빙 3스(코퍼)</option>
-                                    <option value="bulldozer">불프랑켄 3스(불도저)</option>
-                                    <option value="valkyrie">풍발키리 3스(카타리나)</option>
-                                    <option value="imp">빛임프 3스(타루)</option>
-                                    <option value="highE">불하엘 2스(칼리)</option>
-                                    <option value="balloon">풍선인 3스(풍백)</option>
-                                    <option value="sniper">물스나 3스(코버넌트)</option>
-                                    <option value="panda">풍팬더 평타(풍연)</option>
+                                <select id="auto_multi_select" onchange="multiAutoSelect(this)">
                                 </select>
                                 <span id="auto_setting_alert">자동세팅은 필수사항 아님</span>
                             </td>
                         </tr>
-                        <tr>
-                            <th>체력</th>
-                            <td>
-                                <input type="number" id="hp_base" name="hp_base" placeholder="기본체력" /> +
-                                <input type="number" id="hp_rune" name="hp_rune" title="룬으로 오르는 수치를 입력하세요."
-                                    placeholder="추가수치" />+
-                                <input type="number" id="hp_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';">
-                                = <span class="tool_container"><span id="hp_sum"></span><span
-                                        class="tool_text healthpoint"></span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>공격력</th>
-                            <td>
-                                <input type="number" id="atk_base" name="atk_base" placeholder="기본공격력" /> +
-                                <input type="number" id="atk_rune" name="atk_rune" title="룬으로 오르는 수치를 입력하세요."
-                                    placeholder="추가수치" />+
-                                <input type="number" id="atk_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';"> =
-                                <span class="tool_container">
-                                    <span id="atk_sum"></span><span class="tool_text attack"></span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>방어력</th>
-                            <td>
-                                <input type="number" id="def_base" name="def_base" placeholder="기본방어력" /> +
-                                <input type="number" id="def_rune" name="def_rune" title="룬으로 오르는 수치를 입력하세요."
-                                    placeholder="추가수치" />+
-                                <input type="number" id="def_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';"> =
-                                <span class="tool_container">
-                                    <span id="def_sum"></span><span class="tool_text defense"></span></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>공격속도</th>
-                            <td>
-                                <input type="number" id="spd_base" name="spd_base" placeholder="기본공속" /> +
-                                <input type="number" id="spd_rune" name="spd_rune" title="룬으로 오르는 수치를 입력하세요."
-                                    placeholder="추가수치" />+
-                                <input type="number" id="spd_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';"> =
-                                <span class="tool_container">
-                                    <span id="spd_sum"></span><span class="tool_text speed"></span>
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>치명확률</th>
-                            <td><input type="number" id="cri_rate" name="cri_rate" value="85"
-                                    onchange="rateConfirm('cri_rate', 15, 100)"></td>
-                        </tr>
-                        <tr>
-                            <th>치명피해</th>
-                            <td>
-                                <input type="number" id="cri" name="cri" />+
-                                <input type="number" id="cri_rune2" onchange="changeTextColorByNumber(this)" placeholder="룬변경시" onmousedown="this.value='';">=
-                                <span class="tool_container">
-                                    <span id="cri_sum"></span>
-                                    <span class="tool_text cri"></span>
-                                </span>
-                            </td>
-                        </tr>
                     </table>
                     <script>
+                        const stat_info_table = document.getElementById('stat_info_table');
+                        const STAT_HP = "hp"; const STAT_HP_IDX = 0;
+                        const STAT_ATK = "atk"; const STAT_ATK_IDX = 1;
+                        const STAT_DEF = "def"; const STAT_DEF_IDX = 2;
+                        const STAT_SPD = "spd"; const STAT_SPD_IDX = 3;
+                        const STAT_CD = "cd"; const STAT_CD_IDX = 4;
+
+                        const statClassName = ['hp', 'atk', 'def', 'spd', 'cd'];
+                        const strList = ["체력", "공격력", "방어력", "공격속도", "치명피해"];
+
+                        function make_stat_info(parent, name, className) {
+                            let blankstr = '';
+                            let row = document.createElement('tr');
+                            row.classList.add(className);
+                            row.innerHTML = '<th>' + name + '</th>';
+                            let td = document.createElement('td');
+                            td.innerHTML = '<input type="number" class="base" id="base' + className + '" placeholder="기본스텟">+';
+                            if (name != "치명피해")
+                                td.innerHTML += '<input type="number" class="rune" id="rune' + className + '"'
+                                    + 'title="룬으로 오르는 수치를 입력하세요." placeholder="추가수치"> + ';
+                            td.innerHTML += '<input type="number" class="disp" id="disp' + className + '"'
+                                + 'onchange="changeTextColorByNumber(this)" placeholder="룬변경시" '
+                                + 'onmousedown="this.value=' + blankstr + ';">'
+                                + '= <span class="tool_container"><span class="sum"></span>'
+                                + '<span class="tool_text"></span></span></td>';
+                            row.appendChild(td);
+                            parent.appendChild(row);
+                            return row;
+                        }
+                        var stat_infos = [];
+                        function make_stat_info_table() {
+                            for (i in strList) {
+                                stat_infos[i] = make_stat_info(stat_info_table, strList[i], statClassName[i]);
+                            }
+                        }
                     </script>
                     <label>룬 강화 설정
-                        <input type="checkbox" id="enchant_setting_check" onchange="if(!checked){
-                                document.getElementById('rune_enchant').style.display='none';
+                        <input type="checkbox" id="enchant_chk" onchange="if(!checked){
+                                rune_enchant_table.style.display='none';
                                 document.getElementById('rune_all_check').checked=false;
-                                for(let i=1;i<=6;i++)document.getElementById('rune_checked_'+i).checked=false; }
+                                for(let i=1;i<=6;i++)document.getElementById('rune_chk'+i).checked=false; }
                             else 
-                                document.getElementById('rune_enchant').style.display='block'"></label>
+                                rune_enchant_table.style.display='block'"></label>
                     <table id='rune_enchant'>
                         <label class="tool_container">?<span class="tool_text">
                                 룬이 15강 미만인 경우,<br /> 15강의 스텟으로 데미지를 계산합니다.<br /> 선택한 룬 번호만 계산됩니다.
@@ -538,88 +532,82 @@ else if (event.keyCode == 27) {
                             <th>타입</th>
                             <th>현재 수치</th>
                             <th>최종 수치</th>
-                            <th>모두 선택<input type="checkbox" id="rune_all_check"
-                                    onchange="javascript:if(this.checked){for(let i=1;i<=6;i++){document.getElementById('rune_checked_'+i).checked=true;}}else{for(let i=1;i<=6;i++)document.getElementById('rune_checked_'+i).checked=false;}">
+                            <th>모두 선택<input type="checkbox" id="rune_all_check" onchange="javascript:if(this.checked){for(let i=1;i<=6;i++){
+                                        rune_enchant_table.getElementsByClassName('runeno'+i)[3].checked=true;}
+                                        }
+                                        else{
+                                            for(let i=1;i<=6;i++)
+                                            rune_enchant_table.getElementsByClassName('runeno'+i)[3].checked=false;
+                                            }">
                             </th>
                             </th>
                         </tr>
                         <tr>
                             <th>1번룬</th>
-                            <td><select>
-                                    <option>깡공(+)</option>
+                            <td><select class="runeno1">
                                 </select></td>
-                            <td><input class="rune_no1" type="number" list="rune_datalist02" value="118"
+                            <td><input class="runeno1" type="number" list="rune_datalist02" value="118"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="rune_no1" type="number" list="rune_datalist1" value="160"
+                            <td><input class="runeno1" type="number" list="rune_datalist1" value="160"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_1"
+                            <td><input type="checkbox" class="runeno1"
                                     onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>2번%룬</th>
-                            <td><select class="rune_no2">
-                                    <option value='atk'>공격력%</option>
-                                    <option value='hp'>체력%</option>
-                                    <option value='def'>방어력%</option>
+                            <td><select class="runeno2">
                                 </select></td>
-                            <td><input class="rune_no2" type="number" list="rune_datalist01" value="47"
+                            <td><input class="runeno2" type="number" list="rune_datalist01" value="47"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="rune_no2" type="number" list="rune_datalist2" value="63"
+                            <td><input class="runeno2" type="number" list="rune_datalist2" value="63"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_2"
+                            <td><input type="checkbox" class="runeno2"
                                     onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>3번룬</th>
-                            <td><select>
-                                    <option>깡방(+)</option>
-                                </select></td>
-                            <td><input class="rune_no3" type="number" list="rune_datalist02" value="118"
+                            <td>
+                                <select class="runeno3" t>
+                                </select>
+                            </td>
+                            <td><input class="runeno3" type="number" list="rune_datalist02" value="118"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="rune_no3" type="number" list="rune_datalist1" value="160"
+                            <td><input class="runeno3" type="number" list="rune_datalist1" value="160"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_3"
+                            <td><input type="checkbox" class="runeno3"
                                     onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>4번%룬</th>
-                            <td><select class="rune_no4" onchange="datalistChangeCri(this)">
-                                    <option value='cri'>치명피해</option>
-                                    <option value='atk'>공격력%</option>
-                                    <option value='hp'>체력%</option>
-                                    <option value='def'>방어력%</option>
+                            <td><select class="runeno4" onchange="datalistChangeCri(this)">
                                 </select></td>
-                            <td><input class="rune_no4" type="number" list="rune_datalist_cri" value="59"
+                            <td><input class="runeno4" type="number" list="rune_datalist_cri" value="59"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="rune_no4" type="number" list="rune_datalist4" value="80"
+                            <td><input class="runeno4" type="number" list="rune_datalist4" value="80"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_4"
+                            <td><input type="checkbox" class="runeno4"
                                     onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>5번룬</th>
-                            <td><select>
-                                    <option>깡체(+)</option>
+                            <td><select class="runeno5">
                                 </select></td>
-                            <td><input class="rune_no5" type="number" list="rune_datalist03" value="1800"
+                            <td><input class="runeno5" type="number" list="rune_datalist03" value="1800"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="rune_no5" type="number" list="rune_datalist5" value="2448"
+                            <td><input class="runeno5" type="number" list="rune_datalist5" value="2448"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_5"
+                            <td><input type="checkbox" class="runeno5"
                                     onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <tr>
                             <th>6번%룬</th>
-                            <td><select class="rune_no6">
-                                    <option value='atk'>공격력%</option>
-                                    <option value='hp'>체력%</option>
-                                    <option value='def'>방어력%</option>
+                            <td><select class="runeno6">
                                 </select></td>
-                            <td><input class="rune_no6" type="number" list="rune_datalist01" value="47"
+                            <td><input class="runeno6" type="number" list="rune_datalist01" value="47"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="rune_no6" type="number" list="rune_datalist2" value="63"
+                            <td><input class="runeno6" type="number" list="rune_datalist2" value="63"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" id="rune_checked_6"
+                            <td><input type="checkbox" class="runeno6"
                                     onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
                         </tr>
                         <datalist id='rune_datalist1'>
@@ -664,52 +652,100 @@ else if (event.keyCode == 27) {
                             <option value="1080">6성+6</option>
                         </datalist>
                     </table>
+                    <script>
+                        const RUNE_HP_C = '체력(+)';
+                        const RUNE_HP_P = '체력(%)';
+                        const RUNE_ATK_C = '공격력(+)';
+                        const RUNE_ATK_P = '공격력(%)';
+                        const RUNE_DEF_C = '방어력(+)';
+                        const RUNE_DEF_P = '방어력(%)';
+                        const RUNE_SPD_C = '공격속도';
+                        const RUNE_CD = '치명피해';
+                        const rune_enchant_table = document.getElementById('rune_enchant');
+                        function initRuneEnchant() {
+                            const rows = rune_enchant_table.getElementsByTagName('select');
+                            let list = [[RUNE_ATK_C],
+                            [RUNE_ATK_P, RUNE_DEF_P, RUNE_HP_P],
+                            [RUNE_DEF_C],
+                            [RUNE_CD, RUNE_ATK_P, RUNE_DEF_P, RUNE_HP_P],
+                            [RUNE_HP_C],
+                            [RUNE_ATK_P, RUNE_DEF_P, RUNE_HP_P]];
+                            for (i in list) {
+                                for (ele of list[i]) {
+                                    optionAddToSelect(rows[i], ele, ele);
+                                }
+                            }
+                        }
+                    </script>
                     <br />
                 </div>
-                <div class="col-4 main">
-                    <table>
+                <div class="col-5 main">
+                    <table id='externel_stat_table'>
                         <tr>
                             <th>스텟</th>
                             <th>명예</th>
                             <th>깃발</th>
+                            <th>길드스킬</th>
                         </tr>
                         <tr>
                             <td>체력%</td>
-                            <td><input type="number" id="hp_honor" name="hp_honor" value="20" list='passive_datalist1'
-                                    onmousedown="this.value='';"></td>
-                            <td><input type="number" id="hp_flag" name="hp_flag" value="20" list='passive_datalist1'
-                                    onmousedown="this.value='';"></td>
+                            <td><input type="number" value="20" id='honorhp' list='passive_datalist1'
+                                    onmousedown="this.value='';">
+                            </td>
+                            <td><input type="number" value="20" id='flaghp' list='passive_datalist1'
+                                    onmousedown="this.value='';">
+                            </td>
+                            <td><input type="number" value="5" id='dunhp' onmousedown="this.value='';"></td>
                         </tr>
                         <tr>
                             <td>공격력%</td>
                             <td class="tool_container attack">
-                                <input type="number" id="atk_honor" name="atk_honor" value="41" list='passive_datalist4'
+                                <input type="number" value="41" id='honoratk' list='passive_datalist4'
                                     onmousedown="this.value='';">
                                 <span class="tool_text">고대의검+속성건물로 적어주세요. 만렙시 41%</span>
                             </td>
-                            <td><input type="number" id="atk_flag" name="atk_flag" value="20" list='passive_datalist1'
-                                    onmousedown="this.value='';"></td>
+                            <td><input type="number" value="20" id='flagatk' list='passive_datalist1'
+                                    onmousedown="this.value='';">
+                            </td>
+                            <td><input type="number" value="5" id='dunatk' onmousedown="this.value='';"></td>
                         </tr>
                         <tr>
                             <td>방어력%</td>
-                            <td><input type="number" id="def_honor" name="def_honor" value="20" list='passive_datalist1'
-                                    onmousedown="this.value='';"></td>
-                            <td><input type="number" id="def_flag" name="def_flag" value="20" list='passive_datalist1'
-                                    onmousedown="this.value='';"></td>
+                            <td><input type="number" value="20" id='honordef' list='passive_datalist1'
+                                    onmousedown="this.value='';">
+                            </td>
+                            <td><input type="number" value="20" id='flagdef' list='passive_datalist1'
+                                    onmousedown="this.value='';">
+                            </td>
+                            <td><input type="number" value="5" id='dundef' onmousedown="this.value='';"></td>
                         </tr>
                         <tr>
                             <td>공격속도%</td>
-                            <td><input type="number" id="spd_honor" name="spd_honor" value="15" list='passive_datalist3'
-                                    onmousedown="this.value='';"></td>
-                            <td></td>
+                            <td><input type="number" value="15" id='honorspd' list='passive_datalist3'
+                                    onmousedown="this.value='';">
+                            </td>
                         </tr>
                         <tr>
                             <td>치명피해</td>
-                            <td><input type="number" id="cri_honor" name="cri_honor" value="25"
-                                    list='passive_datalist22' onmousedown="this.value='';"></td>
-                            <td><input type="number" id="cri_flag" name="cri_flag" value="25" list='passive_datalist2'
-                                    onmousedown="this.value='';"></td>
+                            <td><input type="number" value="25" id='honorcd' list='passive_datalist22'
+                                    onmousedown="this.value='';">
+                            </td>
+                            <td><input type="number" value="25" id='flagcd' list='passive_datalist2'
+                                    onmousedown="this.value='';">
+                            </td>
                         </tr>
+                        <script>
+                            const externel_stat_table = document.getElementById("externel_stat_table");
+                            function initExternelStatTable() {
+                                let rows = externel_stat_table.getElementsByTagName('tr');
+                                rows[1].classList.add(STAT_HP);
+                                rows[2].classList.add(STAT_ATK);
+                                rows[3].classList.add(STAT_DEF);
+                                rows[4].classList.add(STAT_SPD);
+                                rows[5].classList.add(STAT_CD);
+                            }
+
+                        </script>
                         <datalist id='passive_datalist1'>
                             <option value="20">10레벨</option>
                             <option value="18">9레벨</option>
@@ -772,6 +808,22 @@ else if (event.keyCode == 27) {
                             <option value="2">1레벨</option>
                         </datalist>
                     </table>
+                    <div>
+                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGW"><img src="guild_war.png" width="20px"
+                                height="20px">길드전</label>
+                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGS"><img src="guild_skill.png" width="20px"
+                                height="20px">길드스킬</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isAtkBuff"><img src="increase_atk.png"
+                                width="20px" height="20px">공격력버프</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isDefBuff"><img src="increase_def.png"
+                                width="20px" height="20px">방어력버프</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isSpdBuff"><img src="increase_spd.png"
+                                width="20px" height="20px">공격속도버프</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='def_debuff'><img src='reduce_def.png'
+                                width="20px" height="20px">방어력약화</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='brand'><img src='brand.png' width="20px"
+                                height="20px">낙인</label>
+                    </div>
                 </div>
             </div>
             <br />
@@ -781,45 +833,58 @@ else if (event.keyCode == 27) {
                         <tr>
                             <th>무슨계수?</th>
                             <td>
-                                <select onchange='able_skill(this)' id="multi_type">
-                                    <option value="attack_multi">공격력비례</option>
-                                    <option value="defense_multi">방어력비례</option>
-                                    <option value="speed_multi">공속비례</option>
-                                    <option value="hp_multi">체력비례</option>
-                                    <option value="bomb_multi">폭탄</option>
+                                <select onchange='able_skill(this)' class="multi_type" id='type1'>
                                 </select>
                             </td>
                             <td>
-                                    <select onchange='disable_skill2(this)' id="multi_type2">
-                                        <option value="null">미선택</option>
-                                        <option value="attack_multi">공격력비례</option>
-                                        <option value="defense_multi">방어력비례</option>
-                                        <option value="hp_multi">체력비례</option>
-                                        <option value="bomb_multi">폭탄</option>
-                                    </select>
-                                    <script>
-                                        function able_skill(obj){
-                                            if(obj.value == 'speed_multi'){
-                                                document.getElementById("skill_multi2").disabled = false;
-                                            }
-                                            else if(document.getElementById("multi_type2").value == 'null'){
-                                                document.getElementById("skill_multi2").disabled = true;
-                                            }
-                                        }
-                                        function disable_skill2(obj){
-                                            var skill1 = document.getElementById("multi_type");
-                                            if(obj.value == 'null'){
-                                                document.getElementById("skill_level2").disabled = true;
-                                                if(skill1.value != 'speed_multi'){
-                                                document.getElementById("skill_multi2").disabled = true;
+                                <select onchange='disable_skill2(this)' class="multi_type" id='type2'>
+                                </select>
+                                <script>
+                                    const MULTYPE_NONE = 'null';
+                                    const MULTYPE_ATK = 'attack_multi';
+                                    const MULTYPE_DEF = 'defense_multi';
+                                    const MULTYPE_SPD = 'speed_multi';
+                                    const MULTYPE_HP = 'hp_multi';
+                                    const MULTYPE_BOMB = 'bomb_multi';
+                                    const skillMultiTypeName =
+                                        [[MULTYPE_NONE, '미선택'], [MULTYPE_ATK, '공격력비례'], [MULTYPE_DEF, '방어력비례'],
+                                        [MULTYPE_SPD, '공격속도비례'], [MULTYPE_HP, '체력비례'], [MULTYPE_BOMB, '폭탄']];
+
+                                    function initMultiTypeSelect() {
+                                        let tag = document.getElementsByClassName('multi_type');
+                                        for (k in tag) {
+                                            for (idx in skillMultiTypeName) {
+                                                if (k == 1 && skillMultiTypeName[idx][0] == MULTYPE_SPD) continue; //1번계수 && 공속비례인 경우
+                                                if (k == 0 && skillMultiTypeName[idx][0] == MULTYPE_NONE) continue; //2번계수 && null인 경우
+                                                optionAddToSelect(tag[k], skillMultiTypeName[idx][0], skillMultiTypeName[idx][1]);
                                             }
                                         }
-                                            else{
-                                                document.getElementById("skill_level2").disabled= false;
-                                                document.getElementById("skill_multi2").disabled = false;
+                                    }
+                                    function able_skill(obj) {
+                                        let skill_multi = document.getElementsByClassName("skill_multi");
+                                        if (obj.value == 'speed_multi') {
+                                            skill_multi[1].disabled = false;
+                                        }
+                                        else if (skill_multi[1].value == 'null') {
+                                            skill_multi[1].disabled = true;
+                                        }
+                                    }
+                                    function disable_skill2(obj) {
+                                        let skill_multi = document.getElementsByClassName("skill_multi");
+                                        let multi_type = document.getElementsByClassName("multi_type");
+                                        let skill_level = document.getElementsByClassName("skill_level");
+                                        if (obj.value == 'null') {
+                                            skill_level[1].disabled = true;
+                                            if (multi_type[0].value != 'speed_multi') {
+                                                skill_multi[1].disabled = true;
                                             }
                                         }
-                                    </script>
+                                        else {
+                                            skill_level[1].disabled = false;
+                                            skill_multi[1].disabled = false;
+                                        }
+                                    }
+                                </script>
                             </td>
                             <td>
                             </td>
@@ -827,26 +892,26 @@ else if (event.keyCode == 27) {
                         </tr>
                         <tr class="multi">
                             <th>스킬 계수</th>
-                            <td><input type="number" id="skill_multi" placeholder="1번계수必"></td>
-                            <td><input type="number" id="skill_multi2" placeholder="2번계수"></td>
+                            <td><input type="number" class="skill_multi" placeholder="1번계수" id='mul1'></td>
+                            <td><input type="number" class="skill_multi" placeholder="2번계수" id='mul2'></td>
                             <td>
-
-                                <span type="button" class="tool_container">
-                                    ?
-                                    <span class="tool_text">
-                                        공,방비례,폭탄 계수인 경우: 1번계수입력<br />
-                                        속비례 계수인 경우: <br />
-                                        1번계수는 더하는 값, 2번계수는 나누는값<br />
-                                        예를들어 물이프는 210, 0.7순<br />
-                                        크리티컬이 터지지 않는 경우 : 음수로 입력
-                                    </span>
-                                </span>
+                                <label>
+                                    <span class="tool_container">
+                                        ?
+                                        <span class="tool_text">
+                                            공,방비례,폭탄 계수인 경우: 1번계수입력<br />
+                                            속비례 계수인 경우: <br />
+                                            1번계수는 더하는 값, 2번계수는 나누는값<br />
+                                            예를들어 물이프는 210, 0.7순<br />
+                                            크리티컬이 터지지 않는 경우 : 음수로 입력
+                                        </span>
+                                    </span></label>
                             </td>
                         </tr>
                         <tr>
                             <th>스킬작</th>
-                            <td><input type="number" id="skill_level" placeholder="데미지%"></td>
-                            <td><input type="number" id="skill_level2" placeholder="데미지%" disabled></td>
+                            <td><input type="number" class="skill_level" placeholder="데미지%" id='lv1'></td>
+                            <td><input type="number" class="skill_level" placeholder="데미지%" id='lv2' disabled></td>
                             <td>
                             </td>
 
@@ -855,12 +920,22 @@ else if (event.keyCode == 27) {
                             <th>리더스킬</th>
                             <td>
                                 <select id="leader_type">
-                                    <option value="none">없음</option>
-                                    <option value="healthpoint">체력%</option>
-                                    <option value="attack">공격력%</option>
-                                    <option value="defense">방어력%</option>
-                                    <option value="speed">공격속도%</option>
                                 </select>
+                                <script>
+                                    const LEADER_NONE = "none";
+                                    const LEADER_HP = STAT_HP;
+                                    const LEADER_ATK = STAT_ATK;
+                                    const LEADER_DEF = STAT_DEF;
+                                    const LEADER_SPD = STAT_SPD;
+                                    const leaderTypes = [[LEADER_NONE, "없음"], [LEADER_HP, "체력%"], [LEADER_ATK, "공격력%"]
+                                        , [LEADER_DEF, "방어력%"], [LEADER_SPD, "공격속도%"]];
+                                    function initLeaderTypeSelect() {
+                                        let obj = document.getElementById("leader_type");
+                                        for (i in leaderTypes) {
+                                            optionAddToSelect(obj, leaderTypes[i][0], leaderTypes[i][1]);
+                                        }
+                                    }
+                                </script>
                             </td>
                             <td><input type="number" id="leader_value"></td>
                             <td>
@@ -869,17 +944,19 @@ else if (event.keyCode == 27) {
                         </tr>
                         <tr>
                             <th>이계룬 개수</th>
-                            <td><input type="number" id="dimension" placeholder="1개당 8%"></td>
+                            <td><input type="number" id="dimension" placeholder="개당 8%"></td>
                             <td>
-                                <span type="button" class="tool_container">
-                                    ?
-                                    <span class="dimension tool_text">
-                                        첫 번째 계수가<br>
-                                        공격력, 공격속도, 폭탄 계수일 때 : 투지<br>
-                                        방어력 : 결의<br>
-                                        체력 : 고양으로 계산
+                                <label>
+                                    <span class="tool_container">
+                                        ?
+                                        <span class="dimension tool_text">
+                                            첫 번째 계수가<br>
+                                            공격력, 공격속도, 폭탄 계수일 때 : 투지<br>
+                                            방어력 : 결의<br>
+                                            체력 : 고양으로 계산
+                                        </span>
                                     </span>
-                                </span>
+                                </label>
                             </td>
                             <td>
                             </td>
@@ -891,24 +968,48 @@ else if (event.keyCode == 27) {
                             <td><span id="def_dmg" title="1000/(1140+방어력*3.5)"></span></td>
                             <td>
                             </td>
-
                         </tr>
                         <tr>
-                            <th>방어력 약화</th>
-                            <td><input id='def_debuff' type="checkbox"></td>
-                            <td></td>
-                            <td>
+                            <th><span id='relative_spd' onclick="button_click(this, useRelativeSpdMul)"
+                                    class='toggle_button white_button'>상대 속도계수</span></th>
+                            <td colspan='3'>
+                                <input type="number" class="enemy_spd" placeholder="기본속">
+                                + <input type="number" class="enemy_spd" placeholder="적 뒷속">
+                                = <input type="number" class="enemy_spd" placeholder="총 속도" disabled>
+                                배율:<span class='enemy_spd'></span>
                             </td>
-
                         </tr>
-                        <tr>
-                            <th>낙인</th>
-                            <td><input id='brand' type="checkbox"></td>
-                            <td></td>
-                            <td>
-                            </td>
-
-                        </tr>
+                        <script>
+                            function isButtonTrueState(tag) {
+                                return tag.classList.contains('green_button');
+                            }
+                            function setButtonState(tag, bool) {
+                                if(bool){
+                                tag.classList.remove('white_button');
+                                tag.classList.add('green_button');
+                                }
+                                else{
+                                tag.classList.add('white_button');
+                                tag.classList.remove('green_button');
+                                }
+                            }
+                            function button_click(obj, callback) {
+                                obj.classList.toggle("white_button");
+                                obj.classList.toggle("green_button");
+                                let use = isButtonTrueState(obj);
+                                if(callback == null) return;
+                                callback(use);
+                            }
+                            function useRelativeSpdMul(isUse) {
+                                let tag = document.getElementsByClassName('enemy_spd');
+                                for (let i = 0; i < 2; i++) {
+                                    tag[i].disabled = !isUse;
+                                }
+                            }
+                            function initRelativeSpdMulInput(){
+                                useRelativeSpdMul(isButtonTrueState(document.getElementById('relative_spd')));
+                            }
+                        </script>
                         <tr>
                             <th>증가데미지</th>
                             <td><input id='increase_dmg' type="number"></td>
@@ -918,13 +1019,6 @@ else if (event.keyCode == 27) {
 
                         </tr>
                     </table>
-                    <div>
-                        <label>길드전인가요?　　　<input type="checkbox" id="isGW"></label><br />
-                        <label>공격력버프인가요?　<input type="checkbox" id="isAtkBuff"></label><br />
-                        <label>방어력버프인가요?　<input type="checkbox" id="isDefBuff"></label><br />
-                        <label>공격속도버프인가요?<input type="checkbox" id="isSpdBuff"></label><br />
-                        <div>카이로스 던전 등은 길드스킬의 영향을 받으므로 추가를 했는지 확인해 주세요.</br>(다른 스텟 넣을 수 있는 곳에 직접 추가)</div>
-                    </div>
                 </div>
                 <div class="col-4 tool_container">
                     <div class="col-4 result">
@@ -935,27 +1029,19 @@ else if (event.keyCode == 27) {
                 </div>
             </div>
             <div class="col-12">
-                <input type="button" onclick="if(confirm('정말로 초기화하시겠습니까?')){ 
+                <input type='button' onclick="if(confirm('정말로 초기화하시겠습니까?')){ 
                 document.getElementById('reset_form').reset();
-                document.getElementById('rune_enchant').style.display='none';
-                }" value="입력값 초기화">
+                rune_enchant_table.style.display='none';
+                }" value='입력값 초기화'/>
             </div>
         </form>
-        <input class="col-12" type="button" value="계산하기(Enter)" onclick="damageCalculate()"
-            style="margin:25px 0 25px 0; cursor:pointer;">
+        <button class="col-12" onclick="damageCalculate()"
+            style="margin:25px 0 25px 0; cursor:pointer;">계산하기(Enter)</button>
 
-        <a href="https://summonerswarskyarena.info/monster-skill-multiplier/" target="_blank"
-            style="width:100%;text-align:center; margin:5px 0">
-            <span class="link">몬스터 계수 얻어온 링크</span>
-        </a>
-        <a href="http://summonerswar.wikia.com/wiki/Guide:Skill_damage" target="_blank"
-            style="width:100%;text-align:center; margin:5px 0">
-            <span class="link">데미지 계산식 참고한 링크</span>
-        </a>
+
         <hr />
-
         <script>
-            function copy_to_clipboard(){
+            function copy_to_clipboard() {
                 var copy_string = saveInputData(false);
                 var copyText = document.getElementById("clipboard_text");
                 copyText.value = copy_string;
@@ -964,103 +1050,127 @@ else if (event.keyCode == 27) {
             }
         </script>
         <div>
-            <input type="button" id="view_recode" onclick="openRecord()" value="계산 기록보기">
-            <input type="button" id="copy_clipboard"
-            onclick="copy_to_clipboard()" value="계산 링크 복사">
-            <input id="clipboard_text"/>
+            <button style="display: none;" id="view_recode" onclick="openRecord()">계산 기록보기</button>
+            <button id="copy_clipboard" onclick="copy_to_clipboard()">계산 링크 복사</button>
+
 
             <div id="record">
                 <div id="record_container"></div>
-                <input type="button" value="X" class="icon" onclick="exitRecord()" title="창 닫기" style="right:5px;">
-                <input type="button" value="◁" class="icon" onclick="resetRecord()" title="기록 초기화" style="right:50px;">
+                <button class="icon" onclick="exitRecord()" title="창 닫기" style="right:5px;">X</button>
+                <button class="icon" onclick="resetRecord()" title="기록 초기화" style="right:50px;">◁</button>
             </div>
             <script>
+                function optionAddToSelect(selectTag, value, text) {
+                    selectTag.innerHTML += '<option value="' + value + '">'
+                        + text + '</option>';
+                }
                 function getUrlParams() {
-    var params = {};
-    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(str, key, value) { params[key] = value; });
-    return params;
-}
-                function fromNaNtoZero(num) {
-                    if (num != "")
-                        return parseInt(num);
+                    var params = {};
+                    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value; });
+                    return params;
+                }
+                function getFloatFrom(inputTag) {
+                    if (inputTag != null) {
+                        let val = parseFloat(inputTag.value);
+                        if (isNaN(val)) return 0;
+                        return val;
+                    }
                     return 0;
                 }
-                function changeTextColorByNumber(inputTag){
-                   var num = fromNaNtoZero(inputTag.value);
-                   if(num > 0){
-                       inputTag.style.color = "green";
-                   }
-                   else if(num < 0){
-                       inputTag.style.color = "red";
-                   }
-                   else{
-                    inputTag.style.color = "black";
-                   }
+                function getIntFrom(inputTag) {
+                    if (inputTag != null) {
+                        let val = parseInt(inputTag.value);
+                        if (isNaN(val)) return 0;
+                        return val;
+                    }
+                    return 0;
                 }
-                const input_ID_list = ["hp_base", "hp_rune", "hp_rune2",
-                    "atk_base", "atk_rune", "atk_rune2",
-                    "def_base", "def_rune", "def_rune2",
-                    "spd_base", "spd_rune", "spd_rune2",
-                    "cri_rate",
-                    "cri", "cri_rune2",
-                    "hp_honor", "hp_flag",
-                    "atk_honor", "atk_flag",
-                    "def_honor", "def_flag",
-                    "spd_honor",
-                    "cri_honor", "cri_flag",
-                    "enchant_setting_check",
-                    "rune_checked_1", "rune_checked_2", "rune_checked_3",
-                    "rune_checked_4", "rune_checked_5", "rune_checked_6",
-                    "multi_type", "multi_type2",
-                    "skill_multi", "skill_multi2",
-                    "skill_level", "skill_level2",
-                    "leader_type", "leader_value",
-                    "dimension",
-                    "enemy_def",
-                    "def_debuff", "brand", "increase_dmg",
-                    "isGW", "isAtkBuff", "isDefBuff", "isSpdBuff"
-                ];
-                var enchant_rune_class_list = [
-                    "rune_no1", "rune_no2", "rune_no3", "rune_no4", "rune_no5", "rune_no6"];
+                function getFloatArrayFrom(inputArray) {
+                    let arr = [];
+                    for (let i = 0; i < inputArray.length; i++) {
+                        arr[i] = getFloatFrom(inputArray[i]);
+                    }
+                    return arr;
+                }
+                function getIntArrayFrom(inputArray) {
+                    let arr = [];
+                    for (let i = 0; i < inputArray.length; i++) {
+                        arr.push(getIntFrom(inputArray[i]));
+                    }
+                    return arr;
+                }
+                function getValueArrayFrom(Classes) {
+                    let arr = [];
+                    for (let i = 0; i < Classes.length; i++) {
+                        arr.push(Classes[i].value);
+                    }
+                    return arr;
+                }
+                function changeTextColorByNumber(inputTag) {
+                    var num = getIntFrom(inputTag);
+                    if (num > 0) {
+                        inputTag.style.color = "green";
+                    }
+                    else if (num < 0) {
+                        inputTag.style.color = "red";
+                    }
+                    else {
+                        inputTag.style.color = "black";
+                    }
+                }
+                let inputTags;
+                function initInputTags() {
+                    inputTags = document.querySelectorAll(".toggle_button, input[type='number'], input[type='checkbox'], " +
+                        "select[class='multi_type'], select[class='leader_type']");
+                }
                 function saveInputData(isLocal) {
-                    queryString = window.location.origin + window.location.pathname+"?";
-                    input_ID_list.forEach(function (name) {
-                        let item = document.getElementById(name);
-                        if (item.type == "checkbox") {
-                            if(isLocal){
-                            localStorage.setItem(name, item.checked);
+                    queryString = window.location.origin + window.location.pathname + "?";
+                    for (let i = 0; i < inputTags.length; i++) {
+                        let item = inputTags[i];
+                        let name = i;
+                        if (item.id != '') name = item.id;
+                        if(item.classList.contains('toggle_button')){
+                            if (isLocal) {
+                                localStorage.setItem(name, isButtonTrueState(item));
                             }
-                            else{
-                                queryString+= name+"="+item.checked+"&";
+                            else {
+                                queryString += name + "=" +isButtonTrueState(item) + "&";
+                            }
+                        }
+                        else if (item.type == "checkbox") {
+                            if (isLocal) {
+                                localStorage.setItem(name, item.checked);
+                            }
+                            else {
+                                queryString += name + "=" + item.checked + "&";
                             }
                         }
                         else {
-                            if(isLocal){
-                            localStorage.setItem(name, item.value);
+                            if (isLocal) {
+                                localStorage.setItem(name, item.value);
                             }
-                            else{
-                                queryString+= name+"="+item.value+"&";
+                            else {
+                                queryString += name + "=" + item.value + "&";
                             }
                         }
-                    });
-                    enchant_rune_class_list.forEach(function (name) {
-                        let rune = document.getElementsByClassName(name);
-                        for (let iter=0; iter<rune.length; ++iter) {
-                            if(isLocal){
-                            localStorage.setItem(name + "." + iter, rune[iter].value);
-                            }
-                            else{
-                                queryString+= name+"."+iter+"="+rune[iter].value+"&";
-                            }
-                        };
-                    });
+                    }
                     return queryString;
                 }
                 function readInputData() {
                     var queryMap = getUrlParams();
-                    input_ID_list.forEach(function (name) {
-                        let item = document.getElementById(name);
-                        if (item.type == "checkbox") {
+                    for (let i = 0; i < inputTags.length; i++) {
+                        let item = inputTags[i];
+                        let name = i;
+                        if (item.id != '') name = item.id;
+                        if(item.classList.contains('toggle_button')){
+                            if (queryMap[name] == "true" || localStorage.getItem(name) == "true") {
+                                setButtonState(item, true);
+                            }
+                            else {
+                                setButtonState(item, false);
+                            }
+                        }
+                        else if (item.type == "checkbox") {
                             if (queryMap[name] == "true" || localStorage.getItem(name) == "true") {
                                 item.checked = true;
                             }
@@ -1069,398 +1179,280 @@ else if (event.keyCode == 27) {
                             }
                         }
                         else {
-                            if(queryMap[name] == undefined ||queryMap[name] == ""){
+                            if (queryMap[name] == undefined || queryMap[name] == "") {
                                 item.value = localStorage.getItem(name);
                             }
-                            else{
+                            else {
                                 item.value = queryMap[name]
                             }
                         }
-                    });
-                    enchant_rune_class_list.forEach(function (name) {
-                        let rune = document.getElementsByClassName(name);
-                        for (let iter=0; iter<rune.length; ++iter) {
-                            if(queryMap[name+"."+iter] == undefined || queryMap[name+"."+iter] == ""){
-                                rune[iter].value = localStorage.getItem(name + "." + iter);
-                            }
-                            else{
-                                rune[iter].value = queryMap[name+"."+iter];
-                            }
-                        };
-                    });
+                    }
                     damageCalculate();
                 }
 
                 function hideRuneEnchant() {
-                    let checked = document.getElementById('enchant_setting_check').checked;
+                    let checked = document.getElementById('enchant_chk').checked;
                     if (!checked) {
-                        document.getElementById('rune_enchant').style.display = 'none';
+                        rune_enchant_table.style.display = 'none';
                     }
                 }
-
-                function multiChanger() {
-                    let autoMultiSelect = document.getElementById("auto_multi_select").value;
-                    switch (autoMultiSelect) {
-                        case "joker":
-                            document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
-                            document.getElementById("atk_base").value = 900;
-                            document.getElementById("multi_type").value = "attack_multi";
-                            document.getElementById("multi_type2").value = "null";
-                            document.getElementById("skill_multi").value = 68;
-                            document.getElementById("skill_multi2").value = 0;
-                            document.getElementById("skill_level").value = 30;
-                            document.getElementById("enemy_def").value = 0;
-                            document.getElementById("leader_type").value = "attack";
-                            document.getElementById("leader_value").value = "";
-                            break;
-                        case "copper":
-                            document.getElementById("auto_setting_alert").innerHTML = "";
-                            document.getElementById("def_base").value = 692;
-                            document.getElementById("atk_base").value = 483;
-                            document.getElementById("multi_type").value = "defense_multi";
-                            document.getElementById("multi_type2").value = "attack_multi";
-                            document.getElementById("skill_multi").value = 300;
-                            document.getElementById("skill_multi2").value = 300;
-                            document.getElementById("skill_level").value = 30;
-                            document.getElementById("skill_level2").value = 30;
-                            document.getElementById("enemy_def").value = 0;
-                            document.getElementById("leader_type").value = "defense";
-                            document.getElementById("leader_value").value = "";
-                            break;
-                        case "bulldozer":
-                            document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
-                            document.getElementById("def_base").value = 615;
-                            document.getElementById("multi_type").value = "defense_multi";
-                            document.getElementById("multi_type2").value = "null";
-                            document.getElementById("skill_multi").value = 160;
-                            document.getElementById("skill_multi2").value = 0;
-                            document.getElementById("skill_level").value = 25;
-                            document.getElementById("enemy_def").value = 0;
-                            document.getElementById("leader_type").value = "defense";
-                            document.getElementById("leader_value").value = 21;
-                            break;
-                        case "valkyrie":
-                            document.getElementById("auto_setting_alert").innerHTML = "1히트 기준입니다.";
-                            document.getElementById("atk_base").value = 801;
-                            document.getElementById("multi_type").value = "attack_multi";
-                            document.getElementById("multi_type2").value = "null";
-                            document.getElementById("skill_multi").value = 280;
-                            document.getElementById("skill_multi2").value = 0;
-                            document.getElementById("skill_level").value = 20;
-                            document.getElementById("enemy_def").value = 0;
-                            document.getElementById("leader_type").value = "attack";
-                            document.getElementById("leader_value").value = "";
-                            break;
-                        case "imp":
-                            document.getElementById("auto_setting_alert").innerHTML = "";
-                            document.getElementById("atk_base").value = 604;
-                            document.getElementById("multi_type").value = "attack_multi";
-                            document.getElementById("multi_type2").value = "null";
-                            document.getElementById("skill_multi").value = 370;
-                            document.getElementById("skill_multi2").value = 0;
-                            document.getElementById("skill_level").value = 30;
-                            document.getElementById("enemy_def").value = 0;
-                            document.getElementById("leader_type").value = "attack";
-                            document.getElementById("leader_value").value = "";
-                            break;
-                        case "highE":
-                            document.getElementById("auto_setting_alert").innerHTML = "";
-                            document.getElementById("atk_base").value = 878;
-                            document.getElementById("multi_type").value = "attack_multi";
-                            document.getElementById("multi_type2").value = "null";
-                            document.getElementById("skill_multi").value = 300;
-                            document.getElementById("skill_multi2").value = 0;
-                            document.getElementById("skill_level").value = 25;
-                            document.getElementById("enemy_def").value = 0;
-                            document.getElementById("leader_type").value = "attack";
-                            document.getElementById("leader_value").value = "";
-                            break;
-                        case "balloon":
-                            document.getElementById("auto_setting_alert").innerHTML = "";
-                            document.getElementById("atk_base").value = 769;
-                            document.getElementById("multi_type").value = "attack_multi";
-                            document.getElementById("multi_type2").value = "null";
-                            document.getElementById("skill_multi").value = 800;
-                            document.getElementById("skill_multi2").value = 0;
-                            document.getElementById("skill_level").value = 30;
-                            document.getElementById("leader_type").value = "attack";
-                            document.getElementById("leader_value").value = "";
-                            break;
-                        case "sniper":
-                            document.getElementById("auto_setting_alert").innerHTML = "";
-                            document.getElementById("atk_base").value = 780;
-                            document.getElementById("multi_type").value = "attack_multi";
-                            document.getElementById("multi_type2").value = "null";
-                            document.getElementById("skill_multi").value = 400;
-                            document.getElementById("skill_multi2").value = 0;
-                            document.getElementById("skill_level").value = 25;
-                            document.getElementById("enemy_def").value = 0;
-                            document.getElementById("leader_type").value = "attack";
-                            document.getElementById("leader_value").value = "";
-                            break;
-                        case "panda":
-                            document.getElementById("auto_setting_alert").innerHTML = "풀스작 1히트 기준";
-                            document.getElementById("def_base").value = 801;
-                            document.getElementById("atk_base").value = 659;
-                            document.getElementById("multi_type").value = "defense_multi";
-                            document.getElementById("multi_type2").value = "attack_multi";
-                            document.getElementById("skill_multi").value = -160;
-                            document.getElementById("skill_multi2").value = 130;
-                            document.getElementById("skill_level").value = 35;
-                            document.getElementById("skill_level2").value = 25;
-                            document.getElementById("leader_type").value = "defense";
-                            document.getElementById("leader_value").value = "";
-                            break;
+                function setValuesTo(inputTags, inputs) {
+                    for (i in inputTags) {
+                        if (inputs[i] == null) continue;
+                        inputTags[i].value = inputs[i];
                     }
-                    disable_skill2(document.getElementById("multi_type2"));
+                }
+                const skill_multi_Type_tags = document.getElementsByClassName("multi_type");
+                const skill_multi_tags = document.getElementsByClassName("skill_multi");
+                const skill_level_tags = document.getElementsByClassName("skill_level");
+                const autoInfo = class {
+                    constructor(stats, mulTypes, multis, levels, def, leader_type, leader_value) {
+                        this.stats = stats;
+                        this.mulTypes = mulTypes;
+                        this.multis = multis;
+                        this.levels = levels;
+                        this.def = def;
+                        this.leaderType = leader_type;
+                        this.leaderValue = leader_value;
+                    }
+                }
+                const autoinfoList =
+                    [
+                        ['등록된 계수 선택', new autoInfo([null, null, null, null, null], [null, null], [null, null], [null, null], null, null, null)],
+                        ['풍조커(3스)', new autoInfo([null, 900, null, 103, null], [MULTYPE_ATK, MULTYPE_NONE], [68, null], [30, null], 0, LEADER_ATK, null)],
+                        ['풍리빙(3스)', new autoInfo([null, 483, 692, null, null], [MULTYPE_DEF, MULTYPE_ATK], [300, 300], [30, 30], 0, LEADER_DEF, null)],
+                        ['불프랑켄(3스)', new autoInfo([null, null, 615, null, null], [MULTYPE_DEF, MULTYPE_NONE], [160, null], [25, null], 0, LEADER_DEF, 21)],
+                        ['풍발키리(3스)', new autoInfo([null, 801, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [280, null], [20, null], 0, LEADER_ATK, null)],
+                        ['빛임프(3스)', new autoInfo([null, 604, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [370, null], [30, null], 0, LEADER_ATK, null)],
+                        ['불하엘(2스)', new autoInfo([null, 878, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [300, null], [25, null], 0, LEADER_ATK, null)],
+                        ['풍선인(3스)', new autoInfo([null, 769, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [800, null], [30, null], null, LEADER_ATK, null)],
+                        ['물스나(3스)', new autoInfo([null, 780, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [400, null], [25, null], 0, LEADER_ATK, null)],
+                        ['풍팬더(평타)', new autoInfo([null, 659, 801, null, null], [MULTYPE_DEF, MULTYPE_ATK], [-160, 130], [35, 25], null, LEADER_DEF, 44)]
+                    ];
+                function initAutoMultiSelect() {
+                    let tag = document.getElementById("auto_multi_select");
+                    for (let i in autoinfoList) {
+                        optionAddToSelect(tag, autoinfoList[i][0], autoinfoList[i][0], '비둘기.png');
+                    }
+                }
+                function multiAutoSelect(obj) {
+                    let idx = obj.selectedIndex;
+                    multiChange(autoinfoList[idx][1]);
+                    disable_skill2(skill_multi_Type_tags[1]);
+                }
+                function multiChange(autoinfo) {
+                    setValuesTo(stat_info_table.getElementsByClassName('base'), autoinfo.stats);
+                    setValuesTo(skill_multi_Type_tags, autoinfo.mulTypes);
+                    setValuesTo(skill_multi_tags, autoinfo.multis);
+                    setValuesTo(skill_level_tags, autoinfo.levels);
+                    document.getElementById("enemy_def").value = autoinfo.def;
+                    document.getElementById("leader_type").value = autoinfo.leaderType;
+                    document.getElementById("leader_value").value = autoinfo.leaderValue;
                 }
                 var recordCount = 0;
-                function gw(base, name) {
-                    if (document.getElementById("isGW").checked == true) {
-                        return fromNaNtoZero(document.getElementById(name).value * base / 100);
+                function get_damage(multi_types, stats, multis, skillLevels, def_dmg) {
+                    let dmg = 0;
+                    let stat;
+                    let multi;
+                    let dmg_reduct;
+                    let cri = stats[STAT_CD_IDX];
+                    let isSpdType = false;
+                    for (let i in multi_types) {
+                        //크리가 터지지 않는 경우
+                        if (multis[i] < 0) {
+                            cri = 0;
+                            multi = -multis[i];
+                        }
+                        else {
+                            multi = multis[i];
+                        }
+                        dmg_reduct = def_dmg;
+                        switch (multi_types[i]) {
+                            case MULTYPE_HP:
+                                stat = stats[STAT_HP_IDX];
+                                break;
+                            case MULTYPE_BOMB:
+                                stat = stats[STAT_ATK_IDX];
+                                cri = 0; def_dmg = 1;
+                                break;
+                            case MULTYPE_SPD:
+                                multi = (stats[STAT_SPD_IDX] + multi) / multis[1];
+                                isSpdType = true;
+                            case MULTYPE_ATK:
+                                stat = stats[STAT_ATK_IDX];
+                                break;
+                            case MULTYPE_DEF:
+                                stat = stats[STAT_DEF_IDX];
+                                break;
+                            case MULTYPE_NONE:
+                                multi = 0;
+                                break;
+                        }
+                        dmg += stat * multi * (100 + cri + skillLevels[i]) * dmg_reduct / 10000;
+                        if (isSpdType) break;
                     }
-                    else {
-                        return 0;
-                    }
+                    return dmg;
                 }
-                function get_damage(multi_type ,stat, multi, cri, skillLevel, def_dmg){
-                    //크리가 터지지 않는 경우
-                    if(multi < 0){
-                        cri = 0;
-                        multi = -multi; 
-                    }
-                    let dmg;
-                    if(multi_type == "null") return 0;
-                    if (multi_type == "bomb_multi") {
-                        dmg = stat * multi * (100 + skillLevel) / 10000;
-                    }
-                    else{
-                        dmg = stat * multi * (100 + cri + skillLevel) * def_dmg / 10000;
-                    }
-                    return dmg
+                function getExternelStats(statClassName, isGW, isGS) {
+                    let rows = externel_stat_table.getElementsByClassName(statClassName)[0].getElementsByTagName('input');
+                    let ret = getIntFrom(rows[0]);
+                    if (isGW)
+                        ret += getIntFrom(rows[1]);
+                    if (isGS)
+                        ret += getIntFrom(rows[2]);
+                    return ret;
                 }
+                function getDimensionPercent(mulType, dimenCount) {
+                    switch (mulType) {
+                        case MULTYPE_HP:
+                            return [STAT_HP_IDX, dimenCount * 8];
+                        case MULTYPE_ATK:
+                        case MULTYPE_SPD:
+                        case MULTYPE_BOMB:
+                            return [STAT_ATK_IDX, dimenCount * 8];
+                        case MULTYPE_DEF:
+                            return [STAT_DEF_IDX, dimenCount * 8];
+                    }
+                    return 0;
+                }
+                function getDiff(input1, input2, checkbox) {
+                    if (checkbox.checked) {
+                        return getIntFrom(input2) - getIntFrom(input1);
+                    }
+                    return 0;
+                }
+
+                const RUNE_CONST = 0;
+                const RUNE_PERCENT = 1;
+                //ret = [[const], [percent]];
+                function getEnchantStats() {
+                    let ret = [[], []];
+                    for (i in statClassName) {
+                        ret[0][i] = 0;
+                        ret[1][i] = 0;
+                    }
+                    for (let i = 1; i <= 6; i++) {
+                        let rows = rune_enchant_table.getElementsByClassName('runeno' + i);
+                        switch (rows[0].value) {
+                            case RUNE_HP_C: ret[RUNE_CONST][STAT_HP_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                break;
+                            case RUNE_HP_P: ret[RUNE_PERCENT][STAT_HP_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                break;
+                            case RUNE_ATK_C: ret[RUNE_CONST][STAT_ATK_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                break;
+                            case RUNE_ATK_P: ret[RUNE_PERCENT][STAT_ATK_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                break;
+                            case RUNE_DEF_C: ret[RUNE_CONST][STAT_DEF_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                break;
+                            case RUNE_DEF_P: ret[RUNE_PERCENT][STAT_DEF_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                break;
+                            case RUNE_SPD_C: ret[RUNE_CONST][STAT_SPD_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                break;
+                            case RUNE_CD: ret[RUNE_CONST][STAT_CD_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                break;
+                        }
+                    }
+                    return ret;
+                }
+                function getBoolFrom(checkbox) {
+                    return checkbox.checked
+                }
+                
                 function damageCalculate() {
-                    var multi_type = document.getElementById("multi_type").value;
-                    var multi_type2 = document.getElementById("multi_type2").value;
-                    var dimension = fromNaNtoZero(document.getElementById("dimension").value);
-
-                    //룬 변경 후
-                    var attack, healthpoint, defense, speed, cri, leader_type, leader_value, enchanted_rune, enchanted_rune2;
-                    //룬 변경 전
-                    var before_attack, before_healthpoint, before_defense, before_speed, before_cri;
-                    leader_type = document.getElementById("leader_type").value;
-                    leader_value = fromNaNtoZero(document.getElementById("leader_value").value);
-
-                    //체력
-                    enchanted_rune = 0; enchanted_rune2 = 0;
-                    var base = fromNaNtoZero(document.getElementById("hp_base").value);
-                    var rune = fromNaNtoZero(document.getElementById("hp_rune").value);
-                    var rune2 = fromNaNtoZero(document.getElementById("hp_rune2").value);
-                    var honor = fromNaNtoZero(document.getElementById("hp_honor").value * base / 100);
-                    var flag = gw(base, "hp_flag");
-                    healthpoint = base + rune + rune2 + honor + flag;
-                    if (multi_type == "hp_multi") healthpoint += parseInt(base * dimension * 0.08);
-                    if (document.getElementById("rune_checked_5").checked) {
-                        let stat = fromNaNtoZero(document.getElementsByClassName("rune_no5")[1].value) - fromNaNtoZero(document.getElementsByClassName("rune_no5")[0].value);
-                        enchanted_rune = stat;
-                    }
-                    for (let i = 2; i <= 6; i += 2) {
-                        if (document.getElementById("rune_checked_" + i).checked && document.getElementsByClassName("rune_no" + i)[0].value == "hp") {
-                            let stat = fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[2].value) - fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[1].value);
-                            stat = parseInt(base * stat / 100);
-                            enchanted_rune2 += stat;
-                        }
-                    }
-                    healthpoint += enchanted_rune + enchanted_rune2;
-                    document.getElementsByClassName("healthpoint")[0].innerHTML =
-                        "기본 : " + base + ", 룬 : " + parseInt(rune + rune2) + ", 룬강 : " + parseInt(enchanted_rune + enchanted_rune2) + ", 명예 : " + honor + ", 깃발 : " + flag;
-                    if (leader_type == "healthpoint") {
-                        leader_value = parseInt(base * leader_value / 100);
-                        healthpoint += leader_value;
-                        document.getElementsByClassName("healthpoint")[0].innerHTML += ", 리더 : " + leader_value;
-                    }
-                    before_healthpoint = healthpoint - rune2 - enchanted_rune - enchanted_rune2;
-                    document.getElementById("hp_sum").innerHTML = healthpoint;
-
-                    //공격력
-                    enchanted_rune = 0; enchanted_rune2 = 0;
-                    base = fromNaNtoZero(document.getElementById("atk_base").value);
-                    rune = fromNaNtoZero(document.getElementById("atk_rune").value);
-                    rune2 = fromNaNtoZero(document.getElementById("atk_rune2").value);
-                    honor = fromNaNtoZero(document.getElementById("atk_honor").value * base / 100);
-                    flag = gw(base, "atk_flag");
-                    attack = base + rune + rune2 + honor + flag;
-                    if (multi_type == "attack_multi" || multi_type == "bomb_multi" || multi_type == "speed_multi") attack += parseInt(base * dimension * 0.08);
-                    if (document.getElementById("rune_checked_1").checked) {
-                        let stat = fromNaNtoZero(document.getElementsByClassName("rune_no1")[1].value) - fromNaNtoZero(document.getElementsByClassName("rune_no1")[0].value);
-                        enchanted_rune = stat;
-                    }
-                    for (let i = 2; i <= 6; i += 2) {
-                        if (document.getElementById("rune_checked_" + i).checked && document.getElementsByClassName("rune_no" + i)[0].value == "atk") {
-                            let stat = fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[2].value) - fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[1].value);
-                            stat = parseInt(base * stat / 100);
-                            enchanted_rune2 += stat;
-                        }
-                    }
-                    attack += enchanted_rune + enchanted_rune2;
-                    document.getElementsByClassName("attack")[0].innerHTML =
-                        "기본 : " + base + ", 룬 : " + parseInt(rune + rune2) + ", 룬강 : " + parseInt(enchanted_rune + enchanted_rune2) + ", 명예 : " + honor + ", 깃발 : " + flag;
-                    if (leader_type == "attack") {
-                        leader_value = parseInt(base * leader_value / 100);
-                        attack += leader_value;
-                        document.getElementsByClassName("attack")[0].innerHTML += ", 리더 : " + leader_value;
-                    }
-                    before_attack = attack - rune2 - enchanted_rune - enchanted_rune2;
-                    if (document.getElementById("isAtkBuff").checked == true) {
-                        attack = parseInt(attack * 1.5);
-                        before_attack = parseInt(before_attack * 1.5);
-                    }
-                    document.getElementById("atk_sum").innerHTML = attack;
-
-                    //방어력
-                    enchanted_rune = 0; enchanted_rune2 = 0;
-                    base = fromNaNtoZero(document.getElementById("def_base").value);
-                    rune = fromNaNtoZero(document.getElementById("def_rune").value);
-                    rune2 = fromNaNtoZero(document.getElementById("def_rune2").value);
-                    honor = fromNaNtoZero(document.getElementById("def_honor").value * base / 100);
-                    flag = gw(base, "def_flag");
-                    defense = base + rune + rune2 + honor + flag;
-                    if (multi_type == "defense_multi") defense += parseInt(base * dimension * 0.08);
-                    if (document.getElementById("rune_checked_3").checked) {
-                        let stat = fromNaNtoZero(document.getElementsByClassName("rune_no3")[1].value) - fromNaNtoZero(document.getElementsByClassName("rune_no3")[0].value);
-                        enchanted_rune = stat;
-                    }
-                    for (let i = 2; i <= 6; i += 2) {
-                        if (document.getElementById("rune_checked_" + i).checked && document.getElementsByClassName("rune_no" + i)[0].value == "def") {
-                            let stat = fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[2].value) - fromNaNtoZero(document.getElementsByClassName("rune_no" + i)[1].value);
-                            stat = parseInt(base * stat / 100);
-                            enchanted_rune2 += stat;
-                        }
-                    }
-                    defense += enchanted_rune + enchanted_rune2;
-                    document.getElementsByClassName("defense")[0].innerHTML =
-                        "기본 : " + base + ", 룬 : " + parseInt(rune + rune2) + ", 룬강 : " + parseInt(enchanted_rune + enchanted_rune2) + ", 명예 : " + honor + ", 깃발 : " + flag;
-                    if (leader_type == "defense") {
-                        leader_value = parseInt(base * leader_value / 100);
-                        defense += leader_value;
-                        document.getElementsByClassName("defense")[0].innerHTML += ", 리더 : " + leader_value;
-                    }
-                    before_defense = defense - rune2 - enchanted_rune - enchanted_rune2;
-                    if (document.getElementById("isDefBuff").checked == true) {
-                        defense = parseInt(defense * 1.7)
-                        before_defense = parseInt(before_defense * 1.7);
-                    }
-                    document.getElementById("def_sum").innerHTML = defense;
-
-                    //공격속도
-                    base = fromNaNtoZero(document.getElementById("spd_base").value);
-                    rune = fromNaNtoZero(document.getElementById("spd_rune").value);
-                    rune2 = fromNaNtoZero(document.getElementById("spd_rune2").value);
-                    honor = fromNaNtoZero(document.getElementById("spd_honor").value * base / 100);
-                    speed = base + rune + rune2 + honor;
-                    document.getElementsByClassName("speed")[0].innerHTML =
-                        "기본 : " + base + ", 룬 : " + parseInt(rune + rune2) + ", 명예 : " + honor;
-                    if (leader_type == "speed") {
-                        leader_value = parseInt(base * leader_value / 100);
-                        speed += leader_value;
-                        document.getElementsByClassName("speed")[0].innerHTML += ", 리더 : " + leader_value;
-                    }
-                    before_speed = speed - rune2;
-                    if (document.getElementById("isSpdBuff").checked == true) {
-                        speed = parseInt(speed * 1.3);
-                        before_speed = parseInt(before_speed * 1.3);
-                    }
-                    document.getElementById("spd_sum").innerHTML = speed;
-
-                    //치명피해
-                    enchanted_rune = 0; enchanted_rune2 = 0;
-                    base = document.getElementById("cri").value;
-                    cri_rune2 = fromNaNtoZero(document.getElementById("cri_rune2").value);
-                    honor = document.getElementById("cri_honor").value;
-                    if (document.getElementById("isGW").checked == true) {
-                        flag = fromNaNtoZero(document.getElementById("cri_flag").value);
-                    } else flag = 0;
-                    cri = fromNaNtoZero(base) + fromNaNtoZero(honor) + flag + cri_rune2;
-                    if (document.getElementById("rune_checked_4").checked && document.getElementsByClassName("rune_no4")[0].value == "cri") {
-                        let stat = fromNaNtoZero(document.getElementsByClassName("rune_no4")[2].value) - fromNaNtoZero(document.getElementsByClassName("rune_no4")[1].value);
-                        enchanted_rune = stat;
-                    }
-                    cri += enchanted_rune + enchanted_rune2;
-                    before_cri = cri - cri_rune2 - enchanted_rune - enchanted_rune2;
-                    document.getElementsByClassName("cri")[0].innerHTML =
-                        "기본 : " + base + ", 룬강 : " + enchanted_rune + ", 명예 : " + honor + ", 깃발 : " + flag;
-                    document.getElementById("cri_sum").innerHTML = cri;
+                    let multi_types = getValueArrayFrom(document.getElementsByClassName("multi_type"));
+                    let dimensionCount = getIntFrom(document.getElementById("dimension"));
+                    let leader_type = document.getElementById("leader_type").value;
+                    let leader_value = getIntFrom(document.getElementById("leader_value"));
+                    let isGW = isButtonTrueState(document.getElementById("isGW"));
+                    let isGS = isButtonTrueState(document.getElementById("isGS"));
+                    //강화시 룬[valueType][statType]
+                    let enchanted_rune = getEnchantStats();
 
                     //방어력 및 계수 선택
-                    var enemy_def = fromNaNtoZero(document.getElementById("enemy_def").value);
-                    if (document.getElementById("def_debuff").checked) enemy_def *= 0.3;
+                    var enemy_def = getIntFrom(document.getElementById("enemy_def"));
+                    if (isButtonTrueState(document.getElementById("def_debuff"))) 
+                        enemy_def *= 0.3;
                     var def_dmg = 1000 / (1140 + enemy_def * 3.5);
-                    document.getElementById("def_dmg").innerHTML = " 데미지 경감 : " + def_dmg.toFixed(4);
-                    var multi = fromNaNtoZero(document.getElementById("skill_multi").value);
-                    var multi2 = document.getElementById("skill_multi2").value; //속비례인경우 1이하이므로 parse하면 안됨
-                    var skillLevel = fromNaNtoZero(document.getElementById("skill_level").value);
-                    var skillLevel2 = fromNaNtoZero(document.getElementById("skill_level2").value);
+                    document.getElementById("def_dmg").innerHTML = " 데미지 경감 : " + def_dmg.toFixed(2);
+                    let multis = getFloatArrayFrom(document.getElementsByClassName("skill_multi"));
+                    let skillLevels = getIntArrayFrom(document.getElementsByClassName("skill_level"));
 
+                    let dimen = getDimensionPercent(multi_types[0], dimensionCount);
+                    //버프
+                    let buffs = [1, 1, 1, 1, 1];
+                    if (isButtonTrueState(document.getElementById('isSpdBuff')))
+                        buffs[STAT_SPD_IDX] = 1.3;
+                    if (isButtonTrueState(document.getElementById('isDefBuff')))
+                        buffs[STAT_DEF_IDX] = 1.7;
+                    if (isButtonTrueState(document.getElementById('isAtkBuff')))
+                        buffs[STAT_ATK_IDX] = 1.5;
+
+                    let externel_percent = []
+                    let leader_percent = [];
+                    let statSums = [];
+                    let beforeStatSums = [];
+                    for (i in stat_infos) {
+                        let base = getIntFrom(stat_infos[i].getElementsByClassName("base")[0]);
+                        let rune = getIntFrom(stat_infos[i].getElementsByClassName("rune")[0]);
+                        let disp = getIntFrom(stat_infos[i].getElementsByClassName("disp")[0]);
+                        //명예/깃발/길드스텟 퍼센트
+                        externel_percent[i] = getExternelStats(statClassName[i], isGW, isGS);
+                        //리더 퍼센트
+                        leader_percent[i] = ((statClassName[i] == leader_type) ? leader_value : 0);
+                        //이계룬 퍼센트
+                        let dimen_percent = 0;
+                        if (dimen[0] == i) {
+                            dimen_percent = dimen[1];
+                        }
+                        let percent_beforesum = externel_percent[i] + dimen_percent + leader_percent[i];
+                        let percent_sum = percent_beforesum + enchanted_rune[RUNE_PERCENT][i];
+                        if (i == STAT_CD_IDX) {
+                            beforeStatSums[i] = base + percent_beforesum + rune;
+                            statSums[i] = base + percent_sum + rune + disp + enchanted_rune[RUNE_CONST][i];
+                        }
+                        else {
+                            beforeStatSums[i] = Math.ceil(base * (100 + percent_beforesum) / 100) + rune;
+                            statSums[i] = Math.ceil(base * (100 + percent_sum) / 100) + rune + disp + enchanted_rune[RUNE_CONST][i];
+                        }
+                        beforeStatSums[i] = Math.ceil(beforeStatSums[i] * buffs[i]);
+                        statSums[i] = Math.ceil(statSums[i] * buffs[i]);
+                        stat_infos[i].getElementsByClassName("tool_text")[0].innerHTML =
+                            "기본 : " + base + ", 룬 : " + (rune + disp) +
+                            ", 룬강 : " + parseInt(base * enchanted_rune[RUNE_PERCENT][i] / 100 + enchanted_rune[RUNE_CONST][i]) +
+                            ", 명예/깃발/길드스킬 : " + (base * externel_percent[i] / 100) + ", 리더 : " + (base * leader_percent[i]) / 100;
+                        stat_infos[i].getElementsByClassName("sum")[0].innerHTML = statSums[i];
+                    }
                     //계산식
-                    var dmg = 0;
-                    if (multi_type == "speed_multi") {
-                        dmg = attack * ((multi + speed) / multi2) * (100 + cri + skillLevel) * def_dmg / 10000;
-                    }
-                    else{
-                        let stat;
-                        let tmp_mul_type = [ multi_type, multi_type2];
-                        let tmp_multi = [ multi, multi2];
-                        let tmp_skill_level = [skillLevel, skillLevel2];
-                        for(let i = 0; i<2; ++i){
-                            if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = attack;
-                            else if(tmp_mul_type[i] == "defense_multi") stat = defense;
-                            else if(tmp_mul_type[i] == "hp_multi") stat = healthpoint;
-                            dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], cri, tmp_skill_level[i], def_dmg);
-                        }
-                    }
-                    
-                    var before_dmg = 0;
-                    if (multi_type == "speed_multi") {
-                        before_dmg = before_attack * ((multi + before_speed) / multi2) * (100 + before_cri + skillLevel) * def_dmg / 10000;
-                    }
-                    else{
-                        let stat;
-                        let tmp_mul_type = [ multi_type, multi_type2];
-                        let tmp_multi = [ multi, multi2];
-                        let tmp_skill_level = [skillLevel, skillLevel2];
-                        for(let i = 0; i<2; ++i){
-                            if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = before_attack;
-                            else if(tmp_mul_type[i] == "defense_multi") stat = before_defense;
-                            else if(tmp_mul_type[i] == "hp_multi") stat = before_healthpoint;
-                            before_dmg += get_damage(tmp_mul_type[i], stat, tmp_multi[i], before_cri, tmp_skill_level[i], def_dmg);
-                        }
-                    }
-                    
-                    var dmgNoCri = 0;
-                    if (multi_type == "speed_multi") {
-                        dmgNoCri = attack * ((multi + speed) / multi2) * (100 + skillLevel) * def_dmg / 10000;
-                    }
-                    else{
-                        let stat;
-                        let tmp_mul_type = [ multi_type, multi_type2];
-                        let tmp_multi = [ multi, multi2];
-                        let tmp_skill_level = [skillLevel, skillLevel2];
-                        for(let i = 0; i<2; ++i){
-                            if(tmp_mul_type[i] == "attack_multi" || tmp_mul_type[i] == "bomb_multi") stat = attack;
-                            else if(tmp_mul_type[i] == "defense_multi") stat = defense;
-                            else if(tmp_mul_type[i] == "hp_multi") stat = healthpoint;
-                            dmgNoCri += get_damage(tmp_mul_type[i], stat, tmp_multi[i], 0, tmp_skill_level[i], def_dmg);
-                        }
-                    }
-                    
-                    dmg = dmg + parseInt(dmg * fromNaNtoZero(document.getElementById("increase_dmg").value) / 100);
-                    before_dmg = before_dmg + parseInt(before_dmg * fromNaNtoZero(document.getElementById("increase_dmg").value) / 100);
+                    var dmg = get_damage(multi_types, statSums, multis, skillLevels, def_dmg);
+                    var before_dmg = get_damage(multi_types, beforeStatSums, multis, skillLevels, def_dmg);
 
-                    if (document.getElementById("brand").checked) {
+
+                    //상대 속도 계수
+                    let enemy_spd, relativeSpdMul=1;
+                    if(isButtonTrueState(document.getElementById('relative_spd'))){
+                    let relative_spd_inputs = document.getElementsByClassName('enemy_spd');
+                    enemy_spd = getIntArrayFrom(relative_spd_inputs);
+                    let e_spd = Math.ceil(enemy_spd[0]*(100+leader_percent[STAT_SPD_IDX]+externel_percent[STAT_SPD_IDX])/100 + enemy_spd[1]);
+                    relativeSpdMul += statSums[STAT_SPD_IDX]/e_spd;
+                    relative_spd_inputs[2].value = e_spd;
+                    relative_spd_inputs[3].innerHTML = relativeSpdMul.toFixed(2);
+                    if(!isFinite(relativeSpdMul)){
+                        alert("Error : 상대의 속도가 0이므로 상대속도계수를 무시하고 계산합니다.");
+                        relativeSpdMul = 1;
+                    }
+                    }
+                    dmg = Math.ceil(dmg*relativeSpdMul);
+                    before_dmg = Math.ceil(before_dmg*relativeSpdMul);
+                    //-------------------
+                    let increase_dmg = getIntFrom(document.getElementById("increase_dmg"));
+                    dmg = dmg + parseInt(dmg * increase_dmg / 100);
+                    before_dmg = before_dmg + parseInt(before_dmg * increase_dmg / 100);
+
+                    if (isButtonTrueState(document.getElementById("brand"))) {
                         dmg = parseInt(dmg * 1.25);
                         before_dmg = parseInt(before_dmg * 1.25);
                     }
-                    var criRate = fromNaNtoZero(document.getElementById("cri_rate").value);
+/*                    var criRate = fromNaNtoZero(document.getElementById("cri_rate").value);
                     var averageDmg1;
                     var averageDmg2;
                     if (criRate >= 85) averageDmg1 = dmg;
@@ -1476,11 +1468,11 @@ else if (event.keyCode == 27) {
                             "<br/>평균데미지(상성우위): " + fromNaNtoZero(averageDmg1) + ", 평균데미지(동등): " + fromNaNtoZero(averageDmg2) +
                             "<br/>최종데미지: " + fromNaNtoZero(dmg) + "<br/></div>";
                     }
-                    document.getElementById("result").innerHTML = fromNaNtoZero(dmg);
+  */                  document.getElementById("result").innerHTML = Math.ceil(dmg);
                     document.getElementsByClassName("error_range")[0].innerHTML =
-                        "서머내 오차범위 : " + fromNaNtoZero(dmg * 0.97) + "~" + fromNaNtoZero(dmg * 1.03);
+                        "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03);
 
-                    document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : " + parseInt(before_dmg);
+                    document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : " + Math.ceil(before_dmg);
                 }
                 function openRecord() {
                     document.getElementById("record").style.display = "block";
@@ -1504,7 +1496,7 @@ else if (event.keyCode == 27) {
                 }
                 function datalistChangeCri(node) {
                     let datalist = document.getElementById("rune_datalist_cri");
-                    if (node.value == 'cri') {
+                    if (node.value == RUNE_CD) {
                         datalist.innerHTML = '<option value="59">6성+12</option>';
                         datalist.innerHTML += '<option value="47">6성+9</option>';
                         datalist.innerHTML += '<option value="35">6성+6</option>';
@@ -1518,20 +1510,47 @@ else if (event.keyCode == 27) {
                         datalist.innerHTML += '<option value="30">5성+9</option>';
                     }
                 }
-                
+
             </script>
     </section>
     <footer class="col-12 footer">
-        　　　　　　　　　　마지막 수정일 : 2020-03-14<br />
-        <a href="https://veev23.github.io/">설명 페이지</a>
-        <br />
-        <br />
+        <a href="https://summonerswarskyarena.info/monster-skill-multiplier/" target="_blank"
+            style="width:100%;text-align:center; margin:5px 0">
+            <span class="link">몬스터 계수 참고 사이트</span>
+        </a>
+        <a href="http://summonerswar.wikia.com/wiki/Guide:Skill_damage" target="_blank"
+            style="width:100%;text-align:center; margin:5px 0">
+            <span class="link">데미지 계산식 참고 사이트</span>
+        </a>
+        <hr />
+        <a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank"
+            style="width:100%;text-align:center; margin:5px 0">
+            <span class="link">중턴 계산기</span>
+        </a>
+        <a href="https://veev23.github.io/" target="_blank"
+            style="width:100%;text-align:center; margin:5px 0">
+            <span class="link">설명 페이지</span>
+        </a>
+        <p style="text-align: center;">마지막 수정일 : 2020-04-21</p>
+        <input id="clipboard_text" style="width:10px" />
     </footer>
 </body>
 <script>
-    readInputData();
-    hideRuneEnchant();
-    disable_skill2(document.getElementById("multi_type2"));
-</script>
+    function main() {
+        make_stat_info_table();
+        initAutoMultiSelect();
+        initRuneEnchant();
+        initExternelStatTable();
+        initLeaderTypeSelect();
+        initMultiTypeSelect();
 
+        initInputTags();
+        readInputData();
+
+        hideRuneEnchant();
+        disable_skill2(document.getElementsByClassName('multi_type')[1]);
+        initRelativeSpdMulInput();
+    }
+    main();
+</script>
 </html>
