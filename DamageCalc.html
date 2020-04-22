@@ -420,10 +420,9 @@ else if (event.keyCode == 27) {
                                         obj.innerHTML += "<option value='" + idx + "." + i + "'>" +
                                             (parseInt(i) + 1) + "번 스킬:" + multiplier + "</option>";
                                     }
-                                    document.getElementById("hp_base").value = monster_list[idx][2][0];
-                                    document.getElementById("atk_base").value = monster_list[idx][2][1];
-                                    document.getElementById("def_base").value = monster_list[idx][2][2];
-                                    document.getElementById("spd_base").value = monster_list[idx][2][3];
+                                    for(let i=0; i<4;i++){
+                                    stat_infos[i].getElementsByClassName('base')[0].value =monster_list[idx][2][i];
+                                    }
                                 }
                                 function set_multiplier(obj) {
                                     if (obj.value == null) return;
@@ -432,10 +431,11 @@ else if (event.keyCode == 27) {
                                     let skill_num = info[1];
                                     document.getElementById("auto_setting_alert").innerHTML = "계수 타입 확인바람.";
                                     try {
-                                        document.getElementById("skill_multi").value = monster_list[idx][1][skill_num][0][0];
-                                        document.getElementById("skill_multi2").value = monster_list[idx][1][skill_num][0][1];
+                                        for(let i =0; i<2; i++){
+                                        document.getElementsByClassName("skill_multi")[i].value = monster_list[idx][1][skill_num][0][i];
+                                        }
                                     }
-                                    catch (e) { }
+                                    catch (e) {}
                                 }
                                 function readTextFile(file) {
                                     var rawFile = new XMLHttpRequest();
@@ -462,8 +462,8 @@ else if (event.keyCode == 27) {
                                     if (monster_list.length > 0) {
                                         return;
                                     }
-                                    alert("어떤 몹들의 계수들은 갱신이 되지 않아 현재의 계수와 다를 수 있음에 유의해주세요.(ex:닌자류 평타계수)\n나중에 시간나면 다른 곳에서 찾아올게요..");
                                     readTextFile(filename);
+                                    alert("어떤 몹들의 계수들은 갱신이 되지 않아 현재의 계수와 다를 수 있음에 유의해주세요.(ex:닌자류 평타계수)\n나중에 시간나면 다른 곳에서 찾아올게요..");
                                     obj.innerHTML = "자동세팅(영어)";
                                 }
 
@@ -809,19 +809,19 @@ else if (event.keyCode == 27) {
                         </datalist>
                     </table>
                     <div>
-                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGW"><img src="https://raw.githubusercontent.com/veev23/2018-swar/master/guild_war.png" width="20px"
+                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGW"><img src="guild_war.png" width="20px"
                                 height="20px">길드전</label>
-                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGS"><img src="https://raw.githubusercontent.com/veev23/2018-swar/master/guild_skill.png" width="20px"
+                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGS"><img src="guild_skill.png" width="20px"
                                 height="20px">길드스킬</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isAtkBuff"><img src="https://raw.githubusercontent.com/veev23/2018-swar/master/increase_atk.png"
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isAtkBuff"><img src="increase_atk.png"
                                 width="20px" height="20px">공격력버프</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isDefBuff"><img src="https://raw.githubusercontent.com/veev23/2018-swar/master/increase_def.png"
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isDefBuff"><img src="increase_def.png"
                                 width="20px" height="20px">방어력버프</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isSpdBuff"><img src="https://raw.githubusercontent.com/veev23/2018-swar/master/increase_spd.png"
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isSpdBuff"><img src="increase_spd.png"
                                 width="20px" height="20px">공격속도버프</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='def_debuff'><img src='https://raw.githubusercontent.com/veev23/2018-swar/master/reduce_def.png'
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='def_debuff'><img src='reduce_def.png'
                                 width="20px" height="20px">방어력약화</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='brand'><img src='https://raw.githubusercontent.com/veev23/2018-swar/master/brand.png' width="20px"
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='brand'><img src='brand.png' width="20px"
                                 height="20px">낙인</label>
                     </div>
                 </div>
