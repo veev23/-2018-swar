@@ -146,10 +146,22 @@
             bottom: 10px;
             left: 10px;
         }
+        [id="now_status_save"] {
+            position: fixed;
+            bottom: 10px;
+            left: 150px;
+        }
+        [id="input_reset"] {
+            position: fixed;
+            bottom: 10px;
+            left: 220px;
+        }
 
+        .decorate,
         [type='button'],
         a,
         button {
+            text-align:center;
             font-size: 16px;
             display: inline-block;
             border: 1px solid green;
@@ -170,7 +182,7 @@
             text-decoration: none;
             transition: 0.2s;
         }
-
+        .decorate:hover,
         a:hover,
         button:hover,
         [type='button']:hover{
@@ -223,7 +235,6 @@
             width: 100%;
             top: 10%;
             height: 400px;
-            min-width: 360px;
             z-index: 1;
             background-color: #fff;
             overflow: auto;
@@ -382,10 +393,19 @@
 <body onkeydown="if(event.keyCode == 13){ damageCalculate();}
 else if (event.keyCode == 27) {
   exitRecord();
-};" onbeforeunload="saveInputData(true);">
+};" onbeforeunload="byebye()">
     <header>
         <h1 class="header col-12">서머너즈워 데미지 계산기</h1>
+        <h5>"입력값 초기화"는 입력들을 기본값으로 돌려놓습니다.</h5>
     </header><br />
+    <script>
+const STAT_SAVE_DATA_LIST = 'STAT_SAVE_DATA_LIST';
+var save_data_map;
+function byebye(){
+saveInputData(true);
+localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_map.entries())));
+}
+</script>
     <section>
         <form id="reset_form">
             <div class="row">
@@ -496,11 +516,11 @@ else if (event.keyCode == 27) {
                             row.classList.add(className);
                             row.innerHTML = '<th>' + name + '</th>';
                             let td = document.createElement('td');
-                            td.innerHTML = '<input type="number" class="base" id="base' + className + '" placeholder="기본스텟">+';
+                            td.innerHTML = '<input type="number" class="base" id="b' + className + '" placeholder="기본스텟">+';
                             if (name != "치명피해")
-                                td.innerHTML += '<input type="number" class="rune" id="rune' + className + '"'
+                                td.innerHTML += '<input type="number" class="rune" id="r' + className + '"'
                                     + 'title="룬으로 오르는 수치를 입력하세요." placeholder="추가수치"> + ';
-                            td.innerHTML += '<input type="number" class="disp" id="disp' + className + '"'
+                            td.innerHTML += '<input type="number" class="disp" id="d' + className + '" '
                                 + 'onchange="changeTextColorByNumber(this)" placeholder="룬변경시" '
                                 + 'onmousedown="this.value=' + blankstr + ';">'
                                 + '= <span class="tool_container"><span class="sum"></span>'
@@ -517,10 +537,10 @@ else if (event.keyCode == 27) {
                         }
                     </script>
                     <label>룬 강화 설정
-                        <input type="checkbox" id="enchant_chk" onchange="if(!checked){
+                        <input type="checkbox" id="enc_chk" onchange="if(!checked){
                                 rune_enchant_table.style.display='none';
-                                document.getElementById('rune_all_check').checked=false;
-                                for(let i=1;i<=6;i++)document.getElementById('rune_chk'+i).checked=false; }
+                                document.getElementById('r_all_chk').checked=false;
+                                for(let i=1;i<=6;i++)rune_enchant_table.getElementsByClassName('r_no'+i)[3].checked=false; }
                             else 
                                 rune_enchant_table.style.display='block'"></label>
                     <table id='rune_enchant'>
@@ -532,83 +552,83 @@ else if (event.keyCode == 27) {
                             <th>타입</th>
                             <th>현재 수치</th>
                             <th>최종 수치</th>
-                            <th>모두 선택<input type="checkbox" id="rune_all_check" onchange="javascript:if(this.checked){for(let i=1;i<=6;i++){
-                                        rune_enchant_table.getElementsByClassName('runeno'+i)[3].checked=true;}
+                            <th>모두 선택<input type="checkbox" id="r_all_chk" onchange="javascript:if(this.checked){for(let i=1;i<=6;i++){
+                                        rune_enchant_table.getElementsByClassName('r_no'+i)[3].checked=true;}
                                         }
                                         else{
                                             for(let i=1;i<=6;i++)
-                                            rune_enchant_table.getElementsByClassName('runeno'+i)[3].checked=false;
+                                            rune_enchant_table.getElementsByClassName('r_no'+i)[3].checked=false;
                                             }">
                             </th>
                             </th>
                         </tr>
                         <tr>
                             <th>1번룬</th>
-                            <td><select class="runeno1">
+                            <td><select class="r_no1">
                                 </select></td>
-                            <td><input class="runeno1" type="number" list="rune_datalist02" value="118"
+                            <td><input class="r_no1" type="number" list="rune_datalist02" value="118"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="runeno1" type="number" list="rune_datalist1" value="160"
+                            <td><input class="r_no1" type="number" list="rune_datalist1" value="160"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="runeno1"
-                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input type="checkbox" class="r_no1"
+                                    onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>2번%룬</th>
-                            <td><select class="runeno2">
+                            <td><select class="r_no2">
                                 </select></td>
-                            <td><input class="runeno2" type="number" list="rune_datalist01" value="47"
+                            <td><input class="r_no2" type="number" list="rune_datalist01" value="47"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="runeno2" type="number" list="rune_datalist2" value="63"
+                            <td><input class="r_no2" type="number" list="rune_datalist2" value="63"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="runeno2"
-                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input type="checkbox" class="r_no2"
+                                    onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>3번룬</th>
                             <td>
-                                <select class="runeno3" t>
+                                <select class="r_no3" t>
                                 </select>
                             </td>
-                            <td><input class="runeno3" type="number" list="rune_datalist02" value="118"
+                            <td><input class="r_no3" type="number" list="rune_datalist02" value="118"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="runeno3" type="number" list="rune_datalist1" value="160"
+                            <td><input class="r_no3" type="number" list="rune_datalist1" value="160"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="runeno3"
-                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input type="checkbox" class="r_no3"
+                                    onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>4번%룬</th>
-                            <td><select class="runeno4" onchange="datalistChangeCri(this)">
+                            <td><select class="r_no4" onchange="datalistChangeCri(this)">
                                 </select></td>
-                            <td><input class="runeno4" type="number" list="rune_datalist_cri" value="59"
+                            <td><input class="r_no4" type="number" list="rune_datalist_cri" value="59"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="runeno4" type="number" list="rune_datalist4" value="80"
+                            <td><input class="r_no4" type="number" list="rune_datalist4" value="80"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="runeno4"
-                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input type="checkbox" class="r_no4"
+                                    onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>5번룬</th>
-                            <td><select class="runeno5">
+                            <td><select class="r_no5">
                                 </select></td>
-                            <td><input class="runeno5" type="number" list="rune_datalist03" value="1800"
+                            <td><input class="r_no5" type="number" list="rune_datalist03" value="1800"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="runeno5" type="number" list="rune_datalist5" value="2448"
+                            <td><input class="r_no5" type="number" list="rune_datalist5" value="2448"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="runeno5"
-                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input type="checkbox" class="r_no5"
+                                    onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>6번%룬</th>
-                            <td><select class="runeno6">
+                            <td><select class="r_no6">
                                 </select></td>
-                            <td><input class="runeno6" type="number" list="rune_datalist01" value="47"
+                            <td><input class="r_no6" type="number" list="rune_datalist01" value="47"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="runeno6" type="number" list="rune_datalist2" value="63"
+                            <td><input class="r_no6" type="number" list="rune_datalist2" value="63"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="runeno6"
-                                    onchange="if(!checked)document.getElementById('rune_all_check').checked=false"></td>
+                            <td><input type="checkbox" class="r_no6"
+                                    onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <datalist id='rune_datalist1'>
                             <option value="160">6성</option>
@@ -689,48 +709,48 @@ else if (event.keyCode == 27) {
                         </tr>
                         <tr>
                             <td>체력%</td>
-                            <td><input type="number" value="20" id='honorhp' list='passive_datalist1'
+                            <td><input type="number" value="20" id='hhp' list='passive_datalist1'
                                     onmousedown="this.value='';">
                             </td>
-                            <td><input type="number" value="20" id='flaghp' list='passive_datalist1'
+                            <td><input type="number" value="20" id='fhp' list='passive_datalist1'
                                     onmousedown="this.value='';">
                             </td>
-                            <td><input type="number" value="5" id='dunhp' onmousedown="this.value='';"></td>
+                            <td><input type="number" value="5" id='ghp' onmousedown="this.value='';"></td>
                         </tr>
                         <tr>
                             <td>공격력%</td>
                             <td class="tool_container attack">
-                                <input type="number" value="41" id='honoratk' list='passive_datalist4'
+                                <input type="number" value="41" id='hatk' list='passive_datalist4'
                                     onmousedown="this.value='';">
                                 <span class="tool_text">고대의검+속성건물로 적어주세요. 만렙시 41%</span>
                             </td>
-                            <td><input type="number" value="20" id='flagatk' list='passive_datalist1'
+                            <td><input type="number" value="20" id='fatk' list='passive_datalist1'
                                     onmousedown="this.value='';">
                             </td>
-                            <td><input type="number" value="5" id='dunatk' onmousedown="this.value='';"></td>
+                            <td><input type="number" value="5" id='gatk' onmousedown="this.value='';"></td>
                         </tr>
                         <tr>
                             <td>방어력%</td>
-                            <td><input type="number" value="20" id='honordef' list='passive_datalist1'
+                            <td><input type="number" value="20" id='hdef' list='passive_datalist1'
                                     onmousedown="this.value='';">
                             </td>
-                            <td><input type="number" value="20" id='flagdef' list='passive_datalist1'
+                            <td><input type="number" value="20" id='fdef' list='passive_datalist1'
                                     onmousedown="this.value='';">
                             </td>
-                            <td><input type="number" value="5" id='dundef' onmousedown="this.value='';"></td>
+                            <td><input type="number" value="5" id='gdef' onmousedown="this.value='';"></td>
                         </tr>
                         <tr>
                             <td>공격속도%</td>
-                            <td><input type="number" value="15" id='honorspd' list='passive_datalist3'
+                            <td><input type="number" value="15" id='hspd' list='passive_datalist3'
                                     onmousedown="this.value='';">
                             </td>
                         </tr>
                         <tr>
                             <td>치명피해</td>
-                            <td><input type="number" value="25" id='honorcd' list='passive_datalist22'
+                            <td><input type="number" value="25" id='hcd' list='passive_datalist22'
                                     onmousedown="this.value='';">
                             </td>
-                            <td><input type="number" value="25" id='flagcd' list='passive_datalist2'
+                            <td><input type="number" value="25" id='fcd' list='passive_datalist2'
                                     onmousedown="this.value='';">
                             </td>
                         </tr>
@@ -813,11 +833,11 @@ else if (event.keyCode == 27) {
                                 height="20px">길드전</label>
                         <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGS"><img src="guild_skill.png" width="20px"
                                 height="20px">길드스킬</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isAtkBuff"><img src="increase_atk.png"
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isABuff"><img src="increase_atk.png"
                                 width="20px" height="20px">공격력버프</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isDefBuff"><img src="increase_def.png"
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isDBuff"><img src="increase_def.png"
                                 width="20px" height="20px">방어력버프</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isSpdBuff"><img src="increase_spd.png"
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isSBuff"><img src="increase_spd.png"
                                 width="20px" height="20px">공격속도버프</label>
                         <label class='col-4 toggle_button' onclick="button_click(this,null)" id='def_debuff'><img src='reduce_def.png'
                                 width="20px" height="20px">방어력약화</label>
@@ -828,7 +848,7 @@ else if (event.keyCode == 27) {
             </div>
             <br />
             <div class="row">
-                <div class="col-8">
+                <div class="col-8" id='etc_info_table'>
                     <table>
                         <tr>
                             <th>무슨계수?</th>
@@ -919,7 +939,7 @@ else if (event.keyCode == 27) {
                         <tr>
                             <th>리더스킬</th>
                             <td>
-                                <select id="leader_type">
+                                <select class='leader_type' id="l_type">
                                 </select>
                                 <script>
                                     const LEADER_NONE = "none";
@@ -930,21 +950,21 @@ else if (event.keyCode == 27) {
                                     const leaderTypes = [[LEADER_NONE, "없음"], [LEADER_HP, "체력%"], [LEADER_ATK, "공격력%"]
                                         , [LEADER_DEF, "방어력%"], [LEADER_SPD, "공격속도%"]];
                                     function initLeaderTypeSelect() {
-                                        let obj = document.getElementById("leader_type");
+                                        let obj = document.getElementById("l_type");
                                         for (i in leaderTypes) {
                                             optionAddToSelect(obj, leaderTypes[i][0], leaderTypes[i][1]);
                                         }
                                     }
                                 </script>
                             </td>
-                            <td><input type="number" id="leader_value"></td>
+                            <td><input type="number" class='leader_value' id="l_v"></td>
                             <td>
                             </td>
 
                         </tr>
                         <tr>
                             <th>이계룬 개수</th>
-                            <td><input type="number" id="dimension" placeholder="개당 8%"></td>
+                            <td><input type="number" class='dimension' id="dimen" placeholder="개당 8%"></td>
                             <td>
                                 <label>
                                     <span class="tool_container">
@@ -964,18 +984,20 @@ else if (event.keyCode == 27) {
                         </tr>
                         <tr>
                             <th>적의 방어력</th>
-                            <td><input type="number" id="enemy_def" placeholder="방무는 0"></td>
-                            <td><span id="def_dmg" title="1000/(1140+방어력*3.5)"></span></td>
+                            <td><input type="number" class='enemy_def' id="e_def" placeholder="방무는 0"></td>
+                            <td><span class='def_dmg' title="1000/(1140+방어력*3.5)"></span></td>
                             <td>
                             </td>
                         </tr>
                         <tr>
-                            <th><span id='relative_spd' onclick="button_click(this, useRelativeSpdMul)"
-                                    class='toggle_button white_button'>상대 속도계수</span></th>
+                            <th>
+                            <span class='relative_spd toggle_button white_button' id='r_spd' onclick="button_click(this, useRelativeSpdMul)">
+                            상대 속도계수</span>
+                            </th>
                             <td colspan='3'>
-                                <input type="number" class="enemy_spd" placeholder="기본속">
-                                + <input type="number" class="enemy_spd" placeholder="적 뒷속">
-                                = <input type="number" class="enemy_spd" placeholder="총 속도" disabled>
+                                <input type="number" class="enemy_spd" id='e_s1' placeholder="기본속">
+                                + <input type="number" class="enemy_spd" id='e_s2' placeholder="적 뒷속">
+                                = <input type="number" class="enemy_spd" id='e_s3' placeholder="총 속도" disabled>
                                 배율:<span class='enemy_spd'></span>
                             </td>
                         </tr>
@@ -1001,18 +1023,18 @@ else if (event.keyCode == 27) {
                                 callback(use);
                             }
                             function useRelativeSpdMul(isUse) {
-                                let tag = document.getElementsByClassName('enemy_spd');
+                                let tag = etc_info_table.getElementsByClassName('enemy_spd');
                                 for (let i = 0; i < 2; i++) {
                                     tag[i].disabled = !isUse;
                                 }
                             }
                             function initRelativeSpdMulInput(){
-                                useRelativeSpdMul(isButtonTrueState(document.getElementById('relative_spd')));
+                                useRelativeSpdMul(isButtonTrueState(etc_info_table.getElementsByClassName('relative_spd')[0]));
                             }
                         </script>
                         <tr>
                             <th>증가데미지</th>
-                            <td><input id='increase_dmg' type="number"></td>
+                            <td><input class='increase_dmg' id='inc' type="number"></td>
                             <td></td>
                             <td>
                             </td>
@@ -1020,6 +1042,62 @@ else if (event.keyCode == 27) {
                         </tr>
                     </table>
                 </div>
+                <div id='saved_datalist' class='col-4'>
+                    <details>
+                    <summary>
+                    저장된 목록 보기
+                    </summary>
+                    <div>
+                    </div>
+                    </details>
+                </div>
+                <script>
+                const etc_info_table = document.getElementById('etc_info_table');
+                    let save_datalist_container = document.getElementById('saved_datalist').getElementsByTagName('div')[0];
+                    function add_save_data_item(map_item){
+                            let callbacks = [['click',function(){
+                            load_data_by(map_item[1][0]);
+                            }]];
+                            
+                        let li = document.createElement('div');
+                        let span = document.createElement('span');
+                        let del = document.createElement('span');
+                        let time_tag = document.createElement('span');
+                        span.classList.add('decorate');
+                        span.classList.add('col-9');
+                        del.classList.add('decorate');
+                        del.classList.add('col-3');
+                        for(let cb of callbacks){
+                        span.addEventListener(cb[0], cb[1],false);
+                        }
+                        span.innerHTML = map_item[0];
+                        del.innerHTML = '삭제';
+                        
+                        time_tag.innerHTML = '등록시간 : '+new Date(map_item[1][1]).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+                        li.style.marginBottom = '8px';
+                        del.addEventListener('click', function(){
+                            if(!confirm(map_item[0]+'를(을) 삭제하실 건가요?')) return;
+                            save_datalist_container.removeChild(li);
+                            save_data_map.delete(map_item[0]);
+                        });
+                        li.appendChild(span);
+                        li.appendChild(del);
+                        li.appendChild(time_tag);
+                        save_datalist_container.appendChild(li);
+                    }
+                    function load_save_data_list(){
+                        let map_str = localStorage.getItem(STAT_SAVE_DATA_LIST);
+                        if(map_str ==null){
+                            save_data_map = new Map();
+                        }
+                        else{
+                            save_data_map = new Map(JSON.parse(map_str));
+                        }
+                        for(let element of save_data_map){
+                            add_save_data_item(element);
+                        };
+                    }
+                </script>
                 <div class="col-4 tool_container">
                     <div class="col-4 result">
                         <span class="error_range tool_text">데이터가 없습니다.</span>
@@ -1029,7 +1107,7 @@ else if (event.keyCode == 27) {
                 </div>
             </div>
             <div class="col-12">
-                <input type='button' onclick="if(confirm('정말로 초기화하시겠습니까?')){ 
+                <input type='button' id='input_reset' onclick="if(confirm('정말로 초기화하시겠습니까?')){ 
                 document.getElementById('reset_form').reset();
                 rune_enchant_table.style.display='none';
                 }" value='입력값 초기화'/>
@@ -1048,10 +1126,32 @@ else if (event.keyCode == 27) {
                 copyText.select();
                 document.execCommand("Copy");
             }
+            function querystring_save(){
+                save_name = prompt("저장할 이름을 입력해주세요.");
+                if(save_name == null || save_name == ''){
+                    return;
+                }
+                if(save_data_map.get(save_name) != undefined){
+                    if(!confirm('이미 존재하는 이름입니다. 덮어 씌우실 건가요?')){
+                        return;
+                    }
+                }
+                var query_string = saveInputData(false).split('?')[1];
+                let time = Date.now();
+                save_data_map.set(save_name,[query_string, time]);
+                add_save_data_item([save_name, [query_string, time]]);
+                alert('저장되었습니다.');
+            }
+            function load_data_by(queryString){
+                readInputData(queryString);
+                alert('불러왔습니다.');
+                disable_skill2(skill_multi_Type_tags[1]);
+            }
         </script>
         <div>
             <button style="display: none;" id="view_recode" onclick="openRecord()">계산 기록보기</button>
             <button id="copy_clipboard" onclick="copy_to_clipboard()">계산 링크 복사</button>
+            <button id='now_status_save' onclick="querystring_save()">저장</button>
 
 
             <div id="record">
@@ -1064,9 +1164,12 @@ else if (event.keyCode == 27) {
                     selectTag.innerHTML += '<option value="' + value + '">'
                         + text + '</option>';
                 }
-                function getUrlParams() {
+                function getUrlParams(queryString) {
                     var params = {};
-                    window.location.search.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value; });
+                    var location = queryString;
+                    if(queryString == undefined)
+                        location = window.location.search;
+                    location.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value; });
                     return params;
                 }
                 function getFloatFrom(inputTag) {
@@ -1156,8 +1259,14 @@ else if (event.keyCode == 27) {
                     }
                     return queryString;
                 }
-                function readInputData() {
-                    var queryMap = getUrlParams();
+                function readInputData(query) {
+                    let queryMap;
+                    if(query == undefined){
+                        queryMap = getUrlParams();
+                    }
+                    else{
+                        queryMap = getUrlParams(query);
+                    }
                     for (let i = 0; i < inputTags.length; i++) {
                         let item = inputTags[i];
                         let name = i;
@@ -1191,7 +1300,7 @@ else if (event.keyCode == 27) {
                 }
 
                 function hideRuneEnchant() {
-                    let checked = document.getElementById('enchant_chk').checked;
+                    let checked = document.getElementById('enc_chk').checked;
                     if (!checked) {
                         rune_enchant_table.style.display = 'none';
                     }
@@ -1202,9 +1311,9 @@ else if (event.keyCode == 27) {
                         inputTags[i].value = inputs[i];
                     }
                 }
-                const skill_multi_Type_tags = document.getElementsByClassName("multi_type");
-                const skill_multi_tags = document.getElementsByClassName("skill_multi");
-                const skill_level_tags = document.getElementsByClassName("skill_level");
+                const skill_multi_Type_tags = etc_info_table.getElementsByClassName("multi_type");
+                const skill_multi_tags = etc_info_table.getElementsByClassName("skill_multi");
+                const skill_level_tags = etc_info_table.getElementsByClassName("skill_level");
                 const autoInfo = class {
                     constructor(stats, mulTypes, multis, levels, def, leader_type, leader_value) {
                         this.stats = stats;
@@ -1238,16 +1347,16 @@ else if (event.keyCode == 27) {
                 function multiAutoSelect(obj) {
                     let idx = obj.selectedIndex;
                     multiChange(autoinfoList[idx][1]);
-                    disable_skill2(skill_multi_Type_tags[1]);
                 }
                 function multiChange(autoinfo) {
                     setValuesTo(stat_info_table.getElementsByClassName('base'), autoinfo.stats);
                     setValuesTo(skill_multi_Type_tags, autoinfo.mulTypes);
                     setValuesTo(skill_multi_tags, autoinfo.multis);
                     setValuesTo(skill_level_tags, autoinfo.levels);
-                    document.getElementById("enemy_def").value = autoinfo.def;
-                    document.getElementById("leader_type").value = autoinfo.leaderType;
-                    document.getElementById("leader_value").value = autoinfo.leaderValue;
+                    etc_info_table.getElementsByClassName("enemy_def")[0].value = autoinfo.def;
+                    document.getElementsByClassName("leader_type")[0].value = autoinfo.leaderType;
+                    etc_info_table.getElementsByClassName("leader_value")[0].value = autoinfo.leaderValue;
+                    disable_skill2(skill_multi_Type_tags[1]);
                 }
                 var recordCount = 0;
                 function get_damage(multi_types, stats, multis, skillLevels, def_dmg) {
@@ -1256,7 +1365,7 @@ else if (event.keyCode == 27) {
                     let multi;
                     let dmg_reduct;
                     let cri = stats[STAT_CD_IDX];
-                    let isSpdType = false;
+                    let isSBuffType = false;
                     for (let i in multi_types) {
                         //크리가 터지지 않는 경우
                         if (multis[i] < 0) {
@@ -1277,7 +1386,7 @@ else if (event.keyCode == 27) {
                                 break;
                             case MULTYPE_SPD:
                                 multi = (stats[STAT_SPD_IDX] + multi) / multis[1];
-                                isSpdType = true;
+                                isSBuffType = true;
                             case MULTYPE_ATK:
                                 stat = stats[STAT_ATK_IDX];
                                 break;
@@ -1289,7 +1398,7 @@ else if (event.keyCode == 27) {
                                 break;
                         }
                         dmg += stat * multi * (100 + cri + skillLevels[i]) * dmg_reduct / 10000;
-                        if (isSpdType) break;
+                        if (isSBuffType) break;
                     }
                     return dmg;
                 }
@@ -1331,8 +1440,9 @@ else if (event.keyCode == 27) {
                         ret[0][i] = 0;
                         ret[1][i] = 0;
                     }
+                    if(document.getElementById('enc_chk').checked){
                     for (let i = 1; i <= 6; i++) {
-                        let rows = rune_enchant_table.getElementsByClassName('runeno' + i);
+                        let rows = rune_enchant_table.getElementsByClassName('r_no' + i);
                         switch (rows[0].value) {
                             case RUNE_HP_C: ret[RUNE_CONST][STAT_HP_IDX] += getDiff(rows[1], rows[2], rows[3]);
                                 break;
@@ -1352,6 +1462,7 @@ else if (event.keyCode == 27) {
                                 break;
                         }
                     }
+                    }
                     return ret;
                 }
                 function getBoolFrom(checkbox) {
@@ -1359,32 +1470,32 @@ else if (event.keyCode == 27) {
                 }
                 
                 function damageCalculate() {
-                    let multi_types = getValueArrayFrom(document.getElementsByClassName("multi_type"));
-                    let dimensionCount = getIntFrom(document.getElementById("dimension"));
-                    let leader_type = document.getElementById("leader_type").value;
-                    let leader_value = getIntFrom(document.getElementById("leader_value"));
+                    let multi_types = getValueArrayFrom(etc_info_table.getElementsByClassName("multi_type"));
+                    let dimensionCount = getIntFrom(etc_info_table.getElementsByClassName("dimension")[0]);
+                    let leader_type = etc_info_table.getElementsByClassName("leader_type")[0].value;
+                    let leader_value = getIntFrom(etc_info_table.getElementsByClassName("leader_value")[0]);
                     let isGW = isButtonTrueState(document.getElementById("isGW"));
                     let isGS = isButtonTrueState(document.getElementById("isGS"));
                     //강화시 룬[valueType][statType]
                     let enchanted_rune = getEnchantStats();
 
                     //방어력 및 계수 선택
-                    var enemy_def = getIntFrom(document.getElementById("enemy_def"));
+                    var enemy_def = getIntFrom(etc_info_table.getElementsByClassName("enemy_def")[0]);
                     if (isButtonTrueState(document.getElementById("def_debuff"))) 
                         enemy_def *= 0.3;
                     var def_dmg = 1000 / (1140 + enemy_def * 3.5);
-                    document.getElementById("def_dmg").innerHTML = " 데미지 경감 : " + def_dmg.toFixed(2);
-                    let multis = getFloatArrayFrom(document.getElementsByClassName("skill_multi"));
-                    let skillLevels = getIntArrayFrom(document.getElementsByClassName("skill_level"));
+                    etc_info_table.getElementsByClassName("def_dmg")[0].innerHTML = " 데미지 경감 : " + def_dmg.toFixed(2);
+                    let multis = getFloatArrayFrom(etc_info_table.getElementsByClassName("skill_multi"));
+                    let skillLevels = getIntArrayFrom(etc_info_table.getElementsByClassName("skill_level"));
 
                     let dimen = getDimensionPercent(multi_types[0], dimensionCount);
                     //버프
                     let buffs = [1, 1, 1, 1, 1];
-                    if (isButtonTrueState(document.getElementById('isSpdBuff')))
+                    if (isButtonTrueState(document.getElementById('isSBuff')))
                         buffs[STAT_SPD_IDX] = 1.3;
-                    if (isButtonTrueState(document.getElementById('isDefBuff')))
+                    if (isButtonTrueState(document.getElementById('isDBuff')))
                         buffs[STAT_DEF_IDX] = 1.7;
-                    if (isButtonTrueState(document.getElementById('isAtkBuff')))
+                    if (isButtonTrueState(document.getElementById('isABuff')))
                         buffs[STAT_ATK_IDX] = 1.5;
 
                     let externel_percent = []
@@ -1429,8 +1540,8 @@ else if (event.keyCode == 27) {
 
                     //상대 속도 계수
                     let enemy_spd, relativeSpdMul=1;
-                    if(isButtonTrueState(document.getElementById('relative_spd'))){
-                    let relative_spd_inputs = document.getElementsByClassName('enemy_spd');
+                    if(isButtonTrueState(etc_info_table.getElementsByClassName('relative_spd')[0])){
+                    let relative_spd_inputs = etc_info_table.getElementsByClassName('enemy_spd');
                     enemy_spd = getIntArrayFrom(relative_spd_inputs);
                     let e_spd = Math.ceil(enemy_spd[0]*(100+leader_percent[STAT_SPD_IDX]+externel_percent[STAT_SPD_IDX])/100 + enemy_spd[1]);
                     relativeSpdMul += statSums[STAT_SPD_IDX]/e_spd;
@@ -1444,7 +1555,7 @@ else if (event.keyCode == 27) {
                     dmg = Math.ceil(dmg*relativeSpdMul);
                     before_dmg = Math.ceil(before_dmg*relativeSpdMul);
                     //-------------------
-                    let increase_dmg = getIntFrom(document.getElementById("increase_dmg"));
+                    let increase_dmg = getIntFrom(etc_info_table.getElementsByClassName("increase_dmg")[0]);
                     dmg = dmg + parseInt(dmg * increase_dmg / 100);
                     before_dmg = before_dmg + parseInt(before_dmg * increase_dmg / 100);
 
@@ -1515,23 +1626,23 @@ else if (event.keyCode == 27) {
     </section>
     <footer class="col-12 footer">
         <a href="https://summonerswarskyarena.info/monster-skill-multiplier/" target="_blank"
-            style="width:100%;text-align:center; margin:5px 0">
+            class='col-12' style="width:100%; margin:5px 0">
             <span class="link">몬스터 계수 참고 사이트</span>
         </a>
         <a href="http://summonerswar.wikia.com/wiki/Guide:Skill_damage" target="_blank"
-            style="width:100%;text-align:center; margin:5px 0">
+            class='col-12' style="width:100%; margin:5px 0">
             <span class="link">데미지 계산식 참고 사이트</span>
         </a>
         <hr />
         <a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank"
-            style="width:100%;text-align:center; margin:5px 0">
+            class='col-12' style="width:100%; margin:5px 0">
             <span class="link">중턴 계산기</span>
         </a>
         <a href="https://veev23.github.io/" target="_blank"
-            style="width:100%;text-align:center; margin:5px 0">
+            class='col-12' style="width:100%;margin:5px 0">
             <span class="link">설명 페이지</span>
         </a>
-        <p style="text-align: center;">마지막 수정일 : 2020-04-21</p>
+        <p style="text-align: center;">마지막 수정일 : 2020-04-25</p>
         <input id="clipboard_text" style="width:10px" />
     </footer>
 </body>
@@ -1546,9 +1657,10 @@ else if (event.keyCode == 27) {
 
         initInputTags();
         readInputData();
+        load_save_data_list();
 
         hideRuneEnchant();
-        disable_skill2(document.getElementsByClassName('multi_type')[1]);
+        disable_skill2(skill_multi_Type_tags[1]);
         initRelativeSpdMulInput();
     }
     main();
