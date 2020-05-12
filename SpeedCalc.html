@@ -70,7 +70,7 @@
         }
         .white_button {
             text-align: center;
-            min-height: 30px;
+            min-height: 25px;
             font-size: 16px;
             display: inline-block;
             border: 1px solid green;
@@ -82,7 +82,7 @@
         }
         .green_button {
             text-align: center;
-            min-height: 30px;
+            min-height: 25px;
             font-size: 16px;
             display: inline-block;
             border: 1px solid darkgrey;
@@ -750,7 +750,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             }
                         }
                         else {
-                            if (queryMap[name] == undefined || queryMap[name] == "") {
+                            if (queryMap[name] == undefined) {
                                 item.value = localStorage.getItem(name);
                             }
                             else {
