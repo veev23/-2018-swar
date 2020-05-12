@@ -688,7 +688,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     var location = queryString;
                     if(queryString == undefined)
                         location = window.location.search;
-                    location.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value;});
+                    location.replace(/[?&]?([^=&]+)=([^&]*)/gi, function (str, key, value) {params[key] = value;});
                     return params;
                 }
                 let inputTags;
