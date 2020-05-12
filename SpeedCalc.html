@@ -6,17 +6,42 @@
     <link rel="shortcut icon" href="favicon.ico">
 <style>
         header,
-        p, .center {
+        .center {
             text-align: center;
         }
         .left{
             text-align: left;
         }
-        a:active {
-            color: white;
-            background-color: green;
+        a, button,  [type='button'], .decorate {
+            font-size: 16px;
+            display: inline-block;
+            border: 1px solid green;
+            padding: 6px 13px;
+            color: green;
+            background-color: white;
+            text-decoration: none;
+            transition: 0.2s;
+            width: 100%;
         }
-
+    
+        [id="input_reset"] {
+            position: fixed;
+            bottom: 10px;
+            left: 225px;
+            width: 130px;
+        }
+        [id="now_status_save"] {
+            position: fixed;
+            bottom: 10px;
+            left: 155px;
+            width: 60px;
+        }
+        [id="copy_clipboard"] {
+            position: fixed;
+            width: 135px;
+            bottom: 10px;
+            left: 10px;
+        }
 
         a span.link {
             transition: 0.2s;
@@ -31,20 +56,21 @@
         a:hover span.link:after {
             opacity: 1;
         }
-
-        a, button {
-            font-size: 16px;
-            display: inline-block;
-            border: 1px solid green;
-            padding: 6px 13px;
-            color: green;
-            background-color: white;
-            text-decoration: none;
-            transition: 0.2s;
-            width: 100%;
+        a:hover,
+        button:hover,
+        [type='button']:hover,
+        .toggle_button:hover,
+        .decorate:hover{
+            color: white;
+            background-color: green;
         }
-
+        a:active, button:active {
+            color: white;
+            background-color: green;
+        }
         .white_button {
+            text-align: center;
+            min-height: 30px;
             font-size: 16px;
             display: inline-block;
             border: 1px solid green;
@@ -52,18 +78,20 @@
             background-color: white;
             text-decoration: none;
             width: 100%;
+            transition: 0.2s;
         }
-
         .green_button {
+            text-align: center;
+            min-height: 30px;
             font-size: 16px;
             display: inline-block;
-            border: 1px solid green;
+            border: 1px solid darkgrey;
             color: white;
             background-color: green;
             text-decoration: none;
             width: 100%;
+            transition: 0.2s;
         }
-
         .red {
             color: red;
             font-weight: bold;
@@ -90,7 +118,7 @@
             text-align: center;
         }
 
-        input[type="number"],input[type="text"] {
+        input[type="number"],input[type="text"]{
             width: 100%;
             max-width: 100px;
             font-size: 15px;
@@ -108,6 +136,9 @@
             width: 16.66%;
         }
 
+        .col-2_4 {
+            width: 20%;
+        }
         .col-3 {
             width: 25%;
         }
@@ -160,67 +191,175 @@
     </style>
    
 </head>
-
-<body onkeydown="if(event.keyCode == 13){ calc();}">
+<body onkeydown="if(event.keyCode == 13){ calc();}" 
+onbeforeunload="byebye()">
+<script>
+const STAT_SAVE_DATA_LIST = 'STATUS_SAVE_DATA_LIST';
+var save_data_map;
+function byebye(){
+saveInputData(true);
+localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_map.entries())));
+}
+</script>
     <header>
         <h1>서머너즈워 중턴 계산기</h1>
     </header>
+    <form id='reset_form'>
+            <input type='button' id="copy_clipboard" onclick="copy_to_clipboard()" value='계산 링크 복사'/>
+            <input type='button' id='now_status_save' onclick="querystring_save()" value='저장'/>
+                <input type='button' id='input_reset' onclick="if(confirm('정말로 초기화하시겠습니까?')){ 
+                document.getElementById('reset_form').reset();
+                }" value='입력값 초기화'/>
+            <script>
+            
+            function copy_to_clipboard() {
+                var copy_string = saveInputData(false);
+                var copyText = document.getElementById("clipboard_text");
+                copyText.value = copy_string;
+                copyText.select();
+                document.execCommand("Copy");
+            }
+            function querystring_save(){
+                save_name = prompt("저장할 이름을 입력해주세요.");
+                if(save_name == null || save_name == ''){
+                    return;
+                }
+                if(save_data_map.get(save_name) != undefined){
+                    if(!confirm('이미 존재하는 이름입니다. 덮어 씌우실 건가요?')){
+                        return;
+                    }
+                }
+                var query_string = saveInputData(false).split('?')[1];
+                let time = Date.now();
+                save_data_map.set(save_name,[query_string, time]);
+                add_save_data_item([save_name, [query_string, time]]);
+                alert('저장되었습니다.');
+            }
+            function load_data_by(queryString){
+                readInputData(queryString);
+                alert('불러왔습니다.');
+            }
+            </script>
     <section class="col-12">
         <table class="col-4" id='rapid_list'>
         </table>
         <table class="col-8">
             <tr>
-                <td>계산할 틱 수 <input type="number" class="tic_count" value="10"/>회</td>
+                <td colspan='2'>계산할 틱 수 <input type="number" class="tic_count" value="10"/>회</td>
             </tr>
             <tr>
-                <td>틱당 수치 <input type="number" class='tic' value='7' />%</td>
+                <td colspan='2'>틱당 수치 <input type="number" class='tic' value='7' />%</td>
             </tr>
             <tr>
-                <td><input id='show_tic_option' type='button' onclick="button_click(this, '턴 획득 틱만 보기', '모든 틱 보기');" class='white_button' value='모든 틱 보기' min='0'/></td>
-            </tr>
-            <tr>
-                <td>공속 토템 <input type="number" class="totem" value='15' />%</td>
-            </tr>
-            <tr>
-                <td>공속 리더 <input type="number" class="leader" />%</td>
+                <td colspan='2'><span id='show_tic_option' onclick="button_click(this);" class='toggle_button white_button'>턴 획득하는 틱만 보기</span></td>
             </tr>
             <tr id='enemy_first'>
-                <td><input onclick="enemy_stat_active(this)" type='button' class='col-4 white_button' value='적 선턴 속도' min='0'/>
-                       
-                    <!-- getElementsByTag("span")으로 사용중 -->
-                    <span style="display: none;"><input type='number' placeholder="기본속"/>+<input type='number' placeholder="뒷속"/>=<input type='number' placeholder='합 속' disabled/></span>
-                <span>아군 선턴과 같게</span></td>
+                <td colspan='2'><span onclick="enemy_stat_active(this)" class='col-5 toggle_button green_button'>적 선턴 속도 직접 입력</span>
+               <span>상대 1번몹이 아군 선턴 공속과 같게</span></td>
             </tr>
+            <tr><td>
+                <label>아군 공속 토템 <input type="number" class="my_totem" value='15' />%</label></td><td>
+                <label>상대 공속 토템 <input type="number" class="enemy_totem" value='15' />%</label>
+                </td>
+                </tr>
+            <tr><td>
+                <label>아군 공속 리더 <input type="number" class="my_leader" />%</label></td><td>
+                <label>상대 공속 리더 <input type="number" class="enemy_leader" />%</label>
+                </td>
+                </tr>
             <script>
                 let enemy_first = document.getElementById("enemy_first");
                 function enemy_stat_active(obj){
-                    const str = "적 선턴 속도";
-                    button_click(obj, str+" 커스텀", str);
-                    let childs = enemy_first.getElementsByTagName('span');
-                    let speed_input = childs[0];
-                    let same = childs[1];
-                    if(obj.min == '0'){
-                        speed_input.style.display = 'none';
-                        same.style.display = 'block';
+                    const str = "적 선턴 속도 직접 입력";
+                    button_click(obj);
+                    let childs = enemy_first.getElementsByTagName('span')[0];
+                    if(is_btn_positive(obj)){
+                        childs.innerHTML = '상대 1번째 몹 공속 직접 입력';
                     }
                     else{
-                        speed_input.style.display = 'block';
-                        same.style.display = 'none';
+                        childs.innerHTML = '상대 1번몹이 아군 선턴 공속과 같게';
                     }
                 }
             </script>
             <table>
                 
+            <div id='saved_datalist' class='col-8'>
+                    <details>
+                    <summary>
+                    저장된 목록 보기
+                    </summary>
+                    <div>
+                    </div>
+                    </details>
+                </div>
+                <script>
+                const etc_info_table = document.getElementById('etc_info_table');
+                    let save_datalist_container = document.getElementById('saved_datalist').getElementsByTagName('div')[0];
+                    function add_save_data_item(map_item){
+                            let callbacks = [['click',function(){
+                            load_data_by(map_item[1][0]);
+                            }]];
+                            
+                        let li = document.createElement('div');
+                        let span = document.createElement('span');
+                        let del = document.createElement('span');
+                        let time_tag = document.createElement('span');
+                        span.classList.add('decorate');
+                        span.classList.add('col-8');
+                        del.classList.add('decorate');
+                        del.classList.add('col-2');
+                        time_tag.classList.add('col-12');
+                        for(let cb of callbacks){
+                        span.addEventListener(cb[0], cb[1],false);
+                        }
+                        span.innerHTML = map_item[0];
+                        del.innerHTML = '삭제';
+                        
+                        time_tag.innerHTML = '등록시간 : '+new Date(map_item[1][1]).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+                        li.style.marginBottom = '8px';
+                        del.addEventListener('click', function(){
+                            if(!confirm(map_item[0]+'를(을) 삭제하실 건가요?')) return;
+                            save_datalist_container.removeChild(li);
+                            save_data_map.delete(map_item[0]);
+                        });
+                        li.appendChild(span);
+                        li.appendChild(del);
+                        li.appendChild(time_tag);
+                        save_datalist_container.appendChild(li);
+                    }
+                    function load_save_data_list(){
+                        let map_str = localStorage.getItem(STAT_SAVE_DATA_LIST);
+                        if(map_str ==null){
+                            save_data_map = new Map();
+                        }
+                        else{
+                            save_data_map = new Map(JSON.parse(map_str));
+                            console.log(map_str);
+                        }
+                        for(let element of save_data_map){
+                            add_save_data_item(element);
+                        };
+                    }
+                </script>
     </section>
     <br />
     <section class="col-12">
-        <p>배치 순서대로 놓아주세요.</p>
-        <div id='input_struct'>
+        <div>
+        <h3 class='center'>아군</h3>
+        <div class='col-12' id='my_struct'>
+        </div>
+        </div>
+        <hr/>
+        <div>
+        <h3 class='center'>상대방</h3>
+        <div class='col-12' id='enemy_struct'>
+        </div>
         </div>
     </section>
-    <button onclick="calc()">계산</button>
+    <input type='button' onclick="calc()" value='계산'/>
     <section class='col-12' id='output'>
     </section>
+    </form>
     <hr/>
     <footer class="col-12">
         <a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank"
@@ -230,7 +369,9 @@
         <a href="https://veev23.github.io/" target="_blank"
             style="width:100%;text-align:center; margin:5px 0">
             <span class="link">설명 페이지</span></a>
-        <p>마지막 수정일 : 2020-04-18</p>
+            
+        <input id="clipboard_text" style="width:10px" />
+        <p>마지막 수정일 : 2020-05-12</p>
         <br />
     </footer>
 </body>
@@ -253,8 +394,8 @@
     }
     function getVal(parent, id) {
         let tmp = parent.getElementsByClassName(id)[0];
-        if (tmp.type == "button") {
-            return tmp.min == 1;
+        if (tmp.classList.contains("toggle_button")) {
+            return is_btn_positive(tmp);
         }
         return tmp.value;
     }
@@ -263,26 +404,39 @@
         tmp.innerHTML = value;
     }
     const max_member = 4;
-    function button_click(obj, positive, negative) {
-        if (obj.min == '1') {
-            obj.value = negative;
-            obj.min = 0;
-        }
-        else {
-            obj.value = positive;
-            obj.min = 1;
-        }
+    function is_btn_positive(obj){
+        return obj.classList.contains('green_button');
+    }
+    
+                            function setButtonState(tag, bool) {
+                                if(bool){
+                                tag.classList.remove('white_button');
+                                tag.classList.add('green_button');
+                                }
+                                else{
+                                tag.classList.add('white_button');
+                                tag.classList.remove('green_button');
+                                }
+                            }
+    function button_click(obj) {
         obj.classList.toggle("white_button");
         obj.classList.toggle("green_button");
     }
-    function make_inputs() {
-        let struct = document.getElementById("input_struct");
-        let seperator = [["존재", "미존재"], ["착용", "미착용"]];
+    function make_inputs(struct_name, monster_name, toggle_active) {
+        let struct = document.getElementById(struct_name);
+        struct.innerHTML = "";
         for (let i = 1; i <= max_member; i++) {
-            let input_tag =
-                '<span class="monster_info col-3">' +
+            let span_tag = document.createElement('span');
+            span_tag.classList.add('monster_info');
+            span_tag.classList.add('col-3');
+            let toggle_button = '';
+            if(i > 1){
+                if(toggle_active) toggle_button = '<span class="toggle_button green_button">활성화</span>';
+                else toggle_button = '<span class="toggle_button white_button">활성화</span>';
+            }
+            span_tag.innerHTML =
                 '<table>' +
-                '<tr><td>몹 이름</td><td><input type="text" class="mob_name" value="' + i + '번째 몹"/></td></tr>' +
+                '<tr><td><input type="text" class="mob_name" value="' + i + monster_name+'"/></td><td>'+toggle_button+'</td></tr>' +
                 '<tr>' +
                 '<td>기본 공속 : </td>' +
                 '<td><input type="number" class="base" /></td>' +
@@ -293,52 +447,51 @@
                 '</tr>' +
                 '<tr>' +
                 '<td>아군게이지업 : </td>' +
-                '<td><input type="number" class="gauge" placeholder="증가량%"/></td>' +
+                '<td><input type="number" step="0.1" class="gauge" placeholder="증가량%"/></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>속업 버프 : </td>' +
-                '<td><input type="button" class="is_speedUp white_button" value="' + seperator[0][1] + '" min="0"/></td>' +
+                '<td><span class="is_speedUp toggle_button white_button">존재</span></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>신속룬 착용 : </td>' +
-                '<td><input type="button" class="is_swift white_button" value="' + seperator[1][1] + '" min="0"/></td>' +
+                '<td><span class="is_swift toggle_button white_button">착용</span></td>' +
                 '</tr>' +
                 '<tr>' +
-                '<td>적게이지업(응보) : </td>' +
-                '<td><input type="number" class="enemy_gauge" placeholder="공격 후"/></td>' +
+                '<td>적게이지업 : </td>' +
+                '<td><input type="number" step="0.1" class="enemy_gauge" placeholder="공격 후"/></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>합 속도 :</td>' +
                 '<td class="sum"></td>' +
                 '</tr>' +
-                '</table>' +
-                '</span>';
-            struct.innerHTML += input_tag;
-        }
-        let info = document.getElementsByClassName("monster_info");
-        for (let i = 0; i < max_member; i++) {
-            let speedUp = info[i].getElementsByClassName("is_speedUp")[0];
-            speedUp.addEventListener("click", function () { button_click(speedUp, seperator[0][0], seperator[0][1]) });
-            let swift = info[i].getElementsByClassName("is_swift")[0];
-            swift.addEventListener("click", function () { button_click(swift, seperator[1][0], seperator[1][1]) });
+                '</table>';
+            span_tag.getElementsByClassName('toggle_button')[0].addEventListener("click", function(){
+                button_click(this, "활성화", "비활성화");
+            })
+            struct.appendChild(span_tag);
+            let speedUp = span_tag.getElementsByClassName("is_speedUp")[0];
+            speedUp.addEventListener("click", function () { button_click(speedUp); });
+            let swift = span_tag.getElementsByClassName("is_swift")[0];
+            swift.addEventListener("click", function () { button_click(swift); });
         }
     }
-    function predict_speed(base, sum_speed) {
+    function predict_speed(base, sum_speed, totem, leader) {
         if(sum_speed == undefined) return 0;
         let swift = base * 0.25;
         let rune = Math.floor(sum_speed - (base * (100 + totem + leader) / 100 + swift));
         let after = Math.ceil(rune + swift);
         return after;
     }
-    function get_speed_by(info){
+    function get_speed_by(info, totem, leader){
         let base = getFloatVal(info, 'base');
         let after = getFloatVal(info, 'after');
         let is_swift = getVal(info, 'is_swift');
-        let ret = get_speed(base, after, is_swift);
+        let ret = get_speed(base, after, is_swift, totem, leader);
         setVal(info, 'sum', ret);
         return ret;
     }
-    function get_speed(base, after, is_swift) {
+    function get_speed(base, after, is_swift, totem, leader) {
         let swift;
         if (is_swift) {
             swift = base * 0.25;
@@ -385,138 +538,241 @@
             td.innerHTML = e[1];
             tr.appendChild(td);
             td = document.createElement("td");
-            let res = predict_speed(e[1], sum_speed);
+            let res = predict_speed(e[1], sum_speed, totems[1], leaders[1]);
             td.innerHTML = res;
             tr.appendChild(td);
             table.appendChild(tr);
         }
     }
     const scale = 1000;
+    let active_members = [[],[]];
     function calc_tics(info) {
-        let is_speedUp = false;
+        let is_speedUp = [false, false];
         let tic_per = scale * getFloatVal(document, 'tic') / 100;
-        let speeds = [];
-        let gauge_ups = [];
-        let enemy_gauge_ups = [];
+        let speeds = [[],[]];
+        let gauge_ups = [[],[]];
+        let enemy_gauge_ups = [[],[]];
         let whos_turn = [];
-        
-        gauge_ups[max_member] = 0;
-        enemy_gauge_ups[max_member] = 0;
 
+        for(let team = 0; team < 2; team++){
         for (let i = 0; i < max_member; i++) {
-            speeds[i] = get_speed_by(info[i]);
-            gauge_ups[i] = getFloatVal(info[i], 'gauge') * scale;
-            enemy_gauge_ups[i] = getFloatVal(info[i], 'enemy_gauge') * scale;
+            if(active_members[team][i]){
+            speeds[team][i] = get_speed_by(info[team][i], totems[team], leaders[team]);
+            gauge_ups[team][i] = getFloatVal(info[team][i], 'gauge') * scale;
+            enemy_gauge_ups[team][i] = getFloatVal(info[team][i], 'enemy_gauge') * scale;
+            }
+            else{
+                speeds[team][i] = 0;
+                gauge_ups[team][i] = 0;
+                enemy_gauge_ups[team][i] = 0;
+            }
         }
-        //적 공격속도 세팅
-        if(enemy_first.getElementsByTagName('input')[0].min =='0'){
-        speeds[max_member] = get_max(speeds, max_member);
         }
-        else{
-            let enemy_inputs = enemy_first.getElementsByTagName("span")[0].getElementsByTagName('input');
-            let e_base = inputParseInt(enemy_inputs[0].value);
-            let e_after = inputParseInt(enemy_inputs[1].value);
-            //적 공격속도 커스텀인 경우 신속룬 영향 x라고 가정
-            speeds[max_member] = get_speed(e_base, e_after, false);
-            enemy_inputs[2].value = speeds[max_member];
+        //적 공격속도 커스텀 아닐 시
+        if(!is_btn_positive(enemy_first.getElementsByClassName('toggle_button')[0])){
+        speeds[1][0] = get_max(speeds[0], max_member);
         }
-        calc_rapid_list(speeds[max_member]);
+        calc_rapid_list(get_max(speeds[1], max_member));
 
-        //now_gauge[tic][n]=gauge
-        let now_gauge = [[0, 0, 0, 0, 0]];
+        //now_gauge[tic][team][n]=gauge
+        let now_gauge = [[[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]];
         for (let i = 1; i <= max_tic; i++) {
             let max = 0, m_idx = 0;
             now_gauge[i] = [];
             //게이지 갱신
-            for (let m = 0; m <= max_member; m++) {
-                now_gauge[i][m] = now_gauge[i - 1][m]
+            for(let team = 0; team<2; team++){
+                now_gauge[i][team] = [];
+            for (let m = 0; m < max_member; m++) {
+                now_gauge[i][team][m] = now_gauge[i - 1][team][m];
+            }
             }
             //게이지 업 했는지?
             if (whos_turn[i - 1] != undefined) {
-                now_gauge[i][whos_turn[i - 1]] = 0;
+                let team = whos_turn[i-1][0];
+                let num = whos_turn[i-1][1];
+                now_gauge[i][team][num] = 0;
                 //아군 게이지 업
-                add_to_array_eles(now_gauge[i], max_member, gauge_ups[whos_turn[i - 1]]);
-                gauge_ups[whos_turn[i - 1]] = 0;
+                add_to_array_eles(now_gauge[i][team], max_member, gauge_ups[team][num]);
+                gauge_ups[team][num] = 0;
                 //적군 게이지 업
-                now_gauge[i][max_member] += enemy_gauge_ups[whos_turn[i-1]];
-                enemy_gauge_ups[whos_turn[i-1]] = 0;
+                let enemy_team = team^1;
+                add_to_array_eles(now_gauge[i][enemy_team], max_member, enemy_gauge_ups[team][num]);
+                //enemy_gauge_ups[team][num] = 0;
             }
             //자연게이지
+            for(let team = 0; team< 2; team++){
             for (let m = 0; m < max_member; m++) {
-                //TODO : 속업에 대해서도 고려해야함
-                now_gauge[i][m] += (is_speedUp ? Math.ceil(speeds[m] * 1.3) : speeds[m]) * tic_per;
+                now_gauge[i][team][m] += (is_speedUp[team] ? Math.ceil(speeds[team][m] * 1.3) : speeds[team][m]) * tic_per;
             }
-            //적은 속업 감안 x
-            now_gauge[i][max_member] += speeds[max_member] * tic_per;
-
+            }
             //게이지 가장 높은 애 탐색
-            for (let member = 0; member <= max_member; member++) {
-                if (now_gauge[i][member] > max) {
-                    max = now_gauge[i][member];
-                    m_idx = member;
+            for(let team = 0; team<2; team++){
+            for (let member = 0; member < max_member; member++) {
+                if(!active_members[team][member]) continue;
+                if (now_gauge[i][team][member] > max) {
+                    max = now_gauge[i][team][member];
+                    m_idx = [team, member];
                 }
+            }
             }
             if (max >= 100*scale) {
                 //m_idx가 턴잡음
                 whos_turn[i] = m_idx;
-                if (m_idx != max_member && getVal(info[m_idx], 'is_speedUp')) {
-                    is_speedUp = true;
+                let team = m_idx[0];
+                let member = m_idx[1];
+                if (getVal(info[team][member], 'is_speedUp')) {
+                    is_speedUp[team] = true;
                 }
             }
         }
         return [now_gauge, whos_turn];
     }
     function print_tics(now_gauge, whos_turn, mob_name) {
-        let show_tic_option = inputParseInt(document.getElementById('show_tic_option').min);
-        const ALL = 0;
+        let show_tic_option = is_btn_positive(document.getElementById('show_tic_option'));
+        const ALL = false;
         
         let output_div = document.getElementById('output');
         let output = '<table><tr><td></td>';
-        for (let i = 0; i <= max_member; i++) {
-            output += '<td>' + mob_name[i] + '</td>';
+        for(let team = 0; team<2; team++){
+        for (let i = 0; i < max_member; i++) {
+                if(!active_members[team][i]) continue;
+            output += '<td class="'+(team == 0 ? 'green' : 'red')+'">' + mob_name[team][i] + '</td>';
+        }
         }
         output += '</tr>';
         for (let i = 1; i <= max_tic; i++) {
             if(show_tic_option != ALL && whos_turn[i] == undefined) continue;
+            let w_t;
+            let w_m;
+            if(whos_turn[i] == undefined){
+            w_t = -1;
+            w_m = -1;
+            }
+            else{
+            w_t = whos_turn[i][0];
+            w_m = whos_turn[i][1];
+            }
             output += '<tr><td>' + i + '틱</td>';
-            for (let m = 0; m <= max_member; m++) {
-                output += '<td' + ((whos_turn[i] == m) ? ' class="red"' : '') + '>' + (now_gauge[i][m]/scale).toFixed(2) + '</td>';
+            for(let team =0;team<2; team++){
+            for (let m = 0; m < max_member; m++) {
+                if(!active_members[team][m]) continue;
+                output += '<td' + ((team==w_t && m == w_m) ? ' class="red"' : '') + '>' + (now_gauge[i][team][m]/scale).toFixed(2) + '</td>';
+            }
             }
             output += '</tr>';
         }
-        output += "</table><p>";
+        output += "</table><p class='center'>";
         for (let i = 1; i <= max_tic; i++) {
             if (whos_turn[i] == undefined) continue;
-            let t = whos_turn[i]
-            output += '<span class="' + (t == max_member ? 'green' : 'red') + '">' + mob_name[t] + '</span>->';
+            let team = whos_turn[i][0];
+            let mem = whos_turn[i][1];
+            output += '<span class="' + (team == 0 ? 'green' : 'red') + '">' + mob_name[team][mem] + '</span>->';
         }
         output += "순으로 이어받습니다.</p>";
         output_div.innerHTML = output;
     }
-    let totem = NaN;
-    let leader = NaN;
+    let totems = [NaN,NaN];
+    let leaders = [NaN,NaN];
+    let member_info = [document.getElementById('my_struct').getElementsByClassName("monster_info"),
+    document.getElementById('enemy_struct').getElementsByClassName("monster_info")];
     function calc() {
         max_tic = getIntVal(document, 'tic_count');
         if(max_tic > 300 && !confirm("리스트가 길어요.")){
             return;
         }
-        totem = getFloatVal(document, 'totem');
-        leader = getFloatVal(document, 'leader');
-        let mob_name = [];
-        let info = document.getElementsByClassName("monster_info");
+        totems = [getFloatVal(document, 'my_totem'),getFloatVal(document, 'enemy_totem')];
+        leaders = [getFloatVal(document, 'my_leader'),getFloatVal(document, 'enemy_leader')];
+        let mob_name = [[],[]];
+        for(let team = 0; team<2; team++){
         for (let i = 0; i < max_member; i++) {
-            mob_name[i] = getVal(info[i], 'mob_name');
-        }
-        mob_name[max_member] = "적 선턴잡이";
-        result_pair = calc_tics(info);
+            mob_name[team][i] = getVal(member_info[team][i], 'mob_name');
+            active_members[team][i] = (i == 0 ? true : is_btn_positive(member_info[team][i].getElementsByClassName('toggle_button')[0]));
+        }}
+        result_pair = calc_tics(member_info);
         print_tics(result_pair[0], result_pair[1], mob_name);
     }
 </script>
 <script>
+                function getUrlParams(queryString) {
+                    var params = {};
+                    var location = queryString;
+                    if(queryString == undefined)
+                        location = window.location.search;
+                    location.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value; });
+                    return params;
+                }
+                let inputTags;
+                function initInputTags() {
+                    inputTags = document.querySelectorAll(".toggle_button, input[type='number'], input[type='text']");
+                }
+                function saveInputData(isLocal) {
+                    queryString = window.location.origin + window.location.pathname + "?";
+                    for (let i = 0; i < inputTags.length; i++) {
+                        let item = inputTags[i];
+                        let name = i;
+                        if(item.classList.contains('toggle_button')){
+                            if (isLocal) {
+                                localStorage.setItem(name, is_btn_positive(item));
+                            }
+                            else {
+                                queryString += name + "=" +is_btn_positive(item) + "&";
+                            }
+                        }
+                        else {
+                            if (isLocal) {
+                                localStorage.setItem(name, item.value);
+                            }
+                            else {
+                                queryString += name + "=" + item.value + "&";
+                            }
+                        }
+                    }
+                    return queryString;
+                }
+                function readInputData(query) {
+                    let queryMap;
+                    if(query == undefined){
+                        queryMap = getUrlParams();
+                    }
+                    else{
+                        queryMap = getUrlParams(query);
+                        console.log(queryMap);
+                    }
+                    for (let i = 0; i < inputTags.length; i++) {
+                        let item = inputTags[i];
+                        let name = i;
+                        if(item.classList.contains('toggle_button')){
+                            if (queryMap[name] == "true" || (queryMap[name] == undefined &&localStorage.getItem(name) == "true")) {
+                                setButtonState(item, true);
+                            }
+                            else {
+                                setButtonState(item, false);
+                            }
+                        }
+                        else {
+                            if (queryMap[name] == undefined || queryMap[name] == "") {
+                                item.value = localStorage.getItem(name);
+                            }
+                            else {
+                                item.value = queryMap[name]
+                            }
+                        }
+                    }
+                    calc();
+                }
+    function refresh(){
+        make_inputs('my_struct', '번째 아군', true);
+        make_inputs('enemy_struct', '번째 상대', false);
+    }
     function main() {
-        make_inputs();
+        refresh();
         calc_rapid_list();
+
+        initInputTags();
+        readInputData();
+        load_save_data_list();
     }
     main();
 </script>
+
 </html>
