@@ -270,9 +270,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             <script>
                 let enemy_first = document.getElementById("enemy_first");
                 function enemy_stat_active(obj){
-                    const str = "적 선턴 속도 직접 입력";
                     button_click(obj);
-                    let childs = enemy_first.getElementsByTagName('span')[0];
+                    let childs = enemy_first.getElementsByTagName('span')[1];
                     if(is_btn_positive(obj)){
                         childs.innerHTML = '상대 1번째 몹 공속 직접 입력';
                     }
@@ -406,7 +405,6 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
     function is_btn_positive(obj){
         return obj.classList.contains('green_button');
     }
-    
                             function setButtonState(tag, bool) {
                                 if(bool){
                                 tag.classList.remove('white_button');
@@ -430,8 +428,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             span_tag.classList.add('col-3');
             let toggle_button = '';
             if(i > 1){
-                if(toggle_active) toggle_button = '<span class="toggle_button green_button">활성화</span>';
-                else toggle_button = '<span class="toggle_button white_button">활성화</span>';
+                if(toggle_active) toggle_button = '<span onclick="button_click(this)" class="toggle_button green_button">활성화</span>';
+                else toggle_button = '<span onclick="button_click(this)" class="toggle_button white_button">활성화</span>';
             }
             span_tag.innerHTML =
                 '<table>' +
@@ -450,11 +448,11 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 '</tr>' +
                 '<tr>' +
                 '<td>속업 버프 : </td>' +
-                '<td><span class="is_speedUp toggle_button white_button">존재</span></td>' +
+                '<td><span onclick="button_click(this)" class="is_speedUp toggle_button white_button">존재</span></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>신속룬 착용 : </td>' +
-                '<td><span class="is_swift toggle_button white_button">착용</span></td>' +
+                '<td><span onclick="button_click(this)" class="is_swift toggle_button white_button">착용</span></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>적게이지업 : </td>' +
@@ -465,14 +463,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 '<td class="sum"></td>' +
                 '</tr>' +
                 '</table>';
-            span_tag.getElementsByClassName('toggle_button')[0].addEventListener("click", function(){
-                button_click(this, "활성화", "비활성화");
-            })
             struct.appendChild(span_tag);
-            let speedUp = span_tag.getElementsByClassName("is_speedUp")[0];
-            speedUp.addEventListener("click", function () { button_click(speedUp); });
-            let swift = span_tag.getElementsByClassName("is_swift")[0];
-            swift.addEventListener("click", function () { button_click(swift); });
         }
     }
     function predict_speed(base, sum_speed, totem, leader) {
@@ -767,7 +758,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
         calc_rapid_list();
 
         initInputTags();
-        readInputData();
+        //readInputData();
         load_save_data_list();
     }
     main();
