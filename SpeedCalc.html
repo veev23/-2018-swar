@@ -334,7 +334,6 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         }
                         else{
                             save_data_map = new Map(JSON.parse(map_str));
-                            console.log(map_str);
                         }
                         for(let element of save_data_map){
                             add_save_data_item(element);
@@ -698,12 +697,12 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     var location = queryString;
                     if(queryString == undefined)
                         location = window.location.search;
-                    location.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value; });
+                    location.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value;});
                     return params;
                 }
                 let inputTags;
                 function initInputTags() {
-                    inputTags = document.querySelectorAll(".toggle_button, input[type='number'], input[type='text']");
+                    inputTags = document.querySelectorAll(".toggle_button, input[type='number'], span input[type='text']");
                 }
                 function saveInputData(isLocal) {
                     queryString = window.location.origin + window.location.pathname + "?";
@@ -736,7 +735,6 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     }
                     else{
                         queryMap = getUrlParams(query);
-                        console.log(queryMap);
                     }
                     for (let i = 0; i < inputTags.length; i++) {
                         let item = inputTags[i];
