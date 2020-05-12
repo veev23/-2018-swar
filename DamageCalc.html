@@ -871,7 +871,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                         [MULTYPE_SPD, '공격속도비례'], [MULTYPE_HP, '체력비례'], [MULTYPE_BOMB, '폭탄']];
 
                                     function initMultiTypeSelect() {
-                                        let tag = document.getElementsByClassName('multi_type');
+                                        let tag = etc_info_table.getElementsByClassName('multi_type');
                                         for (k in tag) {
                                             for (idx in skillMultiTypeName) {
                                                 if (k == 1 && skillMultiTypeName[idx][0] == MULTYPE_SPD) continue; //1번계수 && 공속비례인 경우
@@ -881,7 +881,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                         }
                                     }
                                     function able_skill(obj) {
-                                        let skill_multi = document.getElementsByClassName("skill_multi");
+                                        let skill_multi = etc_info_table.getElementsByClassName("skill_multi");
                                         if (obj.value == 'speed_multi') {
                                             skill_multi[1].disabled = false;
                                         }
@@ -890,9 +890,9 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                         }
                                     }
                                     function disable_skill2(obj) {
-                                        let skill_multi = document.getElementsByClassName("skill_multi");
-                                        let multi_type = document.getElementsByClassName("multi_type");
-                                        let skill_level = document.getElementsByClassName("skill_level");
+                                        let skill_multi = etc_info_table.getElementsByClassName("skill_multi");
+                                        let multi_type = etc_info_table.getElementsByClassName("multi_type");
+                                        let skill_level = etc_info_table.getElementsByClassName("skill_level");
                                         if (obj.value == 'null') {
                                             skill_level[1].disabled = true;
                                             if (multi_type[0].value != 'speed_multi') {
@@ -1169,7 +1169,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     var location = queryString;
                     if(queryString == undefined)
                         location = window.location.search;
-                    location.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value; });
+                    location.replace(/[?&]?([^=&]+)=([^&]*)/gi, function (str, key, value) {params[key] = value;});
                     return params;
                 }
                 function getFloatFrom(inputTag) {
@@ -1272,7 +1272,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         let name = i;
                         if (item.id != '') name = item.id;
                         if(item.classList.contains('toggle_button')){
-                            if (queryMap[name] == "true" || localStorage.getItem(name) == "true") {
+                            if (queryMap[name] == "true" || (queryMap[name] == undefined&&localStorage.getItem(name) == "true")) {
                                 setButtonState(item, true);
                             }
                             else {
@@ -1280,7 +1280,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             }
                         }
                         else if (item.type == "checkbox") {
-                            if (queryMap[name] == "true" || localStorage.getItem(name) == "true") {
+                            if (queryMap[name] == "true" || (queryMap[name] == undefined&&localStorage.getItem(name) == "true")) {
                                 item.checked = true;
                             }
                             else {
@@ -1288,7 +1288,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             }
                         }
                         else {
-                            if (queryMap[name] == undefined || queryMap[name] == "") {
+                            if (queryMap[name] == undefined) {
                                 item.value = localStorage.getItem(name);
                             }
                             else {
@@ -1642,7 +1642,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             class='col-12' style="width:100%;margin:5px 0">
             <span class="link">설명 페이지</span>
         </a>
-        <p style="text-align: center;">마지막 수정일 : 2020-04-25</p>
+        <p style="text-align: center;">마지막 수정일 : 2020-05-13</p>
         <input id="clipboard_text" style="width:10px" />
     </footer>
 </body>
