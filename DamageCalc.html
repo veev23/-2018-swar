@@ -1382,7 +1382,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                 break;
                             case MULTYPE_BOMB:
                                 stat = stats[STAT_ATK_IDX];
-                                cri = 0; def_dmg = 1;
+                                cri = 0; dmg_reduct = 1;
                                 break;
                             case MULTYPE_SPD:
                                 multi = (stats[STAT_SPD_IDX] + multi) / multis[1];
@@ -1642,7 +1642,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             class='col-12' style="width:100%;margin:5px 0">
             <span class="link">설명 페이지</span>
         </a>
-        <p style="text-align: center;">마지막 수정일 : 2020-05-13</p>
+        <p style="text-align: center;">마지막 수정일 : 2020-05-30</p>
         <input id="clipboard_text" style="width:10px" />
     </footer>
 </body>
