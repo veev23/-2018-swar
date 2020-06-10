@@ -1153,7 +1153,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             function load_data_by(queryString){
                 readInputData(queryString);
                 alert('불러왔습니다.');
-                disable_skill2(skill_multi_Type_tags[1]);
+                init_after_load();
             }
         </script>
         <div>
@@ -1650,6 +1650,11 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
     </footer>
 </body>
 <script>
+    function init_after_load(){
+        initShowRuneEnchantTable();
+        disable_skill2(skill_multi_Type_tags[1]);
+        initRelativeSpdMulInput();
+    }
     function main() {
         make_stat_info_table();
         initAutoMultiSelect();
@@ -1662,9 +1667,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
         readInputData();
         load_save_data_list();
 
-        initShowRuneEnchantTable();
-        disable_skill2(skill_multi_Type_tags[1]);
-        initRelativeSpdMulInput();
+        init_after_load();
     }
     main();
 </script>
