@@ -493,7 +493,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         <tr>
                             <th>자동세팅</th>
                             <td>
-                                <select id="auto_multi_select" onchange="multiAutoSelect(this)">
+                                <select class="auto_multi_select" onchange="multiAutoSelect(this)">
                                 </select>
                                 <span id="auto_setting_alert">자동세팅은 필수사항 아님</span>
                             </td>
@@ -566,68 +566,68 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             <th>1번룬</th>
                             <td><select class="r_no1">
                                 </select></td>
-                            <td><input class="r_no1" type="number" list="rune_datalist02" value="118"
+                            <td><input class="r_no1" id='r_no11' type="number" list="rune_datalist02" value="118"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="r_no1" type="number" list="rune_datalist1" value="160"
+                            <td><input class="r_no1" id='r_no12' type="number" list="rune_datalist1" value="160"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="r_no1"
+                            <td><input type="checkbox" class="r_no1" id='r_no13'
                                     onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>2번%룬</th>
-                            <td><select class="r_no2">
+                            <td><select class="r_no2" id='r_no20'>
                                 </select></td>
-                            <td><input class="r_no2" type="number" list="rune_datalist01" value="47"
+                            <td><input class="r_no2" id='r_no21' type="number" list="rune_datalist01" value="47"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="r_no2" type="number" list="rune_datalist2" value="63"
+                            <td><input class="r_no2" id='r_no22' type="number" list="rune_datalist2" value="63"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="r_no2"
+                            <td><input type="checkbox" class="r_no2" id='r_no23'
                                     onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>3번룬</th>
                             <td>
-                                <select class="r_no3" t>
+                                <select class="r_no3">
                                 </select>
                             </td>
-                            <td><input class="r_no3" type="number" list="rune_datalist02" value="118"
+                            <td><input class="r_no3" id='r_no31' type="number" list="rune_datalist02" value="118"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="r_no3" type="number" list="rune_datalist1" value="160"
+                            <td><input class="r_no3" id='r_no32' type="number" list="rune_datalist1" value="160"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="r_no3"
+                            <td><input type="checkbox" class="r_no3" id='r_no33'
                                     onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>4번%룬</th>
-                            <td><select class="r_no4" onchange="datalistChangeCri(this)">
+                            <td><select class="r_no4" id='r_no40' onchange="datalistChangeCri(this)">
                                 </select></td>
-                            <td><input class="r_no4" type="number" list="rune_datalist_cri" value="59"
+                            <td><input class="r_no4" id='r_no41' type="number" list="rune_datalist_cri" value="59"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="r_no4" type="number" list="rune_datalist4" value="80"
+                            <td><input class="r_no4" id='r_no42' type="number" list="rune_datalist4" value="80"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="r_no4"
+                            <td><input type="checkbox" class="r_no4" id='r_no43'
                                     onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>5번룬</th>
                             <td><select class="r_no5">
                                 </select></td>
-                            <td><input class="r_no5" type="number" list="rune_datalist03" value="1800"
+                            <td><input class="r_no5" id='r_no51' type="number" list="rune_datalist03" value="1800"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="r_no5" type="number" list="rune_datalist5" value="2448"
+                            <td><input class="r_no5" id='r_no52' type="number" list="rune_datalist5" value="2448"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="r_no5"
+                            <td><input type="checkbox" class="r_no5" id='r_no53'
                                     onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <tr>
                             <th>6번%룬</th>
-                            <td><select class="r_no6">
+                            <td><select class="r_no6" id='r_no60'>
                                 </select></td>
-                            <td><input class="r_no6" type="number" list="rune_datalist01" value="47"
+                            <td><input class="r_no6" id='r_no61' type="number" list="rune_datalist01" value="47"
                                     onmousedown="this.value='';"></td>
-                            <td><input class="r_no6" type="number" list="rune_datalist2" value="63"
+                            <td><input class="r_no6" id='r_no62' type="number" list="rune_datalist2" value="63"
                                     onmousedown="this.value='';"></td>
-                            <td><input type="checkbox" class="r_no6"
+                            <td><input type="checkbox" class="r_no6" id='r_no63'
                                     onchange="if(!checked)document.getElementById('r_all_chk').checked=false"></td>
                         </tr>
                         <datalist id='rune_datalist1'>
@@ -694,6 +694,14 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                 for (ele of list[i]) {
                                     optionAddToSelect(rows[i], ele, ele);
                                 }
+                            }
+                        }
+                        function initShowRuneEnchantTable(){
+                            if(document.getElementById('enc_chk').checked){
+                                rune_enchant_table.style.display='block';
+                            }
+                            else{
+                                rune_enchant_table.style.display='none';
                             }
                         }
                     </script>
@@ -915,8 +923,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             <td><input type="number" class="skill_multi" placeholder="1번계수" id='mul1'></td>
                             <td><input type="number" class="skill_multi" placeholder="2번계수" id='mul2'></td>
                             <td>
-                                <label>
-                                    <span class="tool_container">
+                                <label class="tool_container">
+                                    <span>
                                         ?
                                         <span class="tool_text">
                                             공,방비례,폭탄 계수인 경우: 1번계수입력<br />
@@ -966,8 +974,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             <th>이계룬 개수</th>
                             <td><input type="number" class='dimension' id="dimen" placeholder="개당 8%"></td>
                             <td>
-                                <label>
-                                    <span class="tool_container">
+                                <label class="tool_container">
+                                    <span>
                                         ?
                                         <span class="dimension tool_text">
                                             첫 번째 계수가<br>
@@ -1224,14 +1232,14 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 let inputTags;
                 function initInputTags() {
                     inputTags = document.querySelectorAll(".toggle_button, input[type='number'], input[type='checkbox'], " +
-                        "select[class='multi_type'], select[class='leader_type']");
+                        "select");
                 }
                 function saveInputData(isLocal) {
                     queryString = window.location.origin + window.location.pathname + "?";
                     for (let i = 0; i < inputTags.length; i++) {
                         let item = inputTags[i];
-                        let name = i;
-                        if (item.id != '') name = item.id;
+                        if(item.id == '') continue;
+                        let name = item.id;
                         if(item.classList.contains('toggle_button')){
                             if (isLocal) {
                                 localStorage.setItem(name, isButtonTrueState(item));
@@ -1269,8 +1277,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     }
                     for (let i = 0; i < inputTags.length; i++) {
                         let item = inputTags[i];
-                        let name = i;
-                        if (item.id != '') name = item.id;
+                        if (item.id == '') continue; 
+                        let name = item.id;
                         if(item.classList.contains('toggle_button')){
                             if (queryMap[name] == "true" || (queryMap[name] == undefined&&localStorage.getItem(name) == "true")) {
                                 setButtonState(item, true);
@@ -1299,12 +1307,6 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     damageCalculate();
                 }
 
-                function hideRuneEnchant() {
-                    let checked = document.getElementById('enc_chk').checked;
-                    if (!checked) {
-                        rune_enchant_table.style.display = 'none';
-                    }
-                }
                 function setValuesTo(inputTags, inputs) {
                     for (i in inputTags) {
                         if (inputs[i] == null) continue;
@@ -1339,9 +1341,9 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         ['풍팬더(평타)', new autoInfo([null, 659, 801, null, null], [MULTYPE_DEF, MULTYPE_ATK], [-160, 130], [35, 25], null, LEADER_DEF, 44)]
                     ];
                 function initAutoMultiSelect() {
-                    let tag = document.getElementById("auto_multi_select");
+                    let tag = document.getElementsByClassName("auto_multi_select")[0];
                     for (let i in autoinfoList) {
-                        optionAddToSelect(tag, autoinfoList[i][0], autoinfoList[i][0], '비둘기.png');
+                        optionAddToSelect(tag, autoinfoList[i][0], autoinfoList[i][0]);
                     }
                 }
                 function multiAutoSelect(obj) {
@@ -1660,7 +1662,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
         readInputData();
         load_save_data_list();
 
-        hideRuneEnchant();
+        initShowRuneEnchantTable();
         disable_skill2(skill_multi_Type_tags[1]);
         initRelativeSpdMulInput();
     }
