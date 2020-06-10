@@ -1003,7 +1003,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             상대 속도계수</span>
                             </th>
                             <td colspan='3'>
-                                <input type="number" class="enemy_spd" id='e_s1' placeholder="기본속">
+                                <input type="number" class="enemy_spd" id='e_s1' placeholder="적기본속">
                                 + <input type="number" class="enemy_spd" id='e_s2' placeholder="적 뒷속">
                                 = <input type="number" class="enemy_spd" id='e_s3' placeholder="총 속도" disabled>
                                 배율:<span class='enemy_spd'></span>
@@ -1377,6 +1377,9 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         else {
                             multi = multis[i];
                         }
+                        //swarfarm, wiki 계수 사이 임계값
+                        if(multi < 20)
+                            multi *= 100;
                         dmg_reduct = def_dmg;
                         switch (multi_types[i]) {
                             case MULTYPE_HP:
@@ -1387,7 +1390,10 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                 cri = 0; dmg_reduct = 1;
                                 break;
                             case MULTYPE_SPD:
-                                multi = (stats[STAT_SPD_IDX] + multi) / multis[1];
+                                //swarfarm, wiki 계수 사이 임계값
+                                if(multis[1] > 5)
+                                    multis[1] /= 100;
+                                multi = (stats[STAT_SPD_IDX] + multis[0]) / multis[1];
                                 isSBuffType = true;
                             case MULTYPE_ATK:
                                 stat = stats[STAT_ATK_IDX];
