@@ -1544,7 +1544,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     let relative_spd_inputs = etc_info_table.getElementsByClassName('enemy_spd');
                     enemy_spd = getIntArrayFrom(relative_spd_inputs);
                     let e_spd = Math.ceil(enemy_spd[0]*(100+leader_percent[STAT_SPD_IDX]+externel_percent[STAT_SPD_IDX])/100 + enemy_spd[1]);
-                    relativeSpdMul += statSums[STAT_SPD_IDX]/e_spd;
+                    relativeSpdMul = statSums[STAT_SPD_IDX]/e_spd;
                     relative_spd_inputs[2].value = e_spd;
                     relative_spd_inputs[3].innerHTML = relativeSpdMul.toFixed(2);
                     if(!isFinite(relativeSpdMul)){
@@ -1642,7 +1642,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             class='col-12' style="width:100%;margin:5px 0">
             <span class="link">설명 페이지</span>
         </a>
-        <p style="text-align: center;">마지막 수정일 : 2020-05-30</p>
+        <p style="text-align: center;">마지막 수정일 : 2020-06-11</p>
+        <p style="text-align: center;">문의 : veev23@naver.com</p>
         <input id="clipboard_text" style="width:10px" />
     </footer>
 </body>
