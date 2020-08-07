@@ -396,7 +396,8 @@ else if (event.keyCode == 27) {
 };" onbeforeunload="byebye()">
     <header>
         <h1 class="header col-12">서머너즈워 데미지 계산기</h1>
-        <h5>"입력값 초기화"는 입력들을 기본값으로 돌려놓습니다.</h5>
+        <h4>"입력값 초기화"는 입력들을 기본값으로 돌려놓습니다.</h4>
+        <h4>아티팩트 추가딜은 증뎀류(낙인 등)를 받는다고 가정합니다.</h4>
     </header><br />
     <script>
 const STAT_SAVE_DATA_LIST = 'STAT_SAVE_DATA_LIST';
@@ -499,8 +500,12 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             </td>
                         </tr>
                     </table>
+                    <table id='artifact_info_table'>
+                    <tr><th>아티팩트 효과<th></tr>
+                    </table>
                     <script>
                         const stat_info_table = document.getElementById('stat_info_table');
+                        const artifact_info_table = document.getElementById('artifact_info_table');
                         const STAT_HP = "hp"; const STAT_HP_IDX = 0;
                         const STAT_ATK = "atk"; const STAT_ATK_IDX = 1;
                         const STAT_DEF = "def"; const STAT_DEF_IDX = 2;
@@ -533,6 +538,42 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         function make_stat_info_table() {
                             for (i in strList) {
                                 stat_infos[i] = make_stat_info(stat_info_table, strList[i], statClassName[i]);
+                            }
+                        }
+                        function make_arti_info(strs) {
+                            let th = document.createElement('th');
+                            let td = document.createElement('td');
+                            if(strs != undefined){
+                            let name = strs[0];
+                            let className = strs[1];
+                            let blankstr = '';
+                            th.innerHTML = name;
+                            td.innerHTML = '<input type="number" class="'+className+'" id="' + className + '" placeholder="%">';
+                            }
+                            return [th, td];
+                        }
+                        const ARTIFACT_ATK_BUFF = 'arti_abuff';
+                        const ARTIFACT_DEF_BUFF = 'arti_dbuff';
+                        const ARTIFACT_SPD_BUFF = 'arti_sbuff';
+                        const ARTIFACT_HP_DEAL = 'arti_hdeal';
+                        const ARTIFACT_ATK_DEAL = 'arti_adeal';
+                        const ARTIFACT_DEF_DEAL = 'arti_ddeal';
+                        const ARTIFACT_SPD_DEAL = 'arti_sdeal';
+                        function make_artifact_info_table(){
+                            const buffs = 
+                            [["공업 증가량", ARTIFACT_ATK_BUFF],["방업 증가량", ARTIFACT_DEF_BUFF], ["속업 증가량", ARTIFACT_SPD_BUFF]];
+                            const deals = [["체력 추가딜", ARTIFACT_HP_DEAL], ["공격력 추가딜", ARTIFACT_ATK_DEAL], 
+                            ["방어력 추가딜", ARTIFACT_DEF_DEAL], ["공격속도 추가딜", ARTIFACT_SPD_DEAL]];
+                            let max_len = buffs.length > deals.length ? buffs.length : deals.length;
+                            for(let i = 0; i<max_len; i++){
+                            let row = document.createElement('tr');
+                            let t = make_arti_info(buffs[i]);
+                            row.appendChild(t[0]);
+                            row.appendChild(t[1]);
+                            t = make_arti_info(deals[i]);
+                            row.appendChild(t[0]);
+                            row.appendChild(t[1]);
+                            artifact_info_table.appendChild(row);
                             }
                         }
                     </script>
@@ -1361,6 +1402,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     disable_skill2(skill_multi_Type_tags[1]);
                 }
                 var recordCount = 0;
+                //return : [예측 데미지, 아티팩트 데미지 비중 %]
                 function get_damage(multi_types, stats, multis, skillLevels, def_dmg) {
                     let dmg = 0;
                     let stat;
@@ -1408,7 +1450,17 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         dmg += stat * multi * (100 + cri + skillLevels[i]) * dmg_reduct / 10000;
                         if (isSBuffType) break;
                     }
-                    return dmg;
+                    arti_atk = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_ATK_DEAL)[0]);
+                    arti_hp = getFloatFrom(artifact_info_table.getElementsByClassName(ARTIFACT_HP_DEAL)[0]);
+                    arti_def = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_DEF_DEAL)[0]);
+                    arti_spd = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SPD_DEAL)[0]);
+                    artifact =
+                    (stats[STAT_ATK_IDX] * arti_atk +
+                    stats[STAT_HP_IDX] * arti_hp +
+                    stats[STAT_DEF_IDX] * arti_def +
+                    stats[STAT_SPD_IDX] * arti_spd)/100;
+
+                    return [dmg + artifact, artifact * 100 / (dmg + artifact)];
                 }
                 function getExternelStats(statClassName, isGW, isGS) {
                     let rows = externel_stat_table.getElementsByClassName(statClassName)[0].getElementsByTagName('input');
@@ -1499,12 +1551,18 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     let dimen = getDimensionPercent(multi_types[0], dimensionCount);
                     //버프
                     let buffs = [1, 1, 1, 1, 1];
-                    if (isButtonTrueState(document.getElementById('isSBuff')))
-                        buffs[STAT_SPD_IDX] = 1.3;
-                    if (isButtonTrueState(document.getElementById('isDBuff')))
-                        buffs[STAT_DEF_IDX] = 1.7;
-                    if (isButtonTrueState(document.getElementById('isABuff')))
-                        buffs[STAT_ATK_IDX] = 1.5;
+                    if (isButtonTrueState(document.getElementById('isSBuff'))){
+                        buffs[STAT_SPD_IDX] =
+                        1.3 + 0.3 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SPD_BUFF)[0]) / 100;
+                    }
+                    if (isButtonTrueState(document.getElementById('isDBuff'))){
+                        buffs[STAT_DEF_IDX] =
+                        1.7 + 0.7 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_DEF_BUFF)[0]) / 100;
+                    }
+                    if (isButtonTrueState(document.getElementById('isABuff'))){
+                        buffs[STAT_ATK_IDX] =
+                        1.5 + 0.5 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_ATK_BUFF)[0]) / 100;
+                    }
 
                     let externel_percent = []
                     let leader_percent = [];
@@ -1542,9 +1600,10 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         stat_infos[i].getElementsByClassName("sum")[0].innerHTML = statSums[i];
                     }
                     //계산식
-                    var dmg = get_damage(multi_types, statSums, multis, skillLevels, def_dmg);
-                    var before_dmg = get_damage(multi_types, beforeStatSums, multis, skillLevels, def_dmg);
-
+                    var ret_dmg = get_damage(multi_types, statSums, multis, skillLevels, def_dmg);
+                    var ret_before_dmg = get_damage(multi_types, beforeStatSums, multis, skillLevels, def_dmg);
+                    var dmg = ret_dmg[0];
+                    var before_dmg = ret_before_dmg[0];
 
                     //상대 속도 계수
                     let enemy_spd, relativeSpdMul=1;
@@ -1562,34 +1621,19 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     }
                     dmg = Math.ceil(dmg*relativeSpdMul);
                     before_dmg = Math.ceil(before_dmg*relativeSpdMul);
-                    //-------------------
+                    //증뎀
                     let increase_dmg = getIntFrom(etc_info_table.getElementsByClassName("increase_dmg")[0]);
                     dmg = dmg + parseInt(dmg * increase_dmg / 100);
                     before_dmg = before_dmg + parseInt(before_dmg * increase_dmg / 100);
-
+                    //낙인
                     if (isButtonTrueState(document.getElementById("brand"))) {
                         dmg = parseInt(dmg * 1.25);
                         before_dmg = parseInt(before_dmg * 1.25);
                     }
-/*                    var criRate = fromNaNtoZero(document.getElementById("cri_rate").value);
-                    var averageDmg1;
-                    var averageDmg2;
-                    if (criRate >= 85) averageDmg1 = dmg;
-                    else averageDmg1 = (dmgNoCri * (85 - criRate) + dmg * (criRate + 15)) / 100;
-                    if (criRate == 100) averageDmg2 = dmg;
-                    else averageDmg2 = (dmgNoCri * (100 - criRate) + dmg * (criRate)) / 100;
-                    if (dmg > 0) {
-                        recordCount++;
-                        document.getElementById("record_container").innerHTML +=
-                            "<div class='record_text' style='border-bottom:1px solid grey;margin-bottom:3px'>" + recordCount + "회차<br/>공격력: " +
-                            attack + ", 방어력: " + defense + ", 공격속도: " + speed + ", 치명확률: " + criRate +
-                            "<br/>치명피해: " + cri + ", 스작: " + skillLevel + ", 적 방어력: " + document.getElementById("enemy_def").value +
-                            "<br/>평균데미지(상성우위): " + fromNaNtoZero(averageDmg1) + ", 평균데미지(동등): " + fromNaNtoZero(averageDmg2) +
-                            "<br/>최종데미지: " + fromNaNtoZero(dmg) + "<br/></div>";
-                    }
-  */                  document.getElementById("result").innerHTML = Math.ceil(dmg);
+                    document.getElementById("result").innerHTML = Math.ceil(dmg);
                     document.getElementsByClassName("error_range")[0].innerHTML =
-                        "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03);
+                        "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03) +'<br>'
+                        + "추가데미지 : " + Math.floor(ret_dmg[1]*dmg/100);
 
                     document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : " + Math.ceil(before_dmg);
                 }
@@ -1650,7 +1694,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             class='col-12' style="width:100%;margin:5px 0">
             <span class="link">설명 페이지</span>
         </a>
-        <p style="text-align: center;">마지막 수정일 : 2020-06-11</p>
+        <p style="text-align: center;">마지막 수정일 : 2020-08-07</p>
         <p style="text-align: center;">문의 : 서머너즈워 공식카페 '안돼요옷' 채팅남겨주세요.</p>
         <input id="clipboard_text" style="width:10px" />
     </footer>
@@ -1663,6 +1707,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
     }
     function main() {
         make_stat_info_table();
+        make_artifact_info_table();
         initAutoMultiSelect();
         initRuneEnchant();
         initExternelStatTable();
