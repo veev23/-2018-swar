@@ -1536,7 +1536,9 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 function getBoolFrom(checkbox) {
                     return checkbox.checked
                 }
-                
+                function max(a, b){
+                    return a>b?a:b;
+                }
                 function damageCalculate() {
                     let multi_types = getValueArrayFrom(etc_info_table.getElementsByClassName("multi_type"));
                     let dimensionCount = getIntFrom(etc_info_table.getElementsByClassName("dimension")[0]);
