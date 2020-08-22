@@ -986,6 +986,11 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
 
                         </tr>
                         <tr>
+                            <th>스킬작</th>
+                            <td><input type="number" class="hit_count" placeholder="히트수" value='1' id='hits'></td>
+                        
+                        </tr>
+                        <tr>
                             <th>리더스킬</th>
                             <td>
                                 <select class='leader_type' id="l_type">
@@ -1357,8 +1362,9 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 const skill_multi_Type_tags = etc_info_table.getElementsByClassName("multi_type");
                 const skill_multi_tags = etc_info_table.getElementsByClassName("skill_multi");
                 const skill_level_tags = etc_info_table.getElementsByClassName("skill_level");
+                const hit_count_tags = etc_info_table.getElementsByClassName("hit_count");
                 const autoInfo = class {
-                    constructor(stats, mulTypes, multis, levels, def, leader_type, leader_value) {
+                    constructor(stats, mulTypes, multis, levels, def, leader_type, leader_value, hit_count) {
                         this.stats = stats;
                         this.mulTypes = mulTypes;
                         this.multis = multis;
@@ -1366,20 +1372,21 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         this.def = def;
                         this.leaderType = leader_type;
                         this.leaderValue = leader_value;
+                        this.hit_count = hit_count;
                     }
                 }
                 const autoinfoList =
                     [
-                        ['등록된 계수 선택', new autoInfo([null, null, null, null, null], [null, null], [null, null], [null, null], null, null, null)],
-                        ['풍조커(3스)', new autoInfo([null, 900, null, 103, null], [MULTYPE_ATK, MULTYPE_NONE], [68, null], [30, null], 0, LEADER_ATK, null)],
-                        ['풍리빙(3스)', new autoInfo([null, 483, 692, null, null], [MULTYPE_DEF, MULTYPE_ATK], [300, 300], [30, 30], 0, LEADER_DEF, null)],
-                        ['불프랑켄(3스)', new autoInfo([null, null, 615, null, null], [MULTYPE_DEF, MULTYPE_NONE], [160, null], [25, null], 0, LEADER_DEF, 21)],
-                        ['풍발키리(3스)', new autoInfo([null, 801, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [280, null], [20, null], 0, LEADER_ATK, null)],
-                        ['빛임프(3스)', new autoInfo([null, 604, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [370, null], [30, null], 0, LEADER_ATK, null)],
-                        ['불하엘(2스)', new autoInfo([null, 878, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [300, null], [25, null], 0, LEADER_ATK, null)],
-                        ['풍선인(3스)', new autoInfo([null, 769, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [800, null], [30, null], null, LEADER_ATK, null)],
-                        ['물스나(3스)', new autoInfo([null, 780, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [400, null], [25, null], 0, LEADER_ATK, null)],
-                        ['풍팬더(평타)', new autoInfo([null, 659, 801, null, null], [MULTYPE_DEF, MULTYPE_ATK], [-160, 130], [35, 25], null, LEADER_DEF, 44)]
+                        ['등록된 계수 선택', new autoInfo([null, null, null, null, null], [null, null], [null, null], [null, null], null, null, null, 1)],
+                        ['풍조커(3스)', new autoInfo([null, 900, null, 103, null], [MULTYPE_ATK, MULTYPE_NONE], [68, null], [30, null], 0, LEADER_ATK, null, 1)],
+                        ['풍리빙(3스)', new autoInfo([null, 483, 692, null, null], [MULTYPE_DEF, MULTYPE_ATK], [300, 300], [30, 30], 0, LEADER_DEF, null), 1],
+                        ['불프랑켄(3스)', new autoInfo([null, null, 615, null, null], [MULTYPE_DEF, MULTYPE_NONE], [160, null], [25, null], 0, LEADER_DEF, 21, 1)],
+                        ['풍발키리(3스)', new autoInfo([null, 801, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [280, null], [20, null], 0, LEADER_ATK, null, 1)],
+                        ['빛임프(3스)', new autoInfo([null, 604, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [370, null], [30, null], 0, LEADER_ATK, null, 1)],
+                        ['불하엘(2스)', new autoInfo([null, 878, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [300, null], [25, null], 0, LEADER_ATK, null, 1)],
+                        ['풍선인(3스)', new autoInfo([null, 769, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [800, null], [30, null], null, LEADER_ATK, null, 1)],
+                        ['물스나(3스)', new autoInfo([null, 780, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [400, null], [25, null], 0, LEADER_ATK, null, 1)],
+                        ['풍팬더(평타)', new autoInfo([null, 659, 801, null, null], [MULTYPE_DEF, MULTYPE_ATK], [-160, 130], [35, 25], null, LEADER_DEF, 44, 1)]
                     ];
                 function initAutoMultiSelect() {
                     let tag = document.getElementsByClassName("auto_multi_select")[0];
@@ -1396,6 +1403,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     setValuesTo(skill_multi_Type_tags, autoinfo.mulTypes);
                     setValuesTo(skill_multi_tags, autoinfo.multis);
                     setValuesTo(skill_level_tags, autoinfo.levels);
+                    setValuesTo(hit_count_tags, autoinfo.hit_count);
                     etc_info_table.getElementsByClassName("enemy_def")[0].value = autoinfo.def;
                     document.getElementsByClassName("leader_type")[0].value = autoinfo.leaderType;
                     etc_info_table.getElementsByClassName("leader_value")[0].value = autoinfo.leaderValue;
@@ -1534,6 +1542,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     let dimensionCount = getIntFrom(etc_info_table.getElementsByClassName("dimension")[0]);
                     let leader_type = etc_info_table.getElementsByClassName("leader_type")[0].value;
                     let leader_value = getIntFrom(etc_info_table.getElementsByClassName("leader_value")[0]);
+                    let hit_count = max(1, getIntFrom(etc_info_table.getElementsByClassName("hit_count")[0]));
                     let isGW = isButtonTrueState(document.getElementById("isGW"));
                     let isGS = isButtonTrueState(document.getElementById("isGS"));
                     //강화시 룬[valueType][statType]
@@ -1602,8 +1611,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     //계산식
                     var ret_dmg = get_damage(multi_types, statSums, multis, skillLevels, def_dmg);
                     var ret_before_dmg = get_damage(multi_types, beforeStatSums, multis, skillLevels, def_dmg);
-                    var dmg = ret_dmg[0];
-                    var before_dmg = ret_before_dmg[0];
+                    var dmg = ret_dmg[0] * hit_count;
+                    var before_dmg = ret_before_dmg[0] * hit_count;
 
                     //상대 속도 계수
                     let enemy_spd, relativeSpdMul=1;
@@ -1630,12 +1639,17 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         dmg = parseInt(dmg * 1.25);
                         before_dmg = parseInt(before_dmg * 1.25);
                     }
+
+                    //탱킹력
+                    let r = 1000 / (1140 + statSums[STAT_DEF_IDX] * 3.5);
+                    let tank_power = statSums[STAT_HP_IDX] / r;
+
                     document.getElementById("result").innerHTML = Math.ceil(dmg);
                     document.getElementsByClassName("error_range")[0].innerHTML =
                         "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03) +'<br>'
                         + "추가데미지 : " + Math.floor(ret_dmg[1]*dmg/100);
-
-                    document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : " + Math.ceil(before_dmg);
+                    document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : " + Math.ceil(before_dmg)
+                        + "<br>탱킹력 : " + Math.floor(tank_power);
                 }
                 function openRecord() {
                     document.getElementById("record").style.display = "block";
@@ -1694,7 +1708,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             class='col-12' style="width:100%;margin:5px 0">
             <span class="link">설명 페이지</span>
         </a>
-        <p style="text-align: center;">마지막 수정일 : 2020-08-07</p>
+        <p style="text-align: center;">마지막 수정일 : 2020-08-22</p>
         <p style="text-align: center;">문의 : 서머너즈워 공식카페 '안돼요옷' 채팅남겨주세요.</p>
         <input id="clipboard_text" style="width:10px" />
     </footer>
