@@ -401,7 +401,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
         let tmp = parent.getElementsByClassName(id)[0];
         tmp.innerHTML = value;
     }
-    const max_member = 4;
+    const max_member = 6;
     function is_btn_positive(obj){
         return obj.classList.contains('green_button');
     }
@@ -425,7 +425,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
         for (let i = 1; i <= max_member; i++) {
             let span_tag = document.createElement('span');
             span_tag.classList.add('monster_info');
-            span_tag.classList.add('col-3');
+            span_tag.classList.add('col-2');
             let toggle_button = '';
             if(i > 1){
                 if(toggle_active) toggle_button = '<span onclick="button_click(this)" class="toggle_button green_button">활성화</span>';
@@ -583,7 +583,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 now_gauge[i][team][num] = 0;
                 //아군 게이지 업
                 add_to_array_eles(now_gauge[i][team], max_member, gauge_ups[team][num]);
-                gauge_ups[team][num] = 0;
+                //매 턴 얻을 때마다 게이지 업
+                //gauge_ups[team][num] = 0;
                 //적군 게이지 업
                 let enemy_team = team^1;
                 add_to_array_eles(now_gauge[i][enemy_team], max_member, enemy_gauge_ups[team][num]);
