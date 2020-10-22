@@ -245,26 +245,26 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
         </table>
         <table class="col-8">
             <tr>
-                <td colspan='2'>계산할 틱 수 <input type="number" class="tic_count" value="10"/>회</td>
+                <td colspan='2'>계산할 틱 수 <input id="calctics" type="number" class="tic_count" value="10"/>회</td>
             </tr>
             <tr>
-                <td colspan='2'>틱당 수치 <input type="number" class='tic' value='7' />%</td>
+                <td colspan='2'>틱당 수치 <input id="val_per_tic" type="number" class='tic' value='7' />%</td>
             </tr>
             <tr>
                 <td colspan='2'><span id='show_tic_option' onclick="button_click(this);" class='toggle_button white_button'>턴 획득하는 틱만 보기</span></td>
             </tr>
             <tr id='enemy_first'>
-                <td colspan='2'><span onclick="enemy_stat_active(this)" class='col-5 toggle_button green_button'>적 선턴 속도 직접 입력</span>
+                <td colspan='2'><span id='enemy_spd_option' onclick="enemy_stat_active(this)" class='col-5 toggle_button green_button'>적 선턴 속도 직접 입력</span>
                <span>상대 1번몹이 아군 선턴 공속과 같게</span></td>
             </tr>
             <tr><td>
-                <label>아군 공속 토템 <input type="number" class="my_totem" value='15' />%</label></td><td>
-                <label>상대 공속 토템 <input type="number" class="enemy_totem" value='15' />%</label>
+                <label>아군 공속 토템 <input id="mytotem" type="number" class="my_totem" value='15' />%</label></td><td>
+                <label>상대 공속 토템 <input id="enemytotem" type="number" class="enemy_totem" value='15' />%</label>
                 </td>
                 </tr>
             <tr><td>
-                <label>아군 공속 리더 <input type="number" class="my_leader" />%</label></td><td>
-                <label>상대 공속 리더 <input type="number" class="enemy_leader" />%</label>
+                <label>아군 공속 리더 <input id='myleader' type="number" class="my_leader" />%</label></td><td>
+                <label>상대 공속 리더 <input id='enemyleader' type="number" class="enemy_leader" />%</label>
                 </td>
                 </tr>
             <script>
@@ -341,16 +341,17 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 </script>
     </section>
     <br />
+    <span onclick="button_click(this)" id="db_icaru_deck_option" class="only_icaru toggle_button white_button">용던 물이누덱 계산 옵션</span>
     <section class="col-12">
         <div>
         <h3 class='center'>아군</h3>
-        <div class='col-12' id='my_struct'>
+        <div class='col-12' id='my'>
         </div>
         </div>
         <hr/>
         <div>
         <h3 class='center'>상대방</h3>
-        <div class='col-12' id='enemy_struct'>
+        <div class='col-12' id='enemy'>
         </div>
         </div>
     </section>
@@ -360,7 +361,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
     </form>
     <hr/>
     <footer class="col-12">
-        <a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank"
+        <a href="https://veev23.github.io/2018-swar/DamageCalc" target="_blank"
             style="width:100%;text-align:center; margin:5px 0">
             <span class="link">데미지 계산기</span>
         </a>
@@ -369,7 +370,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             <span class="link">설명 페이지</span></a>
             
         <input id="clipboard_text" style="width:10px" />
-        <p>마지막 수정일 : 2020-05-12</p>
+        <p>마지막 수정일 : 2020-10-23</p>
+        <p>용던용 물이누 계산 시, 불뱀파이어가 가장 빠른 경우는 제대로 계산되지 않음에 유의</p>
         <br />
     </footer>
 </body>
@@ -428,35 +430,35 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             span_tag.classList.add('col-2');
             let toggle_button = '';
             if(i > 1){
-                if(toggle_active) toggle_button = '<span onclick="button_click(this)" class="toggle_button green_button">활성화</span>';
-                else toggle_button = '<span onclick="button_click(this)" class="toggle_button white_button">활성화</span>';
+                if(toggle_active) toggle_button = '<span id="'+struct_name+i+'active" onclick="button_click(this)" class="toggle_button green_button">활성화</span>';
+                else toggle_button = '<span id="'+struct_name+i+'active" onclick="button_click(this)" class="toggle_button white_button">활성화</span>';
             }
             span_tag.innerHTML =
                 '<table>' +
-                '<tr><td><input type="text" class="mob_name" value="' + i + monster_name+'"/></td><td>'+toggle_button+'</td></tr>' +
+                '<tr><td><input id="'+struct_name+i+'name" type="text" class="mob_name" value="' + i + monster_name+'"/></td><td>'+toggle_button+'</td></tr>' +
                 '<tr>' +
                 '<td>기본 공속 : </td>' +
-                '<td><input type="number" class="base" /></td>' +
+                '<td><input id="'+struct_name+i+'spda" type="number" class="base" /></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>뒷 공속 : </td>' +
-                '<td><input type="number" class="after" /></td>' +
+                '<td><input id="'+struct_name+i+'spdb" type="number" class="after" /></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>아군게이지업 : </td>' +
-                '<td><input type="number" step="0.1" class="gauge" placeholder="증가량%"/></td>' +
+                '<td><input id="'+struct_name+i+'myup" type="number" step="0.1" class="gauge" placeholder="증가량%"/></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>속업 버프 : </td>' +
-                '<td><span onclick="button_click(this)" class="is_speedUp toggle_button white_button">존재</span></td>' +
+                '<td><span id="'+struct_name+i+'spdup" onclick="button_click(this)" class="is_speedUp toggle_button white_button">존재</span></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>신속룬 착용 : </td>' +
-                '<td><span onclick="button_click(this)" class="is_swift toggle_button white_button">착용</span></td>' +
+                '<td><span id="'+struct_name+i+'swift" onclick="button_click(this)" class="is_swift toggle_button white_button">착용</span></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>적게이지업 : </td>' +
-                '<td><input type="number" step="0.1" class="enemy_gauge" placeholder="공격 후"/></td>' +
+                '<td><input id="'+struct_name+i+'enemyup" type="number" step="0.1" class="enemy_gauge" placeholder="공격 후"/></td>' +
                 '</tr>' +
                 '<tr>' +
                 '<td>합 속도 :</td>' +
@@ -537,6 +539,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
     const scale = 1000;
     let active_members = [[],[]];
     function calc_tics(info) {
+        let only_icaru = getVal(document, 'only_icaru');
         let is_speedUp = [false, false];
         let tic_per = scale * getFloatVal(document, 'tic') / 100;
         let speeds = [[],[]];
@@ -582,9 +585,15 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 let num = whos_turn[i-1][1];
                 now_gauge[i][team][num] = 0;
                 //아군 게이지 업
-                add_to_array_eles(now_gauge[i][team], max_member, gauge_ups[team][num]);
                 //매 턴 얻을 때마다 게이지 업
-                //gauge_ups[team][num] = 0;
+                if(!only_icaru){
+                    add_to_array_eles(now_gauge[i][team], max_member, gauge_ups[team][num]);
+                    //gauge_ups[team][num] = 0;
+                }
+                else{
+                    //용던 물이누덱인 경우 첫 턴의 게이지업은 없음.
+                    only_icaru = false;
+                }
                 //적군 게이지 업
                 let enemy_team = team^1;
                 add_to_array_eles(now_gauge[i][enemy_team], max_member, enemy_gauge_ups[team][num]);
@@ -653,19 +662,22 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             output += '</tr>';
         }
         output += "</table><p class='center'>";
+        got_turn = [0, 0];
         for (let i = 1; i <= max_tic; i++) {
             if (whos_turn[i] == undefined) continue;
             let team = whos_turn[i][0];
             let mem = whos_turn[i][1];
-            output += '<span class="' + (team == 0 ? 'green' : 'red') + '">' + mob_name[team][mem] + '</span>->';
+            got_turn[team]++;
+            output += '<span class="' + (team == 0 ? 'green' : 'red') + '">'+ got_turn[team]+"번째: "+
+             mob_name[team][mem] +'</span><br>';
         }
         output += "순으로 이어받습니다.</p>";
         output_div.innerHTML = output;
     }
     let totems = [NaN,NaN];
     let leaders = [NaN,NaN];
-    let member_info = [document.getElementById('my_struct').getElementsByClassName("monster_info"),
-    document.getElementById('enemy_struct').getElementsByClassName("monster_info")];
+    let member_info = [document.getElementById('my').getElementsByClassName("monster_info"),
+    document.getElementById('enemy').getElementsByClassName("monster_info")];
     function calc() {
         max_tic = getIntVal(document, 'tic_count');
         if(max_tic > 300 && !confirm("리스트가 길어요.")){
@@ -700,7 +712,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     queryString = window.location.origin + window.location.pathname + "?";
                     for (let i = 0; i < inputTags.length; i++) {
                         let item = inputTags[i];
-                        let name = i;
+                        if(item.id == '') continue;
+                        let name = item.id;
                         if(item.classList.contains('toggle_button')){
                             if (isLocal) {
                                 localStorage.setItem(name, is_btn_positive(item));
@@ -730,7 +743,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     }
                     for (let i = 0; i < inputTags.length; i++) {
                         let item = inputTags[i];
-                        let name = i;
+                        if(item.id == '') continue;
+                        let name = item.id;
                         if(item.classList.contains('toggle_button')){
                             if (queryMap[name] == "true" || (queryMap[name] == undefined &&localStorage.getItem(name) == "true")) {
                                 setButtonState(item, true);
@@ -741,18 +755,18 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         }
                         else {
                             if (queryMap[name] == undefined) {
-                                item.value = localStorage.getItem(name);
+                                item.value = decodeURI(localStorage.getItem(name));
                             }
                             else {
-                                item.value = queryMap[name]
+                                item.value = decodeURI(queryMap[name])
                             }
                         }
                     }
                     calc();
                 }
     function refresh(){
-        make_inputs('my_struct', '번째 아군', true);
-        make_inputs('enemy_struct', '번째 상대', false);
+        make_inputs('my', '번째 아군', true);
+        make_inputs('enemy', '번째 상대', false);
     }
     function main() {
         refresh();
