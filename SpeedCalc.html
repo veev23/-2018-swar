@@ -341,7 +341,9 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 </script>
     </section>
     <br />
-    <span onclick="button_click(this)" id="db_icaru_deck_option" class="only_icaru toggle_button white_button">용던 물이누덱 계산 옵션</span>
+<!--    
+<span onclick="button_click(this)" id="db_icaru_deck_option" class="only_icaru toggle_button white_button">용던 물이누덱 계산 옵션</span>
+-->
     <section class="col-12">
         <div>
         <h3 class='center'>아군</h3>
@@ -539,7 +541,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
     const scale = 1000;
     let active_members = [[],[]];
     function calc_tics(info) {
-        let only_icaru = getVal(document, 'only_icaru');
+        let only_icaru = false;//getVal(document, 'only_icaru');
         let is_speedUp = [false, false];
         let tic_per = scale * getFloatVal(document, 'tic') / 100;
         let speeds = [[],[]];
