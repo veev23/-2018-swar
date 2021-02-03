@@ -120,13 +120,16 @@
             text-decoration: none;
             width: 100%;
         }
-        .white_button:hover{
+
+        .white_button:hover {
             background-color: darkslategray;
-            color:honeydew;
+            color: honeydew;
         }
-        .toggle_button:active{
+
+        .toggle_button:active {
             background-color: darkseagreen;
         }
+
         .header {
             text-align: center;
         }
@@ -146,11 +149,13 @@
             bottom: 10px;
             left: 10px;
         }
+
         [id="now_status_save"] {
             position: fixed;
             bottom: 10px;
             left: 150px;
         }
+
         [id="input_reset"] {
             position: fixed;
             bottom: 10px;
@@ -161,7 +166,7 @@
         [type='button'],
         a,
         button {
-            text-align:center;
+            text-align: center;
             font-size: 16px;
             display: inline-block;
             border: 1px solid green;
@@ -182,10 +187,11 @@
             text-decoration: none;
             transition: 0.2s;
         }
+
         .decorate:hover,
         a:hover,
         button:hover,
-        [type='button']:hover{
+        [type='button']:hover {
             color: white;
             background-color: green;
         }
@@ -400,13 +406,13 @@ else if (event.keyCode == 27) {
         <h4>아티팩트 추가딜은 증뎀류(낙인 등)를 받는다고 가정합니다.</h4>
     </header><br />
     <script>
-const STAT_SAVE_DATA_LIST = 'STAT_SAVE_DATA_LIST';
-var save_data_map;
-function byebye(){
-saveInputData(true);
-localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_map.entries())));
-}
-</script>
+        const STAT_SAVE_DATA_LIST = 'STAT_SAVE_DATA_LIST';
+        var save_data_map;
+        function byebye() {
+            saveInputData(true);
+            localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_map.entries())));
+        }
+    </script>
     <section>
         <form id="reset_form">
             <div class="row">
@@ -441,8 +447,8 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                         obj.innerHTML += "<option value='" + idx + "." + i + "'>" +
                                             (parseInt(i) + 1) + "번 스킬:" + multiplier + "</option>";
                                     }
-                                    for(let i=0; i<4;i++){
-                                    stat_infos[i].getElementsByClassName('base')[0].value =monster_list[idx][2][i];
+                                    for (let i = 0; i < 4; i++) {
+                                        stat_infos[i].getElementsByClassName('base')[0].value = monster_list[idx][2][i];
                                     }
                                 }
                                 function set_multiplier(obj) {
@@ -452,11 +458,11 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                     let skill_num = info[1];
                                     document.getElementById("auto_setting_alert").innerHTML = "계수 타입 확인바람.";
                                     try {
-                                        for(let i =0; i<2; i++){
-                                        document.getElementsByClassName("skill_multi")[i].value = monster_list[idx][1][skill_num][0][i];
+                                        for (let i = 0; i < 2; i++) {
+                                            document.getElementsByClassName("skill_multi")[i].value = monster_list[idx][1][skill_num][0][i];
                                         }
                                     }
-                                    catch (e) {}
+                                    catch (e) { }
                                 }
                                 function readTextFile(file) {
                                     var rawFile = new XMLHttpRequest();
@@ -501,7 +507,10 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         </tr>
                     </table>
                     <table id='artifact_info_table'>
-                    <tr><th>아티팩트 효과<th></tr>
+                        <tr>
+                            <th>아티팩트 효과
+                            <th>
+                        </tr>
                     </table>
                     <script>
                         const stat_info_table = document.getElementById('stat_info_table');
@@ -543,37 +552,49 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         function make_arti_info(strs) {
                             let th = document.createElement('th');
                             let td = document.createElement('td');
-                            if(strs != undefined){
-                            let name = strs[0];
-                            let className = strs[1];
-                            let blankstr = '';
-                            th.innerHTML = name;
-                            td.innerHTML = '<input type="number" class="'+className+'" id="' + className + '" placeholder="%">';
+                            if (strs != undefined) {
+                                let name = strs[0];
+                                let className = strs[1];
+                                let blankstr = '';
+                                th.innerHTML = name;
+                                td.innerHTML = '<input type="number" class="' + className + '" id="' + className + '" placeholder="%">';
                             }
                             return [th, td];
                         }
                         const ARTIFACT_ATK_BUFF = 'arti_abuff';
                         const ARTIFACT_DEF_BUFF = 'arti_dbuff';
                         const ARTIFACT_SPD_BUFF = 'arti_sbuff';
+
                         const ARTIFACT_HP_DEAL = 'arti_hdeal';
                         const ARTIFACT_ATK_DEAL = 'arti_adeal';
                         const ARTIFACT_DEF_DEAL = 'arti_ddeal';
                         const ARTIFACT_SPD_DEAL = 'arti_sdeal';
-                        function make_artifact_info_table(){
-                            const buffs = 
-                            [["공업 증가량", ARTIFACT_ATK_BUFF],["방업 증가량", ARTIFACT_DEF_BUFF], ["속업 증가량", ARTIFACT_SPD_BUFF]];
-                            const deals = [["체력 추가딜", ARTIFACT_HP_DEAL], ["공격력 추가딜", ARTIFACT_ATK_DEAL], 
+
+                        const ARTIFACT_SKILL_CD = 'arti_skillcd';
+                        const ARTIFACT_SINGLE_CD = 'arti_singlecd';
+                        const ARTIFACT_LOW_CD = 'arti_lcd';
+                        const ARTIFACT_HIGH_CD = 'arti_hcd';
+
+                        function make_artifact_info_table() {
+                            const buffs =
+                                [["공업 증가량", ARTIFACT_ATK_BUFF], ["방업 증가량", ARTIFACT_DEF_BUFF], ["속업 증가량", ARTIFACT_SPD_BUFF]];
+                            const deals = [["체력 추가딜", ARTIFACT_HP_DEAL], ["공격력 추가딜", ARTIFACT_ATK_DEAL],
                             ["방어력 추가딜", ARTIFACT_DEF_DEAL], ["공격속도 추가딜", ARTIFACT_SPD_DEAL]];
-                            let max_len = buffs.length > deals.length ? buffs.length : deals.length;
-                            for(let i = 0; i<max_len; i++){
-                            let row = document.createElement('tr');
-                            let t = make_arti_info(buffs[i]);
-                            row.appendChild(t[0]);
-                            row.appendChild(t[1]);
-                            t = make_arti_info(deals[i]);
-                            row.appendChild(t[0]);
-                            row.appendChild(t[1]);
-                            artifact_info_table.appendChild(row);
+                            const cds = [["N번 스킬 치피%", ARTIFACT_SKILL_CD], ["단일대상 치피%", ARTIFACT_SINGLE_CD],
+                            ["나쁜 치피%", ARTIFACT_LOW_CD], ["좋은 치피%", ARTIFACT_HIGH_CD]];
+                            let max_len = 4;
+                            for (let i = 0; i < max_len; i++) {
+                                let row = document.createElement('tr');
+                                let t = make_arti_info(buffs[i]);
+                                row.appendChild(t[0]);
+                                row.appendChild(t[1]);
+                                t = make_arti_info(deals[i]);
+                                row.appendChild(t[0]);
+                                row.appendChild(t[1]);
+                                t = make_arti_info(cds[i]);
+                                row.appendChild(t[0]);
+                                row.appendChild(t[1]);
+                                artifact_info_table.appendChild(row);
                             }
                         }
                     </script>
@@ -737,12 +758,12 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                 }
                             }
                         }
-                        function initShowRuneEnchantTable(){
-                            if(document.getElementById('enc_chk').checked){
-                                rune_enchant_table.style.display='block';
+                        function initShowRuneEnchantTable() {
+                            if (document.getElementById('enc_chk').checked) {
+                                rune_enchant_table.style.display = 'block';
                             }
-                            else{
-                                rune_enchant_table.style.display='none';
+                            else {
+                                rune_enchant_table.style.display = 'none';
                             }
                         }
                     </script>
@@ -878,20 +899,20 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         </datalist>
                     </table>
                     <div>
-                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGW"><img src="guild_war.png" width="20px"
-                                height="20px">길드전</label>
-                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGS"><img src="guild_skill.png" width="20px"
-                                height="20px">길드스킬</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isABuff"><img src="increase_atk.png"
-                                width="20px" height="20px">공격력버프</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isDBuff"><img src="increase_def.png"
-                                width="20px" height="20px">방어력버프</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isSBuff"><img src="increase_spd.png"
-                                width="20px" height="20px">공격속도버프</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='def_debuff'><img src='reduce_def.png'
-                                width="20px" height="20px">방어력약화</label>
-                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='brand'><img src='brand.png' width="20px"
-                                height="20px">낙인</label>
+                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGW"><img
+                                src="guild_war.png" width="20px" height="20px">길드전</label>
+                        <label class='col-6 toggle_button' onclick="button_click(this,null)" id="isGS"><img
+                                src="guild_skill.png" width="20px" height="20px">길드스킬</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isABuff"><img
+                                src="increase_atk.png" width="20px" height="20px">공격력버프</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isDBuff"><img
+                                src="increase_def.png" width="20px" height="20px">방어력버프</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id="isSBuff"><img
+                                src="increase_spd.png" width="20px" height="20px">공격속도버프</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='def_debuff'><img
+                                src='reduce_def.png' width="20px" height="20px">방어력약화</label>
+                        <label class='col-4 toggle_button' onclick="button_click(this,null)" id='brand'><img
+                                src='brand.png' width="20px" height="20px">낙인</label>
                     </div>
                 </div>
             </div>
@@ -988,7 +1009,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         <tr>
                             <th>타격횟수</th>
                             <td><input type="number" class="hit_count" placeholder="히트수" value='1' id='hits'></td>
-                        
+
                         </tr>
                         <tr>
                             <th>리더스킬</th>
@@ -1044,9 +1065,21 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             </td>
                         </tr>
                         <tr>
+                            <th>적의 체력, 남은%</th>
+                            <td>풀피:<input type="number" class='enemy_hp' id="e_hp" placeholder="체력"></td>
+                            <td><input type="number" class='enemy_hp' id="e_hp_per"
+                                 onchange='javascript:if(etc_info_table.getElementsByClassName("enemy_hp")[0].value == "") {
+                                     alert("적의 최대 체력 먼저 입력해주세요.");
+                                     etc_info_table.getElementsByClassName("enemy_hp")[1].value = "";
+                                     }' placeholder="남은 %">% 남음</td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>
-                            <span class='relative_spd toggle_button white_button' id='r_spd' onclick="button_click(this, useRelativeSpdMul)">
-                            상대 속도계수</span>
+                                <span class='relative_spd toggle_button white_button' id='r_spd'
+                                    onclick="button_click(this, useRelativeSpdMul)">
+                                    상대 속도계수</span>
                             </th>
                             <td colspan='3'>
                                 <input type="number" class="enemy_spd" id='e_s1' placeholder="적기본속">
@@ -1060,20 +1093,20 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                 return tag.classList.contains('green_button');
                             }
                             function setButtonState(tag, bool) {
-                                if(bool){
-                                tag.classList.remove('white_button');
-                                tag.classList.add('green_button');
+                                if (bool) {
+                                    tag.classList.remove('white_button');
+                                    tag.classList.add('green_button');
                                 }
-                                else{
-                                tag.classList.add('white_button');
-                                tag.classList.remove('green_button');
+                                else {
+                                    tag.classList.add('white_button');
+                                    tag.classList.remove('green_button');
                                 }
                             }
                             function button_click(obj, callback) {
                                 obj.classList.toggle("white_button");
                                 obj.classList.toggle("green_button");
                                 let use = isButtonTrueState(obj);
-                                if(callback == null) return;
+                                if (callback == null) return;
                                 callback(use);
                             }
                             function useRelativeSpdMul(isUse) {
@@ -1082,7 +1115,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                     tag[i].disabled = !isUse;
                                 }
                             }
-                            function initRelativeSpdMulInput(){
+                            function initRelativeSpdMulInput() {
                                 useRelativeSpdMul(isButtonTrueState(etc_info_table.getElementsByClassName('relative_spd')[0]));
                             }
                         </script>
@@ -1098,21 +1131,21 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 </div>
                 <div id='saved_datalist' class='col-4'>
                     <details>
-                    <summary>
-                    저장된 목록 보기
-                    </summary>
-                    <div>
-                    </div>
+                        <summary>
+                            저장된 목록 보기
+                        </summary>
+                        <div>
+                        </div>
                     </details>
                 </div>
                 <script>
-                const etc_info_table = document.getElementById('etc_info_table');
+                    const etc_info_table = document.getElementById('etc_info_table');
                     let save_datalist_container = document.getElementById('saved_datalist').getElementsByTagName('div')[0];
-                    function add_save_data_item(map_item){
-                            let callbacks = [['click',function(){
+                    function add_save_data_item(map_item) {
+                        let callbacks = [['click', function () {
                             load_data_by(map_item[1][0]);
-                            }]];
-                            
+                        }]];
+
                         let li = document.createElement('div');
                         let span = document.createElement('span');
                         let del = document.createElement('span');
@@ -1121,16 +1154,16 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         span.classList.add('col-9');
                         del.classList.add('decorate');
                         del.classList.add('col-3');
-                        for(let cb of callbacks){
-                        span.addEventListener(cb[0], cb[1],false);
+                        for (let cb of callbacks) {
+                            span.addEventListener(cb[0], cb[1], false);
                         }
                         span.innerHTML = map_item[0];
                         del.innerHTML = '삭제';
-                        
-                        time_tag.innerHTML = '등록시간 : '+new Date(map_item[1][1]).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+
+                        time_tag.innerHTML = '등록시간 : ' + new Date(map_item[1][1]).toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
                         li.style.marginBottom = '8px';
-                        del.addEventListener('click', function(){
-                            if(!confirm(map_item[0]+'를(을) 삭제하실 건가요?')) return;
+                        del.addEventListener('click', function () {
+                            if (!confirm(map_item[0] + '를(을) 삭제하실 건가요?')) return;
                             save_datalist_container.removeChild(li);
                             save_data_map.delete(map_item[0]);
                         });
@@ -1139,15 +1172,15 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         li.appendChild(time_tag);
                         save_datalist_container.appendChild(li);
                     }
-                    function load_save_data_list(){
+                    function load_save_data_list() {
                         let map_str = localStorage.getItem(STAT_SAVE_DATA_LIST);
-                        if(map_str ==null){
+                        if (map_str == null) {
                             save_data_map = new Map();
                         }
-                        else{
+                        else {
                             save_data_map = new Map(JSON.parse(map_str));
                         }
-                        for(let element of save_data_map){
+                        for (let element of save_data_map) {
                             add_save_data_item(element);
                         };
                     }
@@ -1164,14 +1197,19 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 <input type='button' id='input_reset' onclick="if(confirm('정말로 초기화하시겠습니까?')){ 
                 document.getElementById('reset_form').reset();
                 rune_enchant_table.style.display='none';
-                }" value='입력값 초기화'/>
+                }" value='입력값 초기화' />
             </div>
         </form>
         <button class="col-12" onclick="damageCalculate()"
             style="margin:25px 0 25px 0; cursor:pointer;">계산하기(Enter)</button>
 
-
         <hr />
+        <div>
+            <p>LOG:</p>
+            <div id='log'>
+
+            </div>
+        </div>
         <script>
             function copy_to_clipboard() {
                 var copy_string = saveInputData(false);
@@ -1180,23 +1218,23 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 copyText.select();
                 document.execCommand("Copy");
             }
-            function querystring_save(){
+            function querystring_save() {
                 save_name = prompt("저장할 이름을 입력해주세요.");
-                if(save_name == null || save_name == ''){
+                if (save_name == null || save_name == '') {
                     return;
                 }
-                if(save_data_map.get(save_name) != undefined){
-                    if(!confirm('이미 존재하는 이름입니다. 덮어 씌우실 건가요?')){
+                if (save_data_map.get(save_name) != undefined) {
+                    if (!confirm('이미 존재하는 이름입니다. 덮어 씌우실 건가요?')) {
                         return;
                     }
                 }
                 var query_string = saveInputData(false).split('?')[1];
                 let time = Date.now();
-                save_data_map.set(save_name,[query_string, time]);
+                save_data_map.set(save_name, [query_string, time]);
                 add_save_data_item([save_name, [query_string, time]]);
                 alert('저장되었습니다.');
             }
-            function load_data_by(queryString){
+            function load_data_by(queryString) {
                 readInputData(queryString);
                 alert('불러왔습니다.');
                 init_after_load();
@@ -1221,9 +1259,9 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 function getUrlParams(queryString) {
                     var params = {};
                     var location = queryString;
-                    if(queryString == undefined)
+                    if (queryString == undefined)
                         location = window.location.search;
-                    location.replace(/[?&]?([^=&]+)=([^&]*)/gi, function (str, key, value) {params[key] = value;});
+                    location.replace(/[?&]?([^=&]+)=([^&]*)/gi, function (str, key, value) { params[key] = value; });
                     return params;
                 }
                 function getFloatFrom(inputTag) {
@@ -1284,14 +1322,14 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     queryString = window.location.origin + window.location.pathname + "?";
                     for (let i = 0; i < inputTags.length; i++) {
                         let item = inputTags[i];
-                        if(item.id == '') continue;
+                        if (item.id == '') continue;
                         let name = item.id;
-                        if(item.classList.contains('toggle_button')){
+                        if (item.classList.contains('toggle_button')) {
                             if (isLocal) {
                                 localStorage.setItem(name, isButtonTrueState(item));
                             }
                             else {
-                                queryString += name + "=" +isButtonTrueState(item) + "&";
+                                queryString += name + "=" + isButtonTrueState(item) + "&";
                             }
                         }
                         else if (item.type == "checkbox") {
@@ -1315,18 +1353,18 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 }
                 function readInputData(query) {
                     let queryMap;
-                    if(query == undefined){
+                    if (query == undefined) {
                         queryMap = getUrlParams();
                     }
-                    else{
+                    else {
                         queryMap = getUrlParams(query);
                     }
                     for (let i = 0; i < inputTags.length; i++) {
                         let item = inputTags[i];
-                        if (item.id == '') continue; 
+                        if (item.id == '') continue;
                         let name = item.id;
-                        if(item.classList.contains('toggle_button')){
-                            if (queryMap[name] == "true" || (queryMap[name] == undefined&&localStorage.getItem(name) == "true")) {
+                        if (item.classList.contains('toggle_button')) {
+                            if (queryMap[name] == "true" || (queryMap[name] == undefined && localStorage.getItem(name) == "true")) {
                                 setButtonState(item, true);
                             }
                             else {
@@ -1334,7 +1372,7 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             }
                         }
                         else if (item.type == "checkbox") {
-                            if (queryMap[name] == "true" || (queryMap[name] == undefined&&localStorage.getItem(name) == "true")) {
+                            if (queryMap[name] == "true" || (queryMap[name] == undefined && localStorage.getItem(name) == "true")) {
                                 item.checked = true;
                             }
                             else {
@@ -1411,24 +1449,29 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                 }
                 var recordCount = 0;
                 //return : [예측 데미지, 아티팩트 데미지 비중 %]
-                function get_damage(multi_types, stats, multis, skillLevels, def_dmg) {
+                function get_damage(multi_types, stats, multis, skillLevels, def_dmg, enemy_hp_remain, enemy_hp) {
                     let dmg = 0;
                     let stat;
                     let multi;
                     let dmg_reduct;
                     let isSBuffType = false;
+
+                    let enemy_hp_per = enemy_hp ? enemy_hp_remain/enemy_hp : 1;
+                    if(enemy_hp_remain < 0) enemy_hp_per = 0;
+
                     for (let i in multi_types) {
-                    let cri = stats[STAT_CD_IDX];
+                        let not_critical = false;
+                        let cri = stats[STAT_CD_IDX];
                         //크리가 터지지 않는 경우
                         if (multis[i] < 0) {
-                            cri = 0;
+                            not_critical = true;
                             multi = -multis[i];
                         }
                         else {
                             multi = multis[i];
                         }
                         //swarfarm, wiki 계수 사이 임계값
-                        if(multi < 20)
+                        if (multi < 20)
                             multi *= 100;
                         dmg_reduct = def_dmg;
                         switch (multi_types[i]) {
@@ -1437,11 +1480,11 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                 break;
                             case MULTYPE_BOMB:
                                 stat = stats[STAT_ATK_IDX];
-                                cri = 0; dmg_reduct = 1;
+                                not_critical = true; dmg_reduct = 1;
                                 break;
                             case MULTYPE_SPD:
                                 //swarfarm, wiki 계수 사이 임계값
-                                if(multis[1] > 5)
+                                if (multis[1] > 5)
                                     multis[1] /= 100;
                                 multi = (stats[STAT_SPD_IDX] + multis[0]) / multis[1];
                                 isSBuffType = true;
@@ -1455,6 +1498,14 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                                 multi = 0;
                                 break;
                         }
+                        cri += getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SKILL_CD)[0]);
+                        cri += getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SINGLE_CD)[0]);
+                        let highcd = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_HIGH_CD)[0]) * enemy_hp_per;
+                        let lowcd = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_LOW_CD)[0]) * (1 - enemy_hp_per);
+                        cri += parseInt(highcd) + parseInt(lowcd);
+                        if (not_critical) {
+                            cri = 0;
+                        }
                         dmg += stat * multi * (100 + cri + skillLevels[i]) * dmg_reduct / 10000;
                         if (isSBuffType) break;
                     }
@@ -1463,12 +1514,12 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                     arti_def = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_DEF_DEAL)[0]);
                     arti_spd = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SPD_DEAL)[0]);
                     artifact =
-                    (stats[STAT_ATK_IDX] * arti_atk +
-                    stats[STAT_HP_IDX] * arti_hp +
-                    stats[STAT_DEF_IDX] * arti_def +
-                    stats[STAT_SPD_IDX] * arti_spd)/100;
+                        (stats[STAT_ATK_IDX] * arti_atk +
+                            stats[STAT_HP_IDX] * arti_hp +
+                            stats[STAT_DEF_IDX] * arti_def +
+                            stats[STAT_SPD_IDX] * arti_spd) / 100;
 
-                    return [dmg + artifact, artifact * 100 / (dmg + artifact)];
+                    return [dmg + artifact, artifact];
                 }
                 function getExternelStats(statClassName, isGW, isGS) {
                     let rows = externel_stat_table.getElementsByClassName(statClassName)[0].getElementsByTagName('input');
@@ -1508,38 +1559,39 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                         ret[0][i] = 0;
                         ret[1][i] = 0;
                     }
-                    if(document.getElementById('enc_chk').checked){
-                    for (let i = 1; i <= 6; i++) {
-                        let rows = rune_enchant_table.getElementsByClassName('r_no' + i);
-                        switch (rows[0].value) {
-                            case RUNE_HP_C: ret[RUNE_CONST][STAT_HP_IDX] += getDiff(rows[1], rows[2], rows[3]);
-                                break;
-                            case RUNE_HP_P: ret[RUNE_PERCENT][STAT_HP_IDX] += getDiff(rows[1], rows[2], rows[3]);
-                                break;
-                            case RUNE_ATK_C: ret[RUNE_CONST][STAT_ATK_IDX] += getDiff(rows[1], rows[2], rows[3]);
-                                break;
-                            case RUNE_ATK_P: ret[RUNE_PERCENT][STAT_ATK_IDX] += getDiff(rows[1], rows[2], rows[3]);
-                                break;
-                            case RUNE_DEF_C: ret[RUNE_CONST][STAT_DEF_IDX] += getDiff(rows[1], rows[2], rows[3]);
-                                break;
-                            case RUNE_DEF_P: ret[RUNE_PERCENT][STAT_DEF_IDX] += getDiff(rows[1], rows[2], rows[3]);
-                                break;
-                            case RUNE_SPD_C: ret[RUNE_CONST][STAT_SPD_IDX] += getDiff(rows[1], rows[2], rows[3]);
-                                break;
-                            case RUNE_CD: ret[RUNE_CONST][STAT_CD_IDX] += getDiff(rows[1], rows[2], rows[3]);
-                                break;
+                    if (document.getElementById('enc_chk').checked) {
+                        for (let i = 1; i <= 6; i++) {
+                            let rows = rune_enchant_table.getElementsByClassName('r_no' + i);
+                            switch (rows[0].value) {
+                                case RUNE_HP_C: ret[RUNE_CONST][STAT_HP_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                    break;
+                                case RUNE_HP_P: ret[RUNE_PERCENT][STAT_HP_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                    break;
+                                case RUNE_ATK_C: ret[RUNE_CONST][STAT_ATK_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                    break;
+                                case RUNE_ATK_P: ret[RUNE_PERCENT][STAT_ATK_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                    break;
+                                case RUNE_DEF_C: ret[RUNE_CONST][STAT_DEF_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                    break;
+                                case RUNE_DEF_P: ret[RUNE_PERCENT][STAT_DEF_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                    break;
+                                case RUNE_SPD_C: ret[RUNE_CONST][STAT_SPD_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                    break;
+                                case RUNE_CD: ret[RUNE_CONST][STAT_CD_IDX] += getDiff(rows[1], rows[2], rows[3]);
+                                    break;
+                            }
                         }
-                    }
                     }
                     return ret;
                 }
                 function getBoolFrom(checkbox) {
                     return checkbox.checked
                 }
-                function max(a, b){
-                    return a>b?a:b;
+                function max(a, b) {
+                    return a > b ? a : b;
                 }
                 function damageCalculate() {
+                    let log = "";
                     let multi_types = getValueArrayFrom(etc_info_table.getElementsByClassName("multi_type"));
                     let dimensionCount = getIntFrom(etc_info_table.getElementsByClassName("dimension")[0]);
                     let leader_type = etc_info_table.getElementsByClassName("leader_type")[0].value;
@@ -1552,27 +1604,27 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
 
                     //방어력 및 계수 선택
                     var enemy_def = getIntFrom(etc_info_table.getElementsByClassName("enemy_def")[0]);
-                    if (isButtonTrueState(document.getElementById("def_debuff"))) 
+                    if (isButtonTrueState(document.getElementById("def_debuff")))
                         enemy_def *= 0.3;
                     var def_dmg = 1000 / (1140 + enemy_def * 3.5);
-                    etc_info_table.getElementsByClassName("def_dmg")[0].innerHTML = " 데미지 경감 : " + def_dmg.toFixed(2);
+                    etc_info_table.getElementsByClassName("def_dmg")[0].innerHTML = " 데미지 경감 : " + def_dmg.toFixed(3);
                     let multis = getFloatArrayFrom(etc_info_table.getElementsByClassName("skill_multi"));
                     let skillLevels = getIntArrayFrom(etc_info_table.getElementsByClassName("skill_level"));
 
                     let dimen = getDimensionPercent(multi_types[0], dimensionCount);
                     //버프
                     let buffs = [1, 1, 1, 1, 1];
-                    if (isButtonTrueState(document.getElementById('isSBuff'))){
+                    if (isButtonTrueState(document.getElementById('isSBuff'))) {
                         buffs[STAT_SPD_IDX] =
-                        1.3 + 0.3 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SPD_BUFF)[0]) / 100;
+                            1.3 + 0.3 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SPD_BUFF)[0]) / 100;
                     }
-                    if (isButtonTrueState(document.getElementById('isDBuff'))){
+                    if (isButtonTrueState(document.getElementById('isDBuff'))) {
                         buffs[STAT_DEF_IDX] =
-                        1.7 + 0.7 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_DEF_BUFF)[0]) / 100;
+                            1.7 + 0.7 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_DEF_BUFF)[0]) / 100;
                     }
-                    if (isButtonTrueState(document.getElementById('isABuff'))){
+                    if (isButtonTrueState(document.getElementById('isABuff'))) {
                         buffs[STAT_ATK_IDX] =
-                        1.5 + 0.5 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_ATK_BUFF)[0]) / 100;
+                            1.5 + 0.5 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_ATK_BUFF)[0]) / 100;
                     }
 
                     let externel_percent = []
@@ -1610,28 +1662,47 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
                             ", 명예/깃발/길드스킬 : " + (base * externel_percent[i] / 100) + ", 리더 : " + (base * leader_percent[i]) / 100;
                         stat_infos[i].getElementsByClassName("sum")[0].innerHTML = statSums[i];
                     }
+
+                    var enemy_hp = getIntArrayFrom(etc_info_table.getElementsByClassName("enemy_hp"));
+                    var enemy_hp_per = enemy_hp[1];
+                    enemy_hp = enemy_hp[0];
+                    let enemy_remain = enemy_hp * enemy_hp_per / 100;
+                    let enemy_before_remain = enemy_hp * enemy_hp_per / 100;
+
                     //계산식
-                    var ret_dmg = get_damage(multi_types, statSums, multis, skillLevels, def_dmg);
-                    var ret_before_dmg = get_damage(multi_types, beforeStatSums, multis, skillLevels, def_dmg);
-                    var dmg = ret_dmg[0] * hit_count;
-                    var before_dmg = ret_before_dmg[0] * hit_count;
+                    var dmg = 0;
+                    var before_dmg = 0;
+                    var arti_dmg = 0;
+                    var ret_dmg = [0];
+                    var ret_before_dmg = [0];
+                    for (let i = 1; i < hit_count+1; i++) {
+                        enemy_remain -= ret_dmg[0];
+                        enemy_before_remain -= ret_before_dmg[0];
+                        ret_dmg = get_damage(multi_types, statSums, multis, skillLevels, def_dmg, enemy_remain, enemy_hp);
+                        ret_before_dmg = get_damage(multi_types, beforeStatSums, multis, skillLevels, def_dmg, enemy_before_remain,enemy_hp);
+                        dmg += ret_dmg[0];
+                        before_dmg += ret_before_dmg[0];
+                        arti_dmg += ret_dmg[1];
+
+                        log += i+"번째 타격: " + ret_dmg[0].toFixed(1)+"<br>";
+                    }
 
                     //상대 속도 계수
-                    let enemy_spd, relativeSpdMul=1;
-                    if(isButtonTrueState(etc_info_table.getElementsByClassName('relative_spd')[0])){
-                    let relative_spd_inputs = etc_info_table.getElementsByClassName('enemy_spd');
-                    enemy_spd = getIntArrayFrom(relative_spd_inputs);
-                    let e_spd = Math.ceil(enemy_spd[0]*(100+leader_percent[STAT_SPD_IDX]+externel_percent[STAT_SPD_IDX])/100 + enemy_spd[1]);
-                    relativeSpdMul = statSums[STAT_SPD_IDX]/e_spd;
-                    relative_spd_inputs[2].value = e_spd;
-                    relative_spd_inputs[3].innerHTML = relativeSpdMul.toFixed(2);
-                    if(!isFinite(relativeSpdMul)){
-                        alert("Error : 상대의 속도가 0이므로 상대속도계수를 무시하고 계산합니다.");
-                        relativeSpdMul = 1;
+                    let enemy_spd, relativeSpdMul = 1;
+                    if (isButtonTrueState(etc_info_table.getElementsByClassName('relative_spd')[0])) {
+                        let relative_spd_inputs = etc_info_table.getElementsByClassName('enemy_spd');
+                        enemy_spd = getIntArrayFrom(relative_spd_inputs);
+                        let e_spd = Math.ceil(enemy_spd[0] * (100 + leader_percent[STAT_SPD_IDX] + externel_percent[STAT_SPD_IDX]) / 100 + enemy_spd[1]);
+                        relativeSpdMul = statSums[STAT_SPD_IDX] / e_spd;
+                        relative_spd_inputs[2].value = e_spd;
+                        relative_spd_inputs[3].innerHTML = relativeSpdMul.toFixed(2);
+                        if (!isFinite(relativeSpdMul)) {
+                            alert("Error : 상대의 속도가 0이므로 상대속도계수를 무시하고 계산합니다.");
+                            relativeSpdMul = 1;
+                        }
                     }
-                    }
-                    dmg = Math.ceil(dmg*relativeSpdMul);
-                    before_dmg = Math.ceil(before_dmg*relativeSpdMul);
+                    dmg = Math.ceil(dmg * relativeSpdMul);
+                    before_dmg = Math.ceil(before_dmg * relativeSpdMul);
                     //증뎀
                     let increase_dmg = getIntFrom(etc_info_table.getElementsByClassName("increase_dmg")[0]);
                     dmg = dmg + parseInt(dmg * increase_dmg / 100);
@@ -1648,10 +1719,12 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
 
                     document.getElementById("result").innerHTML = Math.ceil(dmg);
                     document.getElementsByClassName("error_range")[0].innerHTML =
-                        "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03) +'<br>'
-                        + "추가데미지 : " + Math.floor(ret_dmg[1]*dmg/100);
+                        "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03) + '<br>'
+                        + "추가데미지 : " + arti_dmg;
                     document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : " + Math.ceil(before_dmg)
                         + "<br>탱킹력 : " + Math.floor(tank_power);
+
+                    document.getElementById('log').innerHTML = log;
                 }
                 function openRecord() {
                     document.getElementById("record").style.display = "block";
@@ -1693,30 +1766,28 @@ localStorage.setItem(STAT_SAVE_DATA_LIST, JSON.stringify(Array.from(save_data_ma
             </script>
     </section>
     <footer class="col-12 footer">
-        <a href="https://swarfarm.com/" target="_blank"
-            class='col-12' style="width:100%; margin:5px 0">
+        <a href="https://swarfarm.com/" target="_blank" class='col-12' style="width:100%; margin:5px 0">
             <span class="link">몬스터 계수 참고 사이트</span>
         </a>
-        <a href="http://summonerswar.wikia.com/wiki/Guide:Skill_damage" target="_blank"
-            class='col-12' style="width:100%; margin:5px 0">
+        <a href="http://summonerswar.wikia.com/wiki/Guide:Skill_damage" target="_blank" class='col-12'
+            style="width:100%; margin:5px 0">
             <span class="link">데미지 계산식 참고 링크</span>
         </a>
         <hr />
-        <a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank"
-            class='col-12' style="width:100%; margin:5px 0">
+        <a href="https://veev23.github.io/2018-swar/SpeedCalc" target="_blank" class='col-12'
+            style="width:100%; margin:5px 0">
             <span class="link">중턴 계산기</span>
         </a>
-        <a href="https://veev23.github.io/" target="_blank"
-            class='col-12' style="width:100%;margin:5px 0">
+        <a href="https://veev23.github.io/" target="_blank" class='col-12' style="width:100%;margin:5px 0">
             <span class="link">설명 페이지</span>
         </a>
-        <p style="text-align: center;">마지막 수정일 : 2020-09-16</p>
-        <p style="text-align: center;">문의 : 서머너즈워 공식카페 '안돼요옷' 채팅남겨주세요.</p>
+        <p style="text-align: center;">마지막 수정일 : 2021-02-03</p>
+        <p style="text-align: center;">문의 : 서머너즈워 공식카페 '안돼요옷'</p>
         <input id="clipboard_text" style="width:10px" />
     </footer>
 </body>
 <script>
-    function init_after_load(){
+    function init_after_load() {
         initShowRuneEnchantTable();
         disable_skill2(skill_multi_Type_tags[1]);
         initRelativeSpdMulInput();
