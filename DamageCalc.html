@@ -404,6 +404,7 @@ else if (event.keyCode == 27) {
         <h1 class="header col-12">서머너즈워 데미지 계산기</h1>
         <h4>"입력값 초기화"는 입력들을 기본값으로 돌려놓습니다.</h4>
         <h4>아티팩트 추가딜은 증뎀류(낙인 등)를 받는다고 가정합니다.</h4>
+        <h4>아티증뎀, 증가데미지는 합연산이라고 가정합니다.</h4>
     </header><br />
     <script>
         const STAT_SAVE_DATA_LIST = 'STAT_SAVE_DATA_LIST';
@@ -564,6 +565,7 @@ else if (event.keyCode == 27) {
                         const ARTIFACT_ATK_BUFF = 'arti_abuff';
                         const ARTIFACT_DEF_BUFF = 'arti_dbuff';
                         const ARTIFACT_SPD_BUFF = 'arti_sbuff';
+                        const ARTIFACT_INCREASE_DMG = 'arti_inc_dmg';
 
                         const ARTIFACT_HP_DEAL = 'arti_hdeal';
                         const ARTIFACT_ATK_DEAL = 'arti_adeal';
@@ -577,7 +579,8 @@ else if (event.keyCode == 27) {
 
                         function make_artifact_info_table() {
                             const buffs =
-                                [["공업 증가량", ARTIFACT_ATK_BUFF], ["방업 증가량", ARTIFACT_DEF_BUFF], ["속업 증가량", ARTIFACT_SPD_BUFF]];
+                                [["공업 증가량", ARTIFACT_ATK_BUFF], ["방업 증가량", ARTIFACT_DEF_BUFF], 
+                                ["속업 증가량", ARTIFACT_SPD_BUFF],["증가 데미지", ARTIFACT_INCREASE_DMG]];
                             const deals = [["체력 추가딜", ARTIFACT_HP_DEAL], ["공격력 추가딜", ARTIFACT_ATK_DEAL],
                             ["방어력 추가딜", ARTIFACT_DEF_DEAL], ["공격속도 추가딜", ARTIFACT_SPD_DEAL]];
                             const cds = [["N번 스킬 치피%", ARTIFACT_SKILL_CD], ["단일대상 치피%", ARTIFACT_SINGLE_CD],
@@ -1704,7 +1707,9 @@ else if (event.keyCode == 27) {
                     dmg = Math.ceil(dmg * relativeSpdMul);
                     before_dmg = Math.ceil(before_dmg * relativeSpdMul);
                     //증뎀
-                    let increase_dmg = getIntFrom(etc_info_table.getElementsByClassName("increase_dmg")[0]);
+                    let increase_dmg = 
+                     getIntFrom(etc_info_table.getElementsByClassName("increase_dmg")[0])+
+                     getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_INCREASE_DMG)[0]);
                     dmg = dmg + parseInt(dmg * increase_dmg / 100);
                     before_dmg = before_dmg + parseInt(before_dmg * increase_dmg / 100);
                     //낙인
