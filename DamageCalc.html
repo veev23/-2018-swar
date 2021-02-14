@@ -1441,15 +1441,15 @@ else if (event.keyCode == 27) {
                 const autoinfoList =
                     [
                         ['등록된 계수 선택', new autoInfo([null, null, null, null, null], [null, null], [null, null], [null, null], null, null, null, 1)],
-                        ['풍조커(3스)', new autoInfo([null, 900, null, 103, null], [MULTYPE_ATK, MULTYPE_NONE], [68, null], [30, null], 0, LEADER_ATK, null, 1)],
-                        ['풍리빙(3스)', new autoInfo([null, 483, 692, null, null], [MULTYPE_DEF, MULTYPE_ATK], [300, 300], [30, 30], 0, LEADER_DEF, null), 1],
-                        ['불프랑켄(3스)', new autoInfo([null, null, 615, null, null], [MULTYPE_DEF, MULTYPE_NONE], [160, null], [25, null], 0, LEADER_DEF, 21, 1)],
-                        ['풍발키리(3스)', new autoInfo([null, 801, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [280, null], [20, null], 0, LEADER_ATK, null, 1)],
-                        ['빛임프(3스)', new autoInfo([null, 604, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [370, null], [30, null], 0, LEADER_ATK, null, 1)],
-                        ['불하엘(2스)', new autoInfo([null, 878, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [300, null], [25, null], 0, LEADER_ATK, null, 1)],
-                        ['풍선인(3스)', new autoInfo([null, 769, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [800, null], [30, null], null, LEADER_ATK, null, 1)],
-                        ['물스나(3스)', new autoInfo([null, 780, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [400, null], [25, null], 0, LEADER_ATK, null, 1)],
-                        ['풍팬더(평타)', new autoInfo([null, 659, 801, null, null], [MULTYPE_DEF, MULTYPE_ATK], [-160, 130], [35, 25], null, LEADER_DEF, 44, 1)]
+                        ['풍조커(3스)', new autoInfo([null, 900, null, 103, null], [MULTYPE_ATK, MULTYPE_NONE], [0.68, null], [30, null], 0, LEADER_ATK, null, 3)],
+                        ['풍리빙(3스)', new autoInfo([null, 483, 692, null, null], [MULTYPE_DEF, MULTYPE_ATK], [3, 3], [30, 30], 0, LEADER_DEF, null), 1],
+                        ['불프랑켄(3스)', new autoInfo([null, null, 615, null, null], [MULTYPE_DEF, MULTYPE_NONE], [1.6, null], [25, null], 0, LEADER_DEF, 21, 2)],
+                        ['풍발키리(3스)', new autoInfo([null, 801, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [2.8, null], [20, null], 0, LEADER_ATK, null, 3)],
+                        ['빛임프(3스)', new autoInfo([null, 604, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [3.7, null], [30, null], 0, LEADER_ATK, null, 1)],
+                        ['불하엘(2스)', new autoInfo([null, 878, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [3, null], [25, null], 0, LEADER_ATK, null, 1)],
+                        ['풍선인(3스)', new autoInfo([null, 769, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [8, null], [30, null], null, LEADER_ATK, null, 1)],
+                        ['물스나(3스)', new autoInfo([null, 780, null, null, null], [MULTYPE_ATK, MULTYPE_NONE], [4, null], [25, null], 0, LEADER_ATK, null, 1)],
+                        ['풍팬더(평타)', new autoInfo([null, 659, 801, null, null], [MULTYPE_DEF, MULTYPE_ATK], [-1.6, 1.3], [35, 25], null, LEADER_DEF, 44, 3)]
                     ];
                 function initAutoMultiSelect() {
                     let tag = document.getElementsByClassName("auto_multi_select")[0];
@@ -1473,7 +1473,7 @@ else if (event.keyCode == 27) {
                     disable_skill2(skill_multi_Type_tags[1]);
                 }
                 var recordCount = 0;
-                //return : [예측 데미지, 아티팩트 데미지 비중 %]
+                //return : [예측 데미지, 아티팩트 데미지]
                 function get_damage(multi_types, stats, multis, skillLevels, def_dmg, enemy_hp_remain, enemy_hp) {
                     let dmg = 0;
                     let stat;
