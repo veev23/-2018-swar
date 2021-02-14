@@ -985,7 +985,17 @@ else if (event.keyCode == 27) {
                         </tr>
                         <tr class="multi">
                             <th>스킬 계수</th>
-                            <td><input type="number" class="skill_multi" placeholder="1번계수" id='mul1'></td>
+                            <td><input type="number" class="skill_multi" placeholder="1번계수" id='mul1'>
+                                <input type="number" class="skill_multi_common_difference" placeholder="공차" id='dif1'>
+                                <label class="tool_container">
+                                    <span>
+                                        ?
+                                        <span class="tool_text">
+                                            타격마다 계수가 다른 경우 사용<br>
+                                            불뇌제 3스를 4, 0.4로 입력하여<br>
+                                            4, 4.4, 4.8, 5.2, 5.6으로 계산
+                                        </span>
+                                    </span></label></td>
                             <td><input type="number" class="skill_multi" placeholder="2번계수" id='mul2'></td>
                             <td>
                                 <label class="tool_container">
@@ -995,7 +1005,7 @@ else if (event.keyCode == 27) {
                                             공,방비례,폭탄 계수인 경우: 1번계수입력<br />
                                             속비례 계수인 경우: <br />
                                             1번계수는 더하는 값, 2번계수는 나누는값<br />
-                                            예를들어 물이프는 210, 0.7순<br />
+                                            예를들어 물이프는 210, 70순<br />
                                             크리티컬이 터지지 않는 경우 : 음수로 입력
                                         </span>
                                     </span></label>
@@ -1011,8 +1021,20 @@ else if (event.keyCode == 27) {
                         </tr>
                         <tr>
                             <th>타격횟수</th>
-                            <td><input type="number" class="hit_count" placeholder="히트수" value='1' id='hits'></td>
-
+                            <td><input type="number" class="hit_count" 
+                                onchange="onchange_hit_count(this)" placeholder="히트수" value='1' id='hits'></td>
+                            <script>
+                                function onchange_hit_count(obj){
+                                    let common_diff = etc_info_table.getElementsByClassName("skill_multi_common_difference");
+                                    let disable = false;
+                                    if(obj.value == '1' || obj.value == '0' || obj.value == ''){
+                                        disable = true;
+                                    }
+                                    for(i in common_diff){
+                                        common_diff[i].disabled = disable;
+                                    }
+                                }  
+                            </script>
                         </tr>
                         <tr>
                             <th>리더스킬</th>
@@ -1473,9 +1495,6 @@ else if (event.keyCode == 27) {
                         else {
                             multi = multis[i];
                         }
-                        //swarfarm, wiki 계수 사이 임계값
-                        if (multi < 20)
-                            multi *= 100;
                         dmg_reduct = def_dmg;
                         switch (multi_types[i]) {
                             case MULTYPE_HP:
@@ -1486,9 +1505,6 @@ else if (event.keyCode == 27) {
                                 not_critical = true; dmg_reduct = 1;
                                 break;
                             case MULTYPE_SPD:
-                                //swarfarm, wiki 계수 사이 임계값
-                                if (multis[1] > 5)
-                                    multis[1] /= 100;
                                 multi = (stats[STAT_SPD_IDX] + multis[0]) / multis[1];
                                 isSBuffType = true;
                             case MULTYPE_ATK:
@@ -1612,6 +1628,7 @@ else if (event.keyCode == 27) {
                     var def_dmg = 1000 / (1140 + enemy_def * 3.5);
                     etc_info_table.getElementsByClassName("def_dmg")[0].innerHTML = " 데미지 경감 : " + def_dmg.toFixed(3);
                     let multis = getFloatArrayFrom(etc_info_table.getElementsByClassName("skill_multi"));
+                    let multis_common_difference = getFloatArrayFrom(etc_info_table.getElementsByClassName("skill_multi_common_difference"));
                     let skillLevels = getIntArrayFrom(etc_info_table.getElementsByClassName("skill_level"));
 
                     let dimen = getDimensionPercent(multi_types[0], dimensionCount);
@@ -1708,16 +1725,19 @@ else if (event.keyCode == 27) {
                     var arti_dmg = 0;
                     var ret_dmg = [0];
                     var ret_before_dmg = [0];
-                    for (let i = 1; i < hit_count+1; i++) {
+                    for (let i = 0; i < hit_count; i++) {
                         enemy_remain -= ret_dmg[0];
                         enemy_before_remain -= ret_before_dmg[0];
                         ret_dmg = get_damage(multi_types, statSums, multis, skillLevels, def_dmg, enemy_remain, enemy_hp);
                         ret_before_dmg = get_damage(multi_types, beforeStatSums, multis, skillLevels, def_dmg, enemy_before_remain,enemy_hp);
+                        
+                        multis[0] += multis_common_difference[0];
+                        
                         dmg += ret_dmg[0];
                         before_dmg += ret_before_dmg[0];
                         arti_dmg += ret_dmg[1];
 
-                        log += i+"번째 타격: " + ret_dmg[0].toFixed(1)+"<br>";
+                        log += (i+1)+"번째 타격: " + ret_dmg[0].toFixed(1)+"<br>";
                     }
 
                     //상대 속도 계수
