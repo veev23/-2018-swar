@@ -1525,7 +1525,7 @@ else if (event.keyCode == 27) {
                         if (not_critical) {
                             cri = 0;
                         }
-                        dmg += stat * multi * (100 + cri + skillLevels[i]) * dmg_reduct / 10000;
+                        dmg += stat * multi * (100 + cri + skillLevels[i]) * dmg_reduct / 100;
                         if (isSBuffType) break;
                     }
                     arti_atk = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_ATK_DEAL)[0]);
@@ -1711,7 +1711,7 @@ else if (event.keyCode == 27) {
                     else{
                         by_atk_buff_atifact = "공격력버프 꺼짐"
                     }
-                    combat_power_log.innerHTML += "<li>공업아티: " + by_atk_buff_atifact + "</li>";
+                    combat_power_log.innerHTML += "<li>공업아티: " + Math.floor(by_atk_buff_atifact) + "</li>";
 
                     var enemy_hp = getIntArrayFrom(etc_info_table.getElementsByClassName("enemy_hp"));
                     var enemy_hp_per = enemy_hp[1];
@@ -1777,7 +1777,7 @@ else if (event.keyCode == 27) {
                     
                     let mouseover_str = 
                         "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03) + '<br>'
-                        + "추가데미지 : " + arti_dmg
+                        + "추가데미지 : " + Math.floor(arti_dmg)
                         + "<br>바꾸기 전 : " + Math.ceil(before_dmg)
                         + "<br>탱킹력 : " + Math.floor(tank_power)
                         + "<br>전투력 : " + Math.floor(combat_power);
