@@ -1625,7 +1625,8 @@ else if (event.keyCode == 27) {
                         buffs[STAT_DEF_IDX] =
                             1.7 + 0.7 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_DEF_BUFF)[0]) / 100;
                     }
-                    if (isButtonTrueState(document.getElementById('isABuff'))) {
+                    let is_atk_buff = isButtonTrueState(document.getElementById('isABuff'));
+                    if (is_atk_buff) {
                         buffs[STAT_ATK_IDX] =
                             1.5 + 0.5 * getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_ATK_BUFF)[0]) / 100;
                     }
@@ -1634,6 +1635,12 @@ else if (event.keyCode == 27) {
                     let leader_percent = [];
                     let statSums = [];
                     let beforeStatSums = [];
+                    
+                    //전투력
+                    let combat_power = 0;
+                    let combat_power_log = document.createElement('ul');
+                    combat_power_log.innerHTML = "<div>&lt;전투력 계산&gt;<div>"
+
                     for (i in stat_infos) {
                         let base = getIntFrom(stat_infos[i].getElementsByClassName("base")[0]);
                         let rune = getIntFrom(stat_infos[i].getElementsByClassName("rune")[0]);
@@ -1649,7 +1656,21 @@ else if (event.keyCode == 27) {
                         }
                         let percent_beforesum = externel_percent[i] + dimen_percent + leader_percent[i];
                         let percent_sum = percent_beforesum + enchanted_rune[RUNE_PERCENT][i];
+                        if(i == STAT_ATK_IDX){
+                            let atk = rune + disp + parseInt(base * enchanted_rune[RUNE_PERCENT][i] / 100 + enchanted_rune[RUNE_CONST][i]);
+                            combat_power += atk;
+                            combat_power_log.innerHTML += "<li>공격력: " + atk + "</li>";
+                        }
                         if (i == STAT_CD_IDX) {
+                            let cri = base + disp + enchanted_rune[RUNE_CONST][i];
+                            cri += getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SKILL_CD)[0]);
+                            cri += getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SINGLE_CD)[0]);
+                            let highcd = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_HIGH_CD)[0]);
+                            let lowcd = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_LOW_CD)[0]);
+                            cri += Math.min(highcd, lowcd);
+                            combat_power += cri*10;
+                            combat_power_log.innerHTML += "<li>치명피해: " + cri +"</li>";
+                        
                             beforeStatSums[i] = base + percent_beforesum + rune;
                             statSums[i] = base + percent_sum + rune + disp + enchanted_rune[RUNE_CONST][i];
                         }
@@ -1665,6 +1686,15 @@ else if (event.keyCode == 27) {
                             ", 명예/깃발/길드스킬 : " + (base * externel_percent[i] / 100) + ", 리더 : " + (base * leader_percent[i]) / 100;
                         stat_infos[i].getElementsByClassName("sum")[0].innerHTML = statSums[i];
                     }
+                    let by_atk_buff_atifact;
+                    if(is_atk_buff){
+                    by_atk_buff_atifact = (buffs[STAT_ATK_IDX]-1.5) * statSums[STAT_ATK_IDX];
+                    combat_power += by_atk_buff_atifact;
+                    }
+                    else{
+                        by_atk_buff_atifact = "공격력버프 꺼짐"
+                    }
+                    combat_power_log.innerHTML += "<li>공업아티: " + by_atk_buff_atifact + "</li>";
 
                     var enemy_hp = getIntArrayFrom(etc_info_table.getElementsByClassName("enemy_hp"));
                     var enemy_hp_per = enemy_hp[1];
@@ -1722,14 +1752,20 @@ else if (event.keyCode == 27) {
                     let r = 1000 / (1140 + statSums[STAT_DEF_IDX] * 3.5);
                     let tank_power = statSums[STAT_HP_IDX] / r;
 
-                    document.getElementById("result").innerHTML = Math.ceil(dmg);
-                    document.getElementsByClassName("error_range")[0].innerHTML =
-                        "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03) + '<br>'
-                        + "추가데미지 : " + arti_dmg;
-                    document.getElementsByClassName("error_range")[0].innerHTML += "<br>바꾸기 전 : " + Math.ceil(before_dmg)
-                        + "<br>탱킹력 : " + Math.floor(tank_power);
 
-                    document.getElementById('log').innerHTML = log;
+                    document.getElementById("result").innerHTML = Math.ceil(dmg);
+                    
+                    let mouseover_str = 
+                        "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03) + '<br>'
+                        + "추가데미지 : " + arti_dmg
+                        + "<br>바꾸기 전 : " + Math.ceil(before_dmg)
+                        + "<br>탱킹력 : " + Math.floor(tank_power)
+                        + "<br>전투력 : " + Math.floor(combat_power);
+                    document.getElementsByClassName("error_range")[0].innerHTML = mouseover_str;
+                    log += "<br>"+mouseover_str
+                    let logElement = document.getElementById('log')
+                    logElement.innerHTML = log;
+                    logElement.appendChild(combat_power_log);
                 }
                 function openRecord() {
                     document.getElementById("record").style.display = "block";
