@@ -1705,7 +1705,7 @@ else if (event.keyCode == 27) {
                     }
                     let by_atk_buff_atifact;
                     if(is_atk_buff){
-                    by_atk_buff_atifact = (buffs[STAT_ATK_IDX]-1.5) * statSums[STAT_ATK_IDX] * (2/3);
+                    by_atk_buff_atifact = (buffs[STAT_ATK_IDX]-1.5) * statSums[STAT_ATK_IDX]/buffs[STAT_ATK_IDX]*(2/3);
                     combat_power += by_atk_buff_atifact;
                     }
                     else{
