@@ -579,8 +579,8 @@ else if (event.keyCode == 27) {
 
                         function make_artifact_info_table() {
                             const buffs =
-                                [["공업 증가량", ARTIFACT_ATK_BUFF], ["방업 증가량", ARTIFACT_DEF_BUFF], 
-                                ["속업 증가량", ARTIFACT_SPD_BUFF],["증가 데미지", ARTIFACT_INCREASE_DMG]];
+                                [["공업 증가량", ARTIFACT_ATK_BUFF], ["방업 증가량", ARTIFACT_DEF_BUFF],
+                                ["속업 증가량", ARTIFACT_SPD_BUFF], ["증가 데미지", ARTIFACT_INCREASE_DMG]];
                             const deals = [["체력 추가딜", ARTIFACT_HP_DEAL], ["공격력 추가딜", ARTIFACT_ATK_DEAL],
                             ["방어력 추가딜", ARTIFACT_DEF_DEAL], ["공격속도 추가딜", ARTIFACT_SPD_DEAL]];
                             const cds = [["N번 스킬 치피%", ARTIFACT_SKILL_CD], ["단일대상 치피%", ARTIFACT_SINGLE_CD],
@@ -995,7 +995,8 @@ else if (event.keyCode == 27) {
                                             불뇌제 3스를 4, 0.4로 입력하여<br>
                                             4, 4.4, 4.8, 5.2, 5.6으로 계산
                                         </span>
-                                    </span></label></td>
+                                    </span></label>
+                            </td>
                             <td><input type="number" class="skill_multi" placeholder="2번계수" id='mul2'></td>
                             <td>
                                 <label class="tool_container">
@@ -1021,16 +1022,16 @@ else if (event.keyCode == 27) {
                         </tr>
                         <tr>
                             <th>타격횟수</th>
-                            <td><input type="number" class="hit_count" 
-                                onchange="onchange_hit_count(this)" placeholder="히트수" value='1' id='hits'></td>
+                            <td><input type="number" class="hit_count" onchange="onchange_hit_count(this)"
+                                    placeholder="히트수" value='1' id='hits'></td>
                             <script>
-                                function onchange_hit_count(obj){
+                                function onchange_hit_count(obj) {
                                     let common_diff = etc_info_table.getElementsByClassName("skill_multi_common_difference");
                                     let disable = false;
-                                    if(obj.value == '1' || obj.value == '0' || obj.value == ''){
+                                    if (obj.value == '1' || obj.value == '0' || obj.value == '') {
                                         disable = true;
                                     }
-                                    for(i in common_diff){
+                                    for (i in common_diff) {
                                         common_diff[i].disabled = disable;
                                     }
                                 }  
@@ -1092,8 +1093,7 @@ else if (event.keyCode == 27) {
                         <tr>
                             <th>적의 체력, 남은%</th>
                             <td>풀피:<input type="number" class='enemy_hp' id="e_hp" placeholder="체력"></td>
-                            <td><input type="number" class='enemy_hp' id="e_hp_per"
-                                 onchange='javascript:if(etc_info_table.getElementsByClassName("enemy_hp")[0].value == "") {
+                            <td><input type="number" class='enemy_hp' id="e_hp_per" onchange='javascript:if(etc_info_table.getElementsByClassName("enemy_hp")[0].value == "") {
                                      alert("적의 최대 체력 먼저 입력해주세요.");
                                      etc_info_table.getElementsByClassName("enemy_hp")[1].value = "";
                                      }' placeholder="남은 %">% 남음</td>
@@ -1473,7 +1473,7 @@ else if (event.keyCode == 27) {
                     disable_skill2(skill_multi_Type_tags[1]);
                 }
                 var recordCount = 0;
-                //return : [예측 데미지, 아티팩트 데미지]
+                //return : [예측 데미지 - 아티팩트 데미지, 아티팩트 데미지]
                 function get_damage(multi_types, stats, multis, skillLevels, def_dmg, enemy_hp_remain, enemy_hp) {
                     let dmg = 0;
                     let stat;
@@ -1481,8 +1481,8 @@ else if (event.keyCode == 27) {
                     let dmg_reduct;
                     let isSBuffType = false;
 
-                    let enemy_hp_per = enemy_hp ? enemy_hp_remain/enemy_hp : 1;
-                    if(enemy_hp_remain < 0) enemy_hp_per = 0;
+                    let enemy_hp_per = enemy_hp ? enemy_hp_remain / enemy_hp : 1;
+                    if (enemy_hp_remain < 0) enemy_hp_per = 0;
 
                     for (let i in multi_types) {
                         let not_critical = false;
@@ -1538,7 +1538,7 @@ else if (event.keyCode == 27) {
                             stats[STAT_DEF_IDX] * arti_def +
                             stats[STAT_SPD_IDX] * arti_spd) / 100;
 
-                    return [dmg + artifact, artifact];
+                    return [dmg, artifact];
                 }
                 function getExternelStats(statClassName, isGW, isGS) {
                     let rows = externel_stat_table.getElementsByClassName(statClassName)[0].getElementsByTagName('input');
@@ -1621,6 +1621,8 @@ else if (event.keyCode == 27) {
                     //강화시 룬[valueType][statType]
                     let enchanted_rune = getEnchantStats();
 
+                    let is_brand = isButtonTrueState(document.getElementById("brand"));
+
                     //방어력 및 계수 선택
                     var enemy_def = getIntFrom(etc_info_table.getElementsByClassName("enemy_def")[0]);
                     if (isButtonTrueState(document.getElementById("def_debuff")))
@@ -1652,7 +1654,7 @@ else if (event.keyCode == 27) {
                     let leader_percent = [];
                     let statSums = [];
                     let beforeStatSums = [];
-                    
+
                     //전투력
                     let combat_power = 0;
                     let combat_power_log = document.createElement('ul');
@@ -1673,7 +1675,7 @@ else if (event.keyCode == 27) {
                         }
                         let percent_beforesum = externel_percent[i] + dimen_percent + leader_percent[i];
                         let percent_sum = percent_beforesum + enchanted_rune[RUNE_PERCENT][i];
-                        if(i == STAT_ATK_IDX){
+                        if (i == STAT_ATK_IDX) {
                             let atk = rune + disp + parseInt(base * enchanted_rune[RUNE_PERCENT][i] / 100 + enchanted_rune[RUNE_CONST][i]);
                             combat_power += atk;
                             combat_power_log.innerHTML += "<li>공격력: " + atk + "</li>";
@@ -1685,9 +1687,9 @@ else if (event.keyCode == 27) {
                             let highcd = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_HIGH_CD)[0]);
                             let lowcd = getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_LOW_CD)[0]);
                             cri += Math.min(highcd, lowcd);
-                            combat_power += cri*10;
-                            combat_power_log.innerHTML += "<li>치명피해: " + cri +"</li>";
-                        
+                            combat_power += cri * 10;
+                            combat_power_log.innerHTML += "<li>치명피해: " + cri + "</li>";
+
                             beforeStatSums[i] = base + percent_beforesum + rune;
                             statSums[i] = base + percent_sum + rune + disp + enchanted_rune[RUNE_CONST][i];
                         }
@@ -1704,11 +1706,11 @@ else if (event.keyCode == 27) {
                         stat_infos[i].getElementsByClassName("sum")[0].innerHTML = statSums[i];
                     }
                     let by_atk_buff_atifact;
-                    if(is_atk_buff){
-                    by_atk_buff_atifact = (buffs[STAT_ATK_IDX]-1.5) * statSums[STAT_ATK_IDX]/buffs[STAT_ATK_IDX]*(2/3);
-                    combat_power += by_atk_buff_atifact;
+                    if (is_atk_buff) {
+                        by_atk_buff_atifact = (buffs[STAT_ATK_IDX] - 1.5) * statSums[STAT_ATK_IDX] / buffs[STAT_ATK_IDX] * (2 / 3);
+                        combat_power += by_atk_buff_atifact;
                     }
-                    else{
+                    else {
                         by_atk_buff_atifact = "공격력버프 꺼짐"
                     }
                     combat_power_log.innerHTML += "<li>공업아티: " + Math.floor(by_atk_buff_atifact) + "</li>";
@@ -1719,27 +1721,10 @@ else if (event.keyCode == 27) {
                     let enemy_remain = enemy_hp * enemy_hp_per / 100;
                     let enemy_before_remain = enemy_hp * enemy_hp_per / 100;
 
-                    //계산식
-                    var dmg = 0;
-                    var before_dmg = 0;
-                    var arti_dmg = 0;
-                    var ret_dmg = [0];
-                    var ret_before_dmg = [0];
-                    for (let i = 0; i < hit_count; i++) {
-                        enemy_remain -= ret_dmg[0];
-                        enemy_before_remain -= ret_before_dmg[0];
-                        ret_dmg = get_damage(multi_types, statSums, multis, skillLevels, def_dmg, enemy_remain, enemy_hp);
-                        ret_before_dmg = get_damage(multi_types, beforeStatSums, multis, skillLevels, def_dmg, enemy_before_remain,enemy_hp);
-                        
-                        multis[0] += multis_common_difference[0];
-                        
-                        dmg += ret_dmg[0];
-                        before_dmg += ret_before_dmg[0];
-                        arti_dmg += ret_dmg[1];
-
-                        log += (i+1)+"번째 타격: " + ret_dmg[0].toFixed(1)+"<br>";
-                    }
-
+                    //증뎀
+                    let increase_dmg =
+                        getFloatFrom(etc_info_table.getElementsByClassName("increase_dmg")[0]) +
+                        getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_INCREASE_DMG)[0]);
                     //상대 속도 계수
                     let enemy_spd, relativeSpdMul = 1;
                     if (isButtonTrueState(etc_info_table.getElementsByClassName('relative_spd')[0])) {
@@ -1754,18 +1739,39 @@ else if (event.keyCode == 27) {
                             relativeSpdMul = 1;
                         }
                     }
-                    dmg = Math.ceil(dmg * relativeSpdMul);
-                    before_dmg = Math.ceil(before_dmg * relativeSpdMul);
-                    //증뎀
-                    let increase_dmg = 
-                     getIntFrom(etc_info_table.getElementsByClassName("increase_dmg")[0])+
-                     getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_INCREASE_DMG)[0]);
-                    dmg = dmg + parseInt(dmg * increase_dmg / 100);
-                    before_dmg = before_dmg + parseInt(before_dmg * increase_dmg / 100);
-                    //낙인
-                    if (isButtonTrueState(document.getElementById("brand"))) {
-                        dmg = parseInt(dmg * 1.25);
-                        before_dmg = parseInt(before_dmg * 1.25);
+                    //계산식
+                    var dmg = 0;
+                    var before_dmg = 0;
+                    var arti_dmg = 0;
+                    var ret_dmg = [0];
+                    var ret_before_dmg = [0];
+                    for (let i = 0; i < hit_count; i++) {
+                        enemy_remain -= ret_dmg[0];
+                        enemy_before_remain -= ret_before_dmg[0];
+                        ret_dmg = get_damage(multi_types, statSums, multis, skillLevels, def_dmg, enemy_remain, enemy_hp);
+                        ret_before_dmg = get_damage(multi_types, beforeStatSums, multis, skillLevels, def_dmg, enemy_before_remain, enemy_hp);
+
+                        multis[0] += multis_common_difference[0];
+                        arti_dmg += ret_dmg[1];
+
+                        tmp_dmg = ret_dmg[0] + ret_dmg[1];
+                        tmp_before_dmg = ret_before_dmg[0] + ret_before_dmg[1];
+                        //증뎀
+                        tmp_dmg = parseInt(dmg * (100 + increase_dmg) / 100);
+                        tmp_before_dmg = parseInt(before_dmg * (100 + increase_dmg) / 100);
+                        //낙인
+                        if (is_brand) {
+                            tmp_dmg = parseInt(tmp_dmg * 1.25);
+                            tmp_before_dmg = parseInt(tmp_before_dmg * 1.25);
+                        }  
+                        //상대속도계수
+                        tmp_dmg = Math.ceil(tmp_dmg * relativeSpdMul);
+                        tmp_before_dmg = Math.ceil(tmp_before_dmg * relativeSpdMul);
+
+                        dmg += tmp_dmg;
+                        before_dmg += tmp_before_dmg;
+
+                        log += (i + 1) + "번째 타격: " + (tmp_dmg).toFixed(1) + "<br>";
                     }
 
                     //탱킹력
@@ -1774,15 +1780,15 @@ else if (event.keyCode == 27) {
 
 
                     document.getElementById("result").innerHTML = Math.ceil(dmg);
-                    
-                    let mouseover_str = 
+
+                    let mouseover_str =
                         "서머내 오차범위 : " + Math.floor(dmg * 0.97) + "~" + Math.ceil(dmg * 1.03) + '<br>'
                         + "추가데미지 : " + Math.floor(arti_dmg)
                         + "<br>바꾸기 전 : " + Math.ceil(before_dmg)
                         + "<br>탱킹력 : " + Math.floor(tank_power)
                         + "<br>전투력 : " + Math.floor(combat_power);
                     document.getElementsByClassName("error_range")[0].innerHTML = mouseover_str;
-                    log += "<br>"+mouseover_str
+                    log += "<br>" + mouseover_str
                     let logElement = document.getElementById('log')
                     logElement.innerHTML = log;
                     logElement.appendChild(combat_power_log);
