@@ -1757,8 +1757,8 @@ else if (event.keyCode == 27) {
                         tmp_dmg = ret_dmg[0] + ret_dmg[1];
                         tmp_before_dmg = ret_before_dmg[0] + ret_before_dmg[1];
                         //증뎀
-                        tmp_dmg = parseInt(dmg * (100 + increase_dmg) / 100);
-                        tmp_before_dmg = parseInt(before_dmg * (100 + increase_dmg) / 100);
+                        tmp_dmg = parseInt(tmp_dmg * (100 + increase_dmg) / 100);
+                        tmp_before_dmg = parseInt(tmp_before_dmg * (100 + increase_dmg) / 100);
                         //낙인
                         if (is_brand) {
                             tmp_dmg = parseInt(tmp_dmg * 1.25);
@@ -1771,7 +1771,7 @@ else if (event.keyCode == 27) {
                         dmg += tmp_dmg;
                         before_dmg += tmp_before_dmg;
 
-                        log += (i + 1) + "번째 타격: " + (tmp_dmg).toFixed(1) + "<br>";
+                        log += (i + 1) + "번째 타격: " + tmp_dmg + "<br>";
                     }
 
                     //탱킹력
