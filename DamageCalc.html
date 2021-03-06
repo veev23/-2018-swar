@@ -1675,11 +1675,7 @@ else if (event.keyCode == 27) {
                         }
                         let percent_beforesum = externel_percent[i] + dimen_percent + leader_percent[i];
                         let percent_sum = percent_beforesum + enchanted_rune[RUNE_PERCENT][i];
-                        if (i == STAT_ATK_IDX) {
-                            let atk = rune + disp + parseInt(base * enchanted_rune[RUNE_PERCENT][i] / 100 + enchanted_rune[RUNE_CONST][i]);
-                            combat_power += atk;
-                            combat_power_log.innerHTML += "<li>공격력: " + atk + "</li>";
-                        }
+                        
                         if (i == STAT_CD_IDX) {
                             let cri = base + disp + enchanted_rune[RUNE_CONST][i];
                             cri += getIntFrom(artifact_info_table.getElementsByClassName(ARTIFACT_SKILL_CD)[0]);
@@ -1696,6 +1692,11 @@ else if (event.keyCode == 27) {
                         else {
                             beforeStatSums[i] = Math.ceil(base * (100 + percent_beforesum) / 100) + rune;
                             statSums[i] = Math.ceil(base * (100 + percent_sum) / 100) + rune + disp + enchanted_rune[RUNE_CONST][i];
+                            if(i==STAT_ATK_IDX){
+                                let addedAtk = Math.ceil(base * (percent_sum - externel_percent[i]) / 100) + rune + disp + enchanted_rune[RUNE_CONST][i];
+                                combat_power += addedAtk;
+                            combat_power_log.innerHTML += "<li>공격력: " + addedAtk + "</li>";
+                            }
                         }
                         beforeStatSums[i] = Math.ceil(beforeStatSums[i] * buffs[i]);
                         statSums[i] = Math.ceil(statSums[i] * buffs[i]);
