@@ -1658,7 +1658,7 @@ else if (event.keyCode == 27) {
                     //전투력
                     let combat_power = 0;
                     let combat_power_log = document.createElement('ul');
-                    combat_power_log.innerHTML = "<div>&lt;전투력 계산&gt;<div>"
+                    combat_power_log.innerHTML = "<div>&lt;풀명작 기준 전투력 계산&gt;<div>"
 
                     for (i in stat_infos) {
                         let base = getIntFrom(stat_infos[i].getElementsByClassName("base")[0]);
@@ -1693,7 +1693,9 @@ else if (event.keyCode == 27) {
                             beforeStatSums[i] = Math.ceil(base * (100 + percent_beforesum) / 100) + rune;
                             statSums[i] = Math.ceil(base * (100 + percent_sum) / 100) + rune + disp + enchanted_rune[RUNE_CONST][i];
                             if(i==STAT_ATK_IDX){
-                                let addedAtk = Math.ceil(base * (percent_sum - externel_percent[i]) / 100) + rune + disp + enchanted_rune[RUNE_CONST][i];
+                                let addedAtk = Math.ceil(base * 
+                                (enchanted_rune[RUNE_PERCENT][i]+(externel_percent[i] - 41)+(isGS?-5:0)) / 100) 
+                                + rune + disp + enchanted_rune[RUNE_CONST][i];
                                 combat_power += addedAtk;
                             combat_power_log.innerHTML += "<li>공격력: " + addedAtk + "</li>";
                             }
@@ -1714,7 +1716,9 @@ else if (event.keyCode == 27) {
                     else {
                         by_atk_buff_atifact = "공격력버프 꺼짐"
                     }
-                    combat_power_log.innerHTML += "<li>공업아티: " + Math.floor(by_atk_buff_atifact) + "</li>";
+                    combat_power_log.innerHTML += "<li>공업아티: " + 
+                        (typeof by_atk_buff_atifact == "string"? by_atk_buff_atifact:Math.floor(by_atk_buff_atifact))
+                         + "</li>";
 
                     var enemy_hp = getIntArrayFrom(etc_info_table.getElementsByClassName("enemy_hp"));
                     var enemy_hp_per = enemy_hp[1];
